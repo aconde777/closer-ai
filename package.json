@@ -4,7 +4,6 @@
   "description": "AI voice sales roleplay trainer for high-ticket closers",
   "main": "server.js",
   "scripts": {
-    "build": "esbuild node_modules/@vapi-ai/web/dist/vapi.js --bundle --platform=browser --global-name=Vapi --outfile=public/vapi.bundle.js",
     "start": "node server.js"
   },
   "dependencies": {
