@@ -9,10 +9,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/vapi.js', (req, res) => {
-  res.sendFile(path.join(__dirname, 'node_modules/@vapi-ai/web/dist/vapi.js'));
-});
-
 app.get('/api/vapi-key', (req, res) => {
   res.json({ key: process.env.VAPI_PUBLIC_KEY });
 });

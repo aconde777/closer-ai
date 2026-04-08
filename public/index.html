@@ -369,7 +369,7 @@
   </div>
 </div>
 
-<script src="/vapi.js"></script>
+<script src="/vapi.bundle.js"></script>
 <script>
   const scenarios = {
     wallet: {
@@ -426,7 +426,8 @@
       document.getElementById('callStatus').className = 'call-status';
       document.getElementById('btnStart').disabled = true;
 
-      vapi = new window.Vapi('0e4512c4-b8f0-4d20-90e2-2fe78b49d186');
+      const VapiSDK = window.Vapi.default || window.Vapi;
+      vapi = new VapiSDK('0e4512c4-b8f0-4d20-90e2-2fe78b49d186');
 
       vapi.on('call-start', () => {
         callActive = true;
