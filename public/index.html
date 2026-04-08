@@ -369,7 +369,7 @@
   </div>
 </div>
 
-<script src="https://unpkg.com/@vapi-ai/web@latest/dist/vapi.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web@2.1.1/dist/vapi.iife.js"></script>
 <script>
   const scenarios = {
     wallet: {
@@ -426,8 +426,7 @@
       document.getElementById('callStatus').className = 'call-status';
       document.getElementById('btnStart').disabled = true;
 
-      const VapiClass = window.Vapi || (window.vapi && window.vapi.default) || window['@vapi-ai/web'];
-      vapi = new VapiClass('0e4512c4-b8f0-4d20-90e2-2fe78b49d186');
+      vapi = new window.Vapi('0e4512c4-b8f0-4d20-90e2-2fe78b49d186');
 
       vapi.on('call-start', () => {
         callActive = true;
