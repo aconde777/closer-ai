@@ -55,7 +55,7 @@
   .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.04); }
   .nav-item.active { color: var(--text); background: rgba(233,69,96,0.08); }
   .nav-item.active::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 3px; background: var(--red); border-radius: 0 2px 2px 0; }
-  .nav-item-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+  .nav-icon { width: 16px; height: 16px; flex-shrink: 0; stroke: currentColor; }
   .nav-badge { margin-left: auto; font-size: 10px; font-weight: 700; background: rgba(255,255,255,0.06); color: var(--muted); padding: 2px 7px; border-radius: 100px; }
   .nav-badge.soon { background: rgba(233,69,96,0.1); color: var(--red); }
 
@@ -115,7 +115,8 @@
 
   /* COMING SOON PAGE */
   .coming-soon { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 80px 32px; text-align: center; }
-  .coming-soon-icon { font-size: 48px; margin-bottom: 20px; }
+  .coming-soon-svg { width: 56px; height: 56px; color: var(--muted); margin-bottom: 20px; }
+  .coming-soon-svg svg { width: 100%; height: 100%; }
   .coming-soon h2 { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
   .coming-soon p { font-size: 15px; color: var(--muted); max-width: 400px; line-height: 1.7; }
   .coming-soon-badge { display: inline-block; background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.2); color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; margin-bottom: 20px; }
@@ -176,16 +177,16 @@
     <div class="nav-section">
       <div class="nav-section-label">Analytics</div>
       <button class="nav-item" onclick="showPage('overview')">
-        <span class="nav-item-icon">📊</span> Overview
-        <span class="nav-badge soon">Soon</span>
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Overview <span class="nav-badge soon">Soon</span>
       </button>
       <button class="nav-item" onclick="showPage('metrics')">
-        <span class="nav-item-icon">📈</span> Metrics
-        <span class="nav-badge soon">Soon</span>
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Metrics <span class="nav-badge soon">Soon</span>
       </button>
       <button class="nav-item" onclick="showPage('call-history')">
-        <span class="nav-item-icon">🗂️</span> Call History
-        <span class="nav-badge soon">Soon</span>
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Call History <span class="nav-badge soon">Soon</span>
       </button>
     </div>
 
@@ -193,15 +194,16 @@
     <div class="nav-section">
       <div class="nav-section-label">Training</div>
       <button class="nav-item active" id="nav-roleplay" onclick="showPage('roleplay')">
-        <span class="nav-item-icon">🎙️</span> AI Roleplay
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        AI Roleplay
       </button>
       <button class="nav-item" onclick="showPage('training-paths')">
-        <span class="nav-item-icon">🎯</span> Training Paths
-        <span class="nav-badge soon">Soon</span>
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        Training Paths <span class="nav-badge soon">Soon</span>
       </button>
       <button class="nav-item" onclick="showPage('scorecards')">
-        <span class="nav-item-icon">📋</span> Scorecards
-        <span class="nav-badge soon">Soon</span>
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Scorecards <span class="nav-badge soon">Soon</span>
       </button>
     </div>
 
@@ -209,12 +211,12 @@
     <div class="nav-section">
       <div class="nav-section-label">Team</div>
       <button class="nav-item" onclick="showPage('members')">
-        <span class="nav-item-icon">👥</span> Members
-        <span class="nav-badge soon">Soon</span>
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Members <span class="nav-badge soon">Soon</span>
       </button>
       <button class="nav-item" onclick="showPage('leaderboard')">
-        <span class="nav-item-icon">🏆</span> Leaderboard
-        <span class="nav-badge soon">Soon</span>
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg>
+        Leaderboard <span class="nav-badge soon">Soon</span>
       </button>
     </div>
 
@@ -222,8 +224,8 @@
     <div class="nav-section">
       <div class="nav-section-label">Account</div>
       <button class="nav-item" onclick="showPage('billing')">
-        <span class="nav-item-icon">💳</span> Billing
-        <span class="nav-badge soon">Soon</span>
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        Billing <span class="nav-badge soon">Soon</span>
       </button>
     </div>
   </nav>
@@ -309,56 +311,56 @@
 
   <!-- COMING SOON PAGES -->
   <div class="page-content coming-soon" id="page-overview" style="display:none;">
-    <div class="coming-soon-icon">📊</div>
+    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
     <div class="coming-soon-badge">Coming Soon</div>
     <h2>Analytics Overview</h2>
     <p>See your total calls, average score, improvement over time, and your strongest and weakest categories.</p>
   </div>
 
   <div class="page-content coming-soon" id="page-metrics" style="display:none;">
-    <div class="coming-soon-icon">📈</div>
+    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
     <div class="coming-soon-badge">Coming Soon</div>
     <h2>Performance Metrics</h2>
     <p>Deep dive into your scores over time. Track objection handling, tonality, closing rate, and rapport week by week.</p>
   </div>
 
   <div class="page-content coming-soon" id="page-call-history" style="display:none;">
-    <div class="coming-soon-icon">🗂️</div>
+    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
     <div class="coming-soon-badge">Coming Soon</div>
     <h2>Call History</h2>
     <p>Every session you've completed, scored, and reviewed. See how you've improved from call to call.</p>
   </div>
 
   <div class="page-content coming-soon" id="page-training-paths" style="display:none;">
-    <div class="coming-soon-icon">🎯</div>
+    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div>
     <div class="coming-soon-badge">Coming Soon</div>
     <h2>Training Paths</h2>
     <p>Structured programs that take you from beginner to elite. Complete each path to unlock harder prospects and scenarios.</p>
   </div>
 
   <div class="page-content coming-soon" id="page-scorecards" style="display:none;">
-    <div class="coming-soon-icon">📋</div>
+    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
     <div class="coming-soon-badge">Coming Soon</div>
     <h2>Scorecards</h2>
     <p>Custom scorecards for your team. Define what great looks like for your specific offer and sales process.</p>
   </div>
 
   <div class="page-content coming-soon" id="page-members" style="display:none;">
-    <div class="coming-soon-icon">👥</div>
+    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
     <div class="coming-soon-badge">Enterprise</div>
     <h2>Team Members</h2>
     <p>Add your reps, track their individual progress, and see who's putting in the work and who needs coaching.</p>
   </div>
 
   <div class="page-content coming-soon" id="page-leaderboard" style="display:none;">
-    <div class="coming-soon-icon">🏆</div>
+    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg></div>
     <div class="coming-soon-badge">Enterprise</div>
     <h2>Leaderboard</h2>
     <p>Rank your reps by score, sessions completed, and improvement rate. Create a culture of competition and accountability.</p>
   </div>
 
   <div class="page-content coming-soon" id="page-billing" style="display:none;">
-    <div class="coming-soon-icon">💳</div>
+    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
     <div class="coming-soon-badge">Coming Soon</div>
     <h2>Billing & Plan</h2>
     <p>Manage your subscription, upgrade to Pro, or contact us about Enterprise pricing for your team.</p>
