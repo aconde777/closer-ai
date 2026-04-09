@@ -180,6 +180,19 @@
   </div>
 </div>
 
+<!-- PAYWALL -->
+<div class="scoring-overlay" id="paywallOverlay">
+  <div style="text-align:center;max-width:400px;padding:40px;background:#141414;border:1px solid #222;border-radius:20px;">
+    <div style="font-size:36px;margin-bottom:16px;">🔒</div>
+    <div style="font-size:22px;font-weight:900;margin-bottom:8px;">Free Trial Complete</div>
+    <div style="font-size:14px;color:#666;margin-bottom:28px;line-height:1.7;">You've used your 3 free sessions. Upgrade to Pro to keep training with unlimited sessions and AI scoring.</div>
+    <div style="font-size:36px;font-weight:900;margin-bottom:4px;">$49<span style="font-size:16px;font-weight:400;color:#666;">/month</span></div>
+    <div style="font-size:13px;color:#666;margin-bottom:24px;">Unlimited sessions. Cancel anytime.</div>
+    <button onclick="window.location.href='/landing.html#pricing'" style="width:100%;background:#e94560;color:#fff;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px;">Upgrade to Pro</button>
+    <button onclick="goBack()" style="width:100%;background:transparent;color:#666;border:1px solid #222;border-radius:10px;padding:14px;font-size:14px;cursor:pointer;">Back to Prospects</button>
+  </div>
+</div>
+
 <!-- SCORING OVERLAY -->
 <div class="scoring-overlay" id="scoringOverlay">
   <div style="font-size:32px;">⚡</div>
@@ -208,6 +221,10 @@
   let timerInterval = null;
   let seconds = 0;
   let transcript = [];
+
+  function showPaywall() {
+    document.getElementById('paywallOverlay').classList.add('open');
+  }
 
   function goBack() {
     if (callActive) endCall();
@@ -244,9 +261,27 @@
     }
 
     try {
-      document.getElementById('statusText').textContent = 'Connecting...';
+      document.getElementById('statusText').textContent = 'Checking session...';
       document.getElementById('statusText').className = 'status-text connecting';
       document.getElementById('btnMain').style.opacity = '0.5';
+
+      // Check session limit
+      const session = window._session;
+      if (session) {
+        const check = await fetch('/api/session-start', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${session.access_token}` }
+        });
+        const result = await check.json();
+        if (!result.allowed) {
+          document.getElementById('btnMain').style.opacity = '1';
+          showPaywall();
+          return;
+        }
+      }
+
+      document.getElementById('statusText').textContent = 'Connecting...';
+      document.getElementById('statusText').className = 'status-text connecting';
 
       const VapiSDK = window.Vapi && window.Vapi.default ? window.Vapi.default : window.Vapi;
       vapi = new VapiSDK('0e4512c4-b8f0-4d20-90e2-2fe78b49d186');

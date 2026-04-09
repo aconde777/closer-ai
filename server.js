@@ -28,6 +28,62 @@ app.get('/call.html', serveWithSupabase('call.html'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Supabase admin client (service role -- server only)
+const { createClient } = require('@supabase/supabase-js');
+const supabaseAdmin = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
+);
+
+// Check session count and increment if allowed
+app.post('/api/session-start', async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ error: 'Unauthorized' });
+
+  const token = authHeader.replace('Bearer ', '');
+
+  // Verify the user's JWT
+  const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
+  if (authError || !user) return res.status(401).json({ error: 'Invalid session' });
+
+  const userId = user.id;
+
+  // Get or create user profile
+  let { data: profile } = await supabaseAdmin
+    .from('user_profiles')
+    .select('session_count, is_pro')
+    .eq('id', userId)
+    .single();
+
+  if (!profile) {
+    // First time -- create profile
+    const { data: newProfile } = await supabaseAdmin
+      .from('user_profiles')
+      .insert({ id: userId, session_count: 0, is_pro: false })
+      .select()
+      .single();
+    profile = newProfile;
+  }
+
+  // Pro users have unlimited sessions
+  if (profile.is_pro) {
+    return res.json({ allowed: true, sessionsUsed: profile.session_count, isPro: true });
+  }
+
+  // Free trial limit
+  if (profile.session_count >= 3) {
+    return res.json({ allowed: false, sessionsUsed: profile.session_count, isPro: false });
+  }
+
+  // Increment session count
+  await supabaseAdmin
+    .from('user_profiles')
+    .update({ session_count: profile.session_count + 1 })
+    .eq('id', userId);
+
+  res.json({ allowed: true, sessionsUsed: profile.session_count + 1, isPro: false });
+});
+
 // Create Vapi assistant from prospect form
 app.post('/api/create-prospect', async (req, res) => {
   const { type, name, age, description, occupation, income, objections } = req.body;
