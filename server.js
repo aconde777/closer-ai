@@ -25,6 +25,7 @@ app.get('/', serveWithSupabase('index.html'));
 app.get('/index.html', serveWithSupabase('index.html'));
 app.get('/auth.html', serveWithSupabase('auth.html'));
 app.get('/call.html', serveWithSupabase('call.html'));
+app.get('/warmup.html', serveWithSupabase('warmup.html'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 

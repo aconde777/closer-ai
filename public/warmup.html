@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Elite Closer — Pre-Call Warmup</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230d0d0d'/><text x='50' y='68' font-size='58' font-family='Helvetica Neue,Arial,sans-serif' font-weight='900' fill='%23e94560' text-anchor='middle'>E</text></svg>">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  (async () => {
+    const { createClient } = supabase;
+    const sb = createClient('__SUPABASE_URL__', '__SUPABASE_ANON_KEY__');
+    const { data } = await sb.auth.getSession();
+    if (!data.session) window.location.href = '/auth.html';
+    window._supabase = sb;
+    window._session = data.session;
+  })();
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a; --card: #141414; --card2: #1a1a1a;
+    --red: #e94560; --text: #f0f0f0; --muted: #555; --border: #1e1e1e;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* NAV */
+  nav { background: #0d0d0d; border-bottom: 1px solid var(--border); padding: 0 28px; height: 56px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; z-index: 10; }
+  .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); }
+  .logo-mark { width: 28px; height: 28px; background: var(--red); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 13px; color: #fff; }
+  .logo-name { font-size: 14px; font-weight: 800; }
+  .logo-name span { color: var(--red); }
+  .btn-back { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 6px 14px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+  .btn-back:hover { border-color: #444; color: var(--text); }
+
+  /* SCREENS */
+  .screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; }
+  .screen.hidden { display: none; }
+
+  /* SELECT SCREEN */
+  .select-title { font-size: clamp(28px, 5vw, 48px); font-weight: 900; letter-spacing: -1.5px; text-align: center; margin-bottom: 12px; }
+  .select-title span { color: var(--red); }
+  .select-sub { font-size: 15px; color: var(--muted); text-align: center; margin-bottom: 48px; line-height: 1.6; max-width: 440px; }
+  .difficulty-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; max-width: 640px; margin-bottom: 40px; }
+  .diff-card { background: var(--card); border: 2px solid var(--border); border-radius: 16px; padding: 28px 20px; text-align: center; cursor: pointer; transition: all 0.15s; }
+  .diff-card:hover { border-color: #333; transform: translateY(-2px); }
+  .diff-card.selected { border-color: var(--red); background: rgba(233,69,96,0.05); }
+  .diff-icon { margin-bottom: 14px; }
+  .diff-icon svg { width: 32px; height: 32px; }
+  .diff-name { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+  .diff-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .diff-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; }
+  .badge-beginner { background: rgba(22,163,74,0.1); color: #4ade80; border: 1px solid rgba(22,163,74,0.2); }
+  .badge-intermediate { background: rgba(245,166,35,0.1); color: #f5a623; border: 1px solid rgba(245,166,35,0.2); }
+  .badge-advanced { background: rgba(233,69,96,0.1); color: var(--red); border: 1px solid rgba(233,69,96,0.2); }
+
+  .duration-row { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+  .duration-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); border-radius: 8px; padding: 8px 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .duration-btn.selected { background: rgba(233,69,96,0.1); border-color: var(--red); color: var(--red); }
+  .duration-label { font-size: 13px; color: var(--muted); }
+
+  .btn-start-drill { background: var(--red); color: #fff; border: none; border-radius: 12px; padding: 16px 48px; font-size: 16px; font-weight: 800; cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px; }
+  .btn-start-drill:hover { background: #c73652; transform: scale(1.02); }
+
+  /* COUNTDOWN SCREEN */
+  .countdown-number { font-size: clamp(100px, 25vw, 200px); font-weight: 900; color: var(--red); letter-spacing: -8px; line-height: 1; animation: countPulse 1s ease-in-out; }
+  @keyframes countPulse { 0% { transform: scale(1.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  .countdown-label { font-size: 16px; color: var(--muted); margin-top: 16px; letter-spacing: 3px; text-transform: uppercase; }
+
+  /* DRILL SCREEN */
+  .drill-screen { position: relative; }
+  .drill-top { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 800px; margin-bottom: 32px; }
+  .drill-progress { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .drill-timer-wrap { display: flex; align-items: center; gap: 10px; }
+  .drill-timer { font-size: 32px; font-weight: 900; font-variant-numeric: tabular-nums; color: var(--text); transition: color 0.3s; }
+  .drill-timer.warning { color: #f5a623; }
+  .drill-timer.danger { color: var(--red); animation: timerPulse 0.5s ease-in-out infinite alternate; }
+  @keyframes timerPulse { from { opacity: 1; } to { opacity: 0.5; } }
+  .timer-bar-wrap { width: 100%; max-width: 800px; height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 48px; }
+  .timer-bar { height: 100%; background: var(--red); border-radius: 2px; transition: width 1s linear, background 0.3s; }
+
+  .objection-card { width: 100%; max-width: 800px; text-align: center; }
+  .objection-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+  .objection-text { font-size: clamp(22px, 4vw, 40px); font-weight: 900; letter-spacing: -1px; line-height: 1.2; color: var(--text); margin-bottom: 12px; animation: objectionIn 0.25s ease-out; }
+  @keyframes objectionIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .objection-context { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 48px; animation: objectionIn 0.3s ease-out; }
+
+  .drill-tip { background: rgba(233,69,96,0.06); border: 1px solid rgba(233,69,96,0.15); border-radius: 10px; padding: 14px 20px; max-width: 800px; width: 100%; margin-bottom: 40px; display: none; }
+  .drill-tip.visible { display: block; animation: objectionIn 0.2s ease-out; }
+  .drill-tip-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--red); margin-bottom: 6px; }
+  .drill-tip-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .drill-controls { display: flex; align-items: center; gap: 16px; }
+  .btn-hint { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 10px; padding: 12px 24px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .btn-hint:hover { border-color: #444; color: var(--text); }
+  .btn-next { background: var(--red); color: #fff; border: none; border-radius: 10px; padding: 14px 40px; font-size: 15px; font-weight: 800; cursor: pointer; transition: all 0.15s; }
+  .btn-next:hover { background: #c73652; transform: scale(1.02); }
+
+  /* RESULTS SCREEN */
+  .results-circle { width: 140px; height: 140px; border-radius: 50%; border: 5px solid var(--red); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 28px; }
+  .results-number { font-size: 44px; font-weight: 900; color: var(--red); line-height: 1; }
+  .results-unit { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .results-title { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 8px; text-align: center; }
+  .results-sub { font-size: 15px; color: var(--muted); text-align: center; margin-bottom: 40px; line-height: 1.6; max-width: 440px; }
+  .results-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; width: 100%; max-width: 500px; margin-bottom: 40px; }
+  .result-stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+  .result-stat-num { font-size: 28px; font-weight: 900; color: var(--red); margin-bottom: 4px; }
+  .result-stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .results-actions { display: flex; gap: 12px; }
+  .btn-again { background: var(--red); color: #fff; border: none; border-radius: 10px; padding: 14px 32px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-again:hover { background: #c73652; }
+  .btn-done { background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 14px 32px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .btn-done:hover { border-color: #444; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">
+    <div class="logo-mark">E</div>
+    <div class="logo-name">The <span>Elite</span> Closer</div>
+  </a>
+  <button class="btn-back" onclick="window.location.href='/'">← Back</button>
+</nav>
+
+<!-- SELECT SCREEN -->
+<div class="screen" id="screenSelect">
+  <div class="select-title">The <span>Drill.</span></div>
+  <div class="select-sub">60 seconds. Real objections. No excuses. Get sharp before you get on the phone.</div>
+
+  <div class="difficulty-grid">
+    <div class="diff-card selected" id="diff-beginner" onclick="selectDiff('beginner')">
+      <div class="diff-badge badge-beginner">Beginner</div>
+      <div class="diff-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <div class="diff-name">The Basics</div>
+      <div class="diff-desc">Classic stalls and delays. Build your foundation.</div>
+    </div>
+    <div class="diff-card" id="diff-intermediate" onclick="selectDiff('intermediate')">
+      <div class="diff-badge badge-intermediate">Intermediate</div>
+      <div class="diff-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div class="diff-name">Under Pressure</div>
+      <div class="diff-desc">Emotional objections. Spouse card. Money fears.</div>
+    </div>
+    <div class="diff-card" id="diff-advanced" onclick="selectDiff('advanced')">
+      <div class="diff-badge badge-advanced">Advanced</div>
+      <div class="diff-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="diff-name">Elite Level</div>
+      <div class="diff-desc">Complex multi-layered objections. Full resistance.</div>
+    </div>
+  </div>
+
+  <div class="duration-row">
+    <div class="duration-label">Duration:</div>
+    <button class="duration-btn selected" id="dur-60" onclick="selectDur(60)">60 sec</button>
+    <button class="duration-btn" id="dur-90" onclick="selectDur(90)">90 sec</button>
+    <button class="duration-btn" id="dur-120" onclick="selectDur(120)">2 min</button>
+  </div>
+
+  <button class="btn-start-drill" onclick="startCountdown()">Start The Drill</button>
+</div>
+
+<!-- COUNTDOWN SCREEN -->
+<div class="screen hidden" id="screenCountdown">
+  <div class="countdown-number" id="countdownNum">3</div>
+  <div class="countdown-label">Get Ready</div>
+</div>
+
+<!-- DRILL SCREEN -->
+<div class="screen hidden drill-screen" id="screenDrill">
+  <div class="drill-top">
+    <div class="drill-progress" id="drillProgress">Objection 1</div>
+    <div class="drill-timer-wrap">
+      <div class="drill-timer" id="drillTimer">60</div>
+    </div>
+  </div>
+  <div class="timer-bar-wrap">
+    <div class="timer-bar" id="timerBar" style="width:100%"></div>
+  </div>
+
+  <div class="objection-card">
+    <div class="objection-label">Respond to this objection out loud</div>
+    <div class="objection-text" id="objectionText"></div>
+    <div class="objection-context" id="objectionContext"></div>
+  </div>
+
+  <div class="drill-tip" id="drillTip">
+    <div class="drill-tip-label">Coaching Tip</div>
+    <div class="drill-tip-text" id="drillTipText"></div>
+  </div>
+
+  <div class="drill-controls">
+    <button class="btn-hint" onclick="showHint()">Show Tip</button>
+    <button class="btn-next" onclick="nextObjection()">Next →</button>
+  </div>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div class="screen hidden" id="screenResults">
+  <div class="results-circle">
+    <div class="results-number" id="resultsCount">0</div>
+    <div class="results-unit">drilled</div>
+  </div>
+  <div class="results-title" id="resultsTitle">Warm. Now go close.</div>
+  <div class="results-sub" id="resultsSub">You're sharper than you were 60 seconds ago. That's all that matters.</div>
+  <div class="results-stats">
+    <div class="result-stat">
+      <div class="result-stat-num" id="statObjections">0</div>
+      <div class="result-stat-label">Objections</div>
+    </div>
+    <div class="result-stat">
+      <div class="result-stat-num" id="statDuration">0s</div>
+      <div class="result-stat-label">Duration</div>
+    </div>
+    <div class="result-stat">
+      <div class="result-stat-num" id="statDiff">--</div>
+      <div class="result-stat-label">Difficulty</div>
+    </div>
+  </div>
+  <div class="results-actions">
+    <button class="btn-done" onclick="window.location.href='/'">Back to App</button>
+    <button class="btn-again" onclick="resetDrill()">Drill Again</button>
+  </div>
+</div>
+
+<script>
+const OBJECTIONS = {
+  beginner: [
+    { text: '"I don\'t have my wallet on me right now."', context: 'Classic delay tactic. They\'re interested but stalling.', tip: 'Don\'t ask them to get their wallet. Ask: "If you had it, is this something you\'d want to move forward with today?"' },
+    { text: '"Can you just send me some information?"', context: 'They want to get off the phone without saying no.', tip: 'Info doesn\'t close deals. Say: "I could, but honestly the information is what we just covered. What would help you feel more confident right now?"' },
+    { text: '"I\'m just not ready yet."', context: 'Vague objection hiding a real concern.', tip: 'Dig in: "What would need to be different for you to feel ready? Let\'s see if we can get you there today."' },
+    { text: '"I need to think about it."', context: 'The most common stall in high-ticket sales.', tip: 'Ask: "Of course -- what specifically do you need to think about? I want to make sure I\'ve answered everything."' },
+    { text: '"Call me back next week."', context: 'Delay without commitment. Weak follow-up territory.', tip: 'Get a specific time and surface the real concern: "I\'ll absolutely follow up. What\'s going to be different next week?"' },
+    { text: '"I\'m not sure this is the right time."', context: 'Timing objection -- usually fear dressed up as logistics.', tip: '"When would be the right time? And what would change between now and then?" Make them say it out loud.' },
+    { text: '"I\'ve tried things like this before and it didn\'t work."', context: 'Past failure making them gun-shy.', tip: 'Acknowledge it: "That makes sense. What happened? I want to make sure we\'re not repeating that."' },
+    { text: '"This is too expensive."', context: 'Price objection -- most common, often not the real issue.', tip: 'Reframe value: "Compared to what? If this gets you the result, what\'s that result worth to you?"' },
+  ],
+  intermediate: [
+    { text: '"I need to talk to my spouse first."', context: 'Decision delegation. Often a shield, not a real blocker.', tip: '"That makes sense -- is your spouse supportive of you investing in yourself? What do you think they\'d say?"' },
+    { text: '"My partner would never go for this."', context: 'Using someone else as the reason to say no.', tip: '"What do you think is holding them back? And what do YOU want to do?"' },
+    { text: '"We\'re in a tough spot financially right now."', context: 'Money objection with emotional weight.', tip: '"I hear that. Is this a cash flow issue or a priority issue? Because if results matter, we usually find a way."' },
+    { text: '"I don\'t want to put anything on a card."', context: 'Specific financial resistance.', tip: '"What\'s behind that? Is it the debt, or not being sure it\'s worth it?" Get to the real fear.' },
+    { text: '"I\'m already working with someone else."', context: 'Competitor objection.', tip: '"How\'s that going? What are the results so far?" Let them talk. Gap usually reveals itself.' },
+    { text: '"I\'ve been burned before."', context: 'Trust issue from a past bad experience.', tip: 'Validate first: "That\'s fair. What happened?" Then differentiate -- don\'t dismiss their pain.' },
+    { text: '"I just don\'t have the bandwidth right now."', context: 'Capacity objection -- busy as a defense.', tip: '"If you had the bandwidth, is this where you\'d put it? Let\'s figure out what bandwidth actually looks like."' },
+    { text: '"What if I don\'t get results?"', context: 'Risk objection -- fear of wasting money.', tip: '"What results are you expecting? Let\'s define what success looks like and I\'ll tell you exactly how we get there."' },
+  ],
+  advanced: [
+    { text: '"Let me check with my accountant first."', context: 'Third-party authority -- sophisticated delay.', tip: '"Absolutely -- what\'s your accountant going to evaluate? The ROI? Let\'s look at the numbers together right now."' },
+    { text: '"I want to see case studies and proof before I commit."', context: 'Analytical buyer demanding evidence.', tip: '"What would the case study need to show for you to feel confident? Let\'s get specific."' },
+    { text: '"I can find this information online for free."', context: 'Commodity objection -- they don\'t see unique value.', tip: '"You\'re right, you can. So what would make working with us worth it over figuring it out yourself?"' },
+    { text: '"I\'m going to wait until after Q1."', context: 'Logical-sounding delay with fake urgency.', tip: '"What changes in Q2 that makes this a better decision? I want to understand the logic."' },
+    { text: '"Your competitor is offering the same thing for less."', context: 'Price plus competition combined.', tip: '"Are they? What exactly are they offering? Let\'s compare apples to apples."' },
+    { text: '"I\'m not convinced this will work for my specific situation."', context: 'Unique snowflake objection -- they think they\'re different.', tip: '"Tell me what\'s different about your situation. I want to be honest about whether this fits or not."' },
+    { text: '"I need to see an ROI guarantee before I move forward."', context: 'Demanding certainty where none exists.', tip: '"No one can guarantee results -- but let\'s talk about what\'s guaranteed on our end and what depends on you."' },
+    { text: '"We\'re going through some internal changes right now."', context: 'Corporate-speak for stalling.', tip: '"How long do changes like this usually take? And does that mean this is off the table or just delayed?"' },
+  ]
+};
+
+let selectedDiff = 'beginner';
+let selectedDur = 60;
+let currentObjections = [];
+let currentIndex = 0;
+let timerInterval = null;
+let timeLeft = 60;
+let completed = 0;
+let hintShown = false;
+
+function selectDiff(diff) {
+  selectedDiff = diff;
+  ['beginner','intermediate','advanced'].forEach(d => {
+    document.getElementById('diff-' + d).classList.toggle('selected', d === diff);
+  });
+}
+
+function selectDur(dur) {
+  selectedDur = dur;
+  [60, 90, 120].forEach(d => {
+    document.getElementById('dur-' + d).classList.toggle('selected', d === dur);
+  });
+}
+
+function startCountdown() {
+  document.getElementById('screenSelect').classList.add('hidden');
+  document.getElementById('screenCountdown').classList.remove('hidden');
+
+  let count = 3;
+  document.getElementById('countdownNum').textContent = count;
+
+  const interval = setInterval(() => {
+    count--;
+    if (count === 0) {
+      clearInterval(interval);
+      document.getElementById('countdownNum').textContent = 'GO';
+      setTimeout(startDrill, 600);
+    } else {
+      document.getElementById('countdownNum').textContent = count;
+    }
+  }, 900);
+}
+
+function startDrill() {
+  document.getElementById('screenCountdown').classList.add('hidden');
+  document.getElementById('screenDrill').classList.remove('hidden');
+
+  // Shuffle objections
+  currentObjections = [...OBJECTIONS[selectedDiff]].sort(() => Math.random() - 0.5);
+  currentIndex = 0;
+  completed = 0;
+  timeLeft = selectedDur;
+  hintShown = false;
+
+  showObjection();
+  startTimer();
+}
+
+function showObjection() {
+  const obj = currentObjections[currentIndex % currentObjections.length];
+  document.getElementById('objectionText').textContent = obj.text;
+  document.getElementById('objectionContext').textContent = obj.context;
+  document.getElementById('drillProgress').textContent = `Objection ${currentIndex + 1}`;
+  document.getElementById('drillTip').classList.remove('visible');
+  hintShown = false;
+}
+
+function nextObjection() {
+  currentIndex++;
+  completed++;
+  if (currentIndex >= currentObjections.length) {
+    currentObjections = [...OBJECTIONS[selectedDiff]].sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+  }
+  showObjection();
+}
+
+function showHint() {
+  if (hintShown) return;
+  hintShown = true;
+  const obj = currentObjections[currentIndex % currentObjections.length];
+  document.getElementById('drillTipText').textContent = obj.tip;
+  document.getElementById('drillTip').classList.add('visible');
+}
+
+function startTimer() {
+  const total = selectedDur;
+  const timerEl = document.getElementById('drillTimer');
+  const barEl = document.getElementById('timerBar');
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    timerEl.textContent = timeLeft;
+    barEl.style.width = (timeLeft / total * 100) + '%';
+
+    if (timeLeft <= 10) {
+      timerEl.className = 'drill-timer danger';
+      barEl.style.background = '#e94560';
+    } else if (timeLeft <= 20) {
+      timerEl.className = 'drill-timer warning';
+      barEl.style.background = '#f5a623';
+    }
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      showResults();
+    }
+  }, 1000);
+}
+
+function showResults() {
+  document.getElementById('screenDrill').classList.add('hidden');
+  document.getElementById('screenResults').classList.remove('hidden');
+
+  const total = completed + 1;
+  document.getElementById('resultsCount').textContent = total;
+  document.getElementById('statObjections').textContent = total;
+  document.getElementById('statDuration').textContent = selectedDur + 's';
+  document.getElementById('statDiff').textContent = selectedDiff.charAt(0).toUpperCase() + selectedDiff.slice(1);
+
+  const titles = {
+    beginner: total >= 6 ? 'Locked in. Now go close.' : 'Good start. Do it again.',
+    intermediate: total >= 5 ? 'Sharp. Don\'t lose that edge.' : 'Push harder next time.',
+    advanced: total >= 4 ? 'Elite mindset. Go execute.' : 'The reps add up. Stay consistent.'
+  };
+  document.getElementById('resultsTitle').textContent = titles[selectedDiff] || 'Warm. Now go close.';
+}
+
+function resetDrill() {
+  document.getElementById('screenResults').classList.add('hidden');
+  document.getElementById('screenSelect').classList.remove('hidden');
+  clearInterval(timerInterval);
+  timeLeft = selectedDur;
+  document.getElementById('drillTimer').className = 'drill-timer';
+  document.getElementById('timerBar').style.background = 'var(--red)';
+}
+</script>
+</body>
+</html>
