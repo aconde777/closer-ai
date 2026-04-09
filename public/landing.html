@@ -40,11 +40,11 @@
   }
   .hero-glow {
     position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
-    width: 600px; height: 400px;
-    background: radial-gradient(ellipse, rgba(233,69,96,0.12) 0%, transparent 70%);
+    width: 700px; height: 500px;
+    background: radial-gradient(ellipse, rgba(233,69,96,0.1) 0%, transparent 70%);
     pointer-events: none;
   }
-  .hero-inner { position: relative; max-width: 820px; }
+  .hero-inner { position: relative; max-width: 860px; }
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
     background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.25);
@@ -55,13 +55,13 @@
   .hero-badge-dot { width: 6px; height: 6px; background: var(--red); border-radius: 50%; animation: blink 1.5s ease-in-out infinite; }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
   .hero-headline {
-    font-size: clamp(42px, 7vw, 76px); font-weight: 900; line-height: 1.05;
-    letter-spacing: -2px; margin-bottom: 24px;
+    font-size: clamp(40px, 7vw, 78px); font-weight: 900; line-height: 1.03;
+    letter-spacing: -2.5px; margin-bottom: 28px;
   }
   .hero-headline .accent { color: var(--red); }
   .hero-sub {
-    font-size: 18px; color: var(--muted); line-height: 1.7;
-    max-width: 560px; margin: 0 auto 40px;
+    font-size: 19px; color: var(--muted); line-height: 1.7;
+    max-width: 600px; margin: 0 auto 40px;
   }
   .hero-actions { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
   .btn-hero { background: var(--red); color: #fff; border: none; border-radius: 10px; padding: 16px 36px; font-size: 16px; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.15s; display: inline-block; }
@@ -70,7 +70,7 @@
   .btn-hero-ghost:hover { border-color: #444; }
   .hero-note { font-size: 13px; color: var(--muted); margin-top: 16px; }
 
-  /* SOCIAL PROOF BAR */
+  /* PROOF BAR */
   .proof-bar {
     background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
     padding: 20px 40px; display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap;
@@ -84,8 +84,43 @@
   section { padding: 100px 32px; }
   .section-inner { max-width: 1000px; margin: 0 auto; }
   .section-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
-  .section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 900; letter-spacing: -1px; margin-bottom: 16px; }
-  .section-sub { font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 560px; }
+  .section-title { font-size: clamp(28px, 4vw, 44px); font-weight: 900; letter-spacing: -1.5px; margin-bottom: 16px; line-height: 1.1; }
+  .section-sub { font-size: 16px; color: var(--muted); line-height: 1.8; max-width: 600px; }
+
+  /* PROBLEM */
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; }
+  .problem-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
+  .problem-card.highlight { border-color: var(--red); background: rgba(233,69,96,0.04); }
+  .problem-card-icon { font-size: 28px; margin-bottom: 16px; }
+  .problem-card-title { font-size: 17px; font-weight: 800; margin-bottom: 10px; }
+  .problem-card-desc { font-size: 14px; color: var(--muted); line-height: 1.8; }
+  .problem-card-desc strong { color: var(--text); }
+
+  /* WHO IT'S FOR */
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; }
+  .who-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 36px; }
+  .who-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .who-icon { width: 48px; height: 48px; border-radius: 12px; background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.2); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .who-title { font-size: 18px; font-weight: 800; }
+  .who-subtitle { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .who-list { display: flex; flex-direction: column; gap: 12px; }
+  .who-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .who-item-check { color: var(--red); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .who-item strong { color: var(--text); }
+
+  /* BOXING SECTION */
+  .boxing-section { text-align: center; }
+  .boxing-section .section-inner { max-width: 760px; }
+  .boxing-quote {
+    font-size: clamp(22px, 3.5vw, 36px); font-weight: 900; letter-spacing: -1px;
+    line-height: 1.3; margin: 40px auto;
+    border-left: 4px solid var(--red); text-align: left; padding-left: 28px;
+  }
+  .boxing-quote span { color: var(--red); }
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; text-align: center; }
+  .stat-number { font-size: 48px; font-weight: 900; color: var(--red); letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
+  .stat-label { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
   /* HOW IT WORKS */
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
@@ -95,6 +130,13 @@
   .step-title { font-size: 18px; font-weight: 800; margin-bottom: 10px; }
   .step-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
   .step-connector { position: absolute; top: 40px; right: -13px; width: 26px; height: 2px; background: var(--border); z-index: 1; }
+
+  /* WHY AI */
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
+  .why-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+  .why-card-icon { font-size: 28px; margin-bottom: 16px; }
+  .why-card-title { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+  .why-card-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
 
   /* PROSPECTS */
   .prospects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
@@ -120,30 +162,33 @@
   .scoring-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 56px; }
   .score-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; display: flex; gap: 20px; align-items: flex-start; }
   .score-card-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.2); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-  .score-card-content {}
   .score-card-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
   .score-card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
   /* PRICING */
-  .pricing-wrap { display: flex; justify-content: center; margin-top: 56px; }
-  .pricing-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; max-width: 440px; width: 100%; text-align: center; position: relative; }
+  .pricing-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; max-width: 860px; margin-left: auto; margin-right: auto; }
+  .pricing-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 40px; position: relative; }
   .pricing-card.featured { border-color: var(--red); }
-  .pricing-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--red); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 4px 16px; border-radius: 100px; white-space: nowrap; }
+  .pricing-badge { position: absolute; top: -14px; left: 32px; background: var(--red); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 4px 16px; border-radius: 100px; white-space: nowrap; }
   .pricing-plan { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
-  .pricing-price { font-size: 64px; font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 4px; }
+  .pricing-price { font-size: 56px; font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 4px; }
   .pricing-price span { font-size: 20px; font-weight: 600; color: var(--muted); vertical-align: super; margin-right: 2px; }
-  .pricing-period { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
-  .pricing-features { text-align: left; margin-bottom: 36px; display: flex; flex-direction: column; gap: 12px; }
-  .pricing-feature { display: flex; align-items: center; gap: 12px; font-size: 14px; }
-  .pricing-feature-check { color: var(--red); font-size: 16px; font-weight: 700; flex-shrink: 0; }
-  .btn-pricing { width: 100%; background: var(--red); color: #fff; border: none; border-radius: 10px; padding: 16px; font-size: 15px; font-weight: 700; cursor: pointer; text-decoration: none; display: block; transition: all 0.15s; }
+  .pricing-price.enterprise-price { font-size: 36px; letter-spacing: -1px; }
+  .pricing-period { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+  .pricing-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+  .pricing-features { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .pricing-feature { display: flex; align-items: flex-start; gap: 12px; font-size: 14px; color: var(--muted); line-height: 1.5; }
+  .pricing-feature-check { color: var(--red); font-weight: 700; flex-shrink: 0; }
+  .pricing-feature strong { color: var(--text); }
+  .btn-pricing { width: 100%; background: var(--red); color: #fff; border: none; border-radius: 10px; padding: 15px; font-size: 15px; font-weight: 700; cursor: pointer; text-decoration: none; display: block; text-align: center; transition: all 0.15s; }
   .btn-pricing:hover { background: #c73652; }
-  .pricing-note { font-size: 12px; color: var(--muted); margin-top: 16px; }
+  .btn-pricing.ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-pricing.ghost:hover { border-color: var(--muted); background: transparent; }
+  .pricing-note { font-size: 12px; color: var(--muted); margin-top: 12px; text-align: center; }
 
   /* FINAL CTA */
-  .final-cta { text-align: center; background: linear-gradient(180deg, var(--bg) 0%, #0f0a0c 100%); }
-  .final-cta .section-inner { max-width: 640px; }
-  .final-cta .section-title { font-size: clamp(32px, 5vw, 52px); }
+  .final-cta { text-align: center; }
+  .final-cta .section-inner { max-width: 680px; }
   .final-cta .section-sub { margin: 0 auto 40px; }
 
   /* FOOTER */
@@ -160,6 +205,11 @@
     .step-connector { display: none; }
     .prospects-grid { grid-template-columns: 1fr; }
     .scoring-grid { grid-template-columns: 1fr; }
+    .who-grid { grid-template-columns: 1fr; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .stat-row { grid-template-columns: 1fr; }
+    .pricing-cards { grid-template-columns: 1fr; }
     section { padding: 64px 20px; }
     .proof-bar { gap: 24px; padding: 20px; }
   }
@@ -174,12 +224,12 @@
     <div class="logo-name">The <span>Elite</span> Closer</div>
   </a>
   <div class="nav-links">
+    <a class="nav-link" href="#who">Who It's For</a>
     <a class="nav-link" href="#how-it-works">How It Works</a>
-    <a class="nav-link" href="#prospects">Prospects</a>
     <a class="nav-link" href="#scoring">Scoring</a>
     <a class="nav-link" href="#pricing">Pricing</a>
   </div>
-  <a class="btn-nav" href="/">Start Training</a>
+  <a class="btn-nav" href="/">Start Training Free</a>
 </nav>
 
 <!-- HERO -->
@@ -191,14 +241,14 @@
       AI Sales Roleplay — Live Now
     </div>
     <h1 class="hero-headline">
-      Train Against<br>Prospects That<br><span class="accent">Fight Back.</span>
+      You Can't Show Up<br>to the Fight Without<br><span class="accent">Training First.</span>
     </h1>
     <p class="hero-sub">
-      Step into 1-on-1 voice calls with AI prospects who stall, deflect, and throw real objections. Get scored by an AI coach after every session. Close more deals.
+      The Elite Closer puts you 1-on-1 with AI prospects who stall, deflect, and throw real objections -- anytime, anywhere. Train hard. Show up battle ready. Close more deals.
     </p>
     <div class="hero-actions">
       <a class="btn-hero" href="/">Start Training Free</a>
-      <a class="btn-hero-ghost" href="#how-it-works">See How It Works</a>
+      <a class="btn-hero-ghost" href="#who">See Who It's For</a>
     </div>
     <p class="hero-note">3 free sessions. No credit card required.</p>
   </div>
@@ -212,45 +262,223 @@
   </div>
   <div class="proof-item">
     <div class="proof-icon">🎙️</div>
-    <div class="proof-text"><strong>Live voice</strong> — no typing, real conversation</div>
+    <div class="proof-text"><strong>Live voice</strong> — real conversation, not typing</div>
   </div>
   <div class="proof-item">
     <div class="proof-icon">⚡</div>
     <div class="proof-text"><strong>AI scored</strong> after every call</div>
   </div>
   <div class="proof-item">
-    <div class="proof-icon">💰</div>
-    <div class="proof-text">Deals from <strong>$2,900 to $40,000</strong></div>
+    <div class="proof-icon">🕐</div>
+    <div class="proof-text">Train <strong>24/7</strong> — no manager needed</div>
   </div>
 </div>
 
+<!-- THE PROBLEM -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">Your reps are showing up to the fight unprepared.</h2>
+    <p class="section-sub">Top performers in every field train constantly before the real thing. Sales is no different -- and most teams are skipping the training entirely.</p>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-card-icon">💸</div>
+        <div class="problem-card-title">Training on the clock costs you money.</div>
+        <div class="problem-card-desc">When your reps practice on <strong>live prospects</strong>, they're burning leads, killing your close rate, and losing deals that should have been won. Every fumbled objection is money out of your pocket.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-icon">😴</div>
+        <div class="problem-card-title">Managers can't be there 24/7.</div>
+        <div class="problem-card-desc">Your best rep wants to drill objections at <strong>11pm on a Tuesday</strong>. No manager is available. No partner wants to roleplay. So they don't practice, and they show up the next day hoping it clicks.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-icon">🤝</div>
+        <div class="problem-card-title">Roleplaying with humans has limits.</div>
+        <div class="problem-card-desc">Human partners go easy. They break character. They don't push back the way a real prospect does. You need someone who <strong>fights back every single time</strong> -- with no ego and infinite patience.</div>
+      </div>
+      <div class="problem-card highlight">
+        <div class="problem-card-icon">🥊</div>
+        <div class="problem-card-title">No boxer steps into the ring without training.</div>
+        <div class="problem-card-desc">You wouldn't show up to a championship fight having skipped every practice. So why are your reps <strong>showing up to high-ticket calls</strong> without putting in the reps first? That's the gap we close.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section id="who" style="background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-inner">
+    <div class="section-label">Who It's For</div>
+    <h2 class="section-title">Built for reps. Powerful for teams.</h2>
+    <p class="section-sub">Whether you're grinding solo or running a sales floor, The Elite Closer gives you the reps you need to perform when it counts.</p>
+
+    <div class="who-grid">
+      <div class="who-card">
+        <div class="who-card-header">
+          <div class="who-icon">🎯</div>
+          <div>
+            <div class="who-title">Sales Reps & Closers</div>
+            <div class="who-subtitle">Individual performers selling high-ticket</div>
+          </div>
+        </div>
+        <div class="who-list">
+          <div class="who-item">
+            <span class="who-item-check">✓</span>
+            <span>You sell <strong>high-ticket coaching, consulting, or programs</strong> ($2,900-$40,000)</span>
+          </div>
+          <div class="who-item">
+            <span class="who-item-check">✓</span>
+            <span>You want to <strong>drill objections on your own time</strong> without waiting on a manager</span>
+          </div>
+          <div class="who-item">
+            <span class="who-item-check">✓</span>
+            <span>You know your close rate could be higher and you're willing to <strong>put in the reps</strong> to get there</span>
+          </div>
+          <div class="who-item">
+            <span class="who-item-check">✓</span>
+            <span>You want <strong>specific feedback</strong> after every session -- not generic advice</span>
+          </div>
+          <div class="who-item">
+            <span class="who-item-check">✓</span>
+            <span>You're committed to becoming <strong>the best closer in your organization</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="who-card">
+        <div class="who-card-header">
+          <div class="who-icon">🏢</div>
+          <div>
+            <div class="who-title">Sales Managers & Teams</div>
+            <div class="who-subtitle">Leaders building elite sales floors</div>
+          </div>
+        </div>
+        <div class="who-list">
+          <div class="who-item">
+            <span class="who-item-check">✓</span>
+            <span>You're <strong>onboarding new closers</strong> and want them ready before they touch a real lead</span>
+          </div>
+          <div class="who-item">
+            <span class="who-item-check">✓</span>
+            <span>You want your reps <strong>battle ready before they hit the floor</strong> -- not learning on live calls</span>
+          </div>
+          <div class="who-item">
+            <span class="who-item-check">✓</span>
+            <span>You need a <strong>scalable training system</strong> that doesn't require your time to run</span>
+          </div>
+          <div class="who-item">
+            <span class="who-item-check">✓</span>
+            <span>You want <strong>objective data</strong> on how each rep is progressing -- not just gut feel</span>
+          </div>
+          <div class="who-item">
+            <span class="who-item-check">✓</span>
+            <span>You're building a team where <strong>everyone trains like a top performer</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOXING / MINDSET -->
+<section class="boxing-section">
+  <div class="section-inner">
+    <div class="section-label">The Mindset</div>
+    <h2 class="section-title">Top reps train. Average reps hope.</h2>
+
+    <div class="boxing-quote">
+      "The reps who consistently close at the highest level aren't more talented. They've just put in <span>more reps</span> than everyone else -- and they never stopped."
+    </div>
+
+    <p class="section-sub" style="max-width: 660px; margin: 0 auto;">Increasing your close rate is simple: train more than your competition. The Elite Closer gives you an opponent that never gets tired, never goes easy, and never lets you slide by without handling the objection. Show up to the sales floor having already fought the hardest version of every prospect you'll face.</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Train at midnight if you want. Your AI prospect is always ready.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">Unlimited sessions. Run the same objection 50 times until you own it.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Categories scored every call. Know exactly what to fix before the next one.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- HOW IT WORKS -->
-<section id="how-it-works">
+<section id="how-it-works" style="background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
   <div class="section-inner">
     <div class="section-label">How It Works</div>
-    <h2 class="section-title">Three steps to closing more deals.</h2>
-    <p class="section-sub">No scripts to memorize. No role-playing with a manager. Just you and an AI prospect who pushes back like a real human.</p>
+    <h2 class="section-title">Simple. Realistic. Effective.</h2>
+    <p class="section-sub">Three steps between you and a better close rate. No setup, no scheduling, no waiting on a manager.</p>
 
     <div class="steps">
       <div class="step">
         <div class="step-number">Step 01</div>
         <div class="step-icon">🎯</div>
         <div class="step-title">Pick Your Prospect</div>
-        <div class="step-desc">Choose from pre-built AI prospects or create your own. Set their objections, personality, income level, and background.</div>
+        <div class="step-desc">Choose from pre-built AI prospects or create your own. Set their objections, personality, income level, and background. Match exactly what you face on your calls.</div>
         <div class="step-connector"></div>
       </div>
       <div class="step">
         <div class="step-number">Step 02</div>
         <div class="step-icon">🎙️</div>
-        <div class="step-title">Run the Call</div>
-        <div class="step-desc">Click Start and talk. The AI prospect responds in real-time with natural objections. Handle them or lose the deal -- just like the real thing.</div>
+        <div class="step-title">Run the Call Live</div>
+        <div class="step-desc">Click Start and talk. The AI prospect responds in real-time with natural objections. Handle them or lose the deal -- just like the real thing. Full voice, live transcript.</div>
         <div class="step-connector"></div>
       </div>
       <div class="step">
         <div class="step-number">Step 03</div>
         <div class="step-icon">📊</div>
         <div class="step-title">Get Your Score</div>
-        <div class="step-desc">An AI coach analyzes your call and scores you on objection handling, tonality, closing attempt, and rapport. Specific notes on what to fix.</div>
+        <div class="step-desc">An AI coach scores you on 4 categories with specific notes on what to fix. No generic feedback. Real coaching on exactly what cost you the close.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY AI BEATS HUMANS -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">Why AI Beats Human Roleplay</div>
+    <h2 class="section-title">No partner? No problem.</h2>
+    <p class="section-sub">Human partners go easy, break character, and aren't available when you need them. Your AI prospect is a different story.</p>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-card-icon">🕐</div>
+        <div class="why-card-title">Available 24/7</div>
+        <div class="why-card-desc">It's 11pm and you want to drill the spouse objection 10 times. No manager needed. No scheduling. Just open the app and go.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-icon">🥊</div>
+        <div class="why-card-title">Never Goes Easy</div>
+        <div class="why-card-desc">Human partners hold back. They don't want to make you feel bad. Your AI prospect pushes back every single time -- the way a real prospect would.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-icon">♾️</div>
+        <div class="why-card-title">Infinite Patience</div>
+        <div class="why-card-desc">Run the same objection 50 times in a row until you own the response. No frustration, no ego, no quitting. Just reps.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-icon">📊</div>
+        <div class="why-card-title">Objective Feedback</div>
+        <div class="why-card-desc">No manager opinions or bias. An AI coach analyzes every word and tells you exactly what cost you the close and what to do differently.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-icon">🎯</div>
+        <div class="why-card-title">Custom to Your Sale</div>
+        <div class="why-card-desc">Build a prospect that matches your exact buyer -- their income, personality, objections, and industry. Train for the real thing, not a generic scenario.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-icon">💰</div>
+        <div class="why-card-title">Stop Wasting Leads</div>
+        <div class="why-card-desc">Stop practicing on live prospects. Train here until you're sharp, then go close the real deal with confidence instead of hoping it clicks.</div>
       </div>
     </div>
   </div>
@@ -273,7 +501,7 @@
         </div>
         <div class="prospect-preview-body">
           <div class="pp-objection">"I don't have my wallet on me right now."</div>
-          <div class="pp-trait"><strong>Personality:</strong> Genuinely interested but finds any reason to delay. Classic staller who needs a direct close.</div>
+          <div class="pp-trait"><strong>Personality:</strong> Genuinely interested but finds any reason to delay. Classic staller who needs a direct, confident close to move forward.</div>
         </div>
       </div>
 
@@ -286,7 +514,7 @@
         </div>
         <div class="prospect-preview-body">
           <div class="pp-objection">"I need to talk to my husband before I make any decisions."</div>
-          <div class="pp-trait"><strong>Personality:</strong> Warm and engaged but hides behind her partner. Needs to feel empowered to decide for herself.</div>
+          <div class="pp-trait"><strong>Personality:</strong> Warm and engaged but hides behind her partner. Needs to feel empowered to decide for herself -- or commit to a follow-up together.</div>
         </div>
       </div>
 
@@ -299,7 +527,7 @@
         </div>
         <div class="prospect-preview-body">
           <div class="pp-objection">"Let me run this by my accountant first."</div>
-          <div class="pp-trait"><strong>Personality:</strong> Numbers-driven and skeptical. Questions ROI, asks for proof, and won't commit without feeling in control.</div>
+          <div class="pp-trait"><strong>Personality:</strong> Numbers-driven and skeptical. Questions ROI, asks for proof, and won't commit without feeling in full control of the decision.</div>
         </div>
       </div>
     </div>
@@ -310,36 +538,36 @@
 <section id="scoring">
   <div class="section-inner">
     <div class="section-label">AI Scoring</div>
-    <h2 class="section-title">Know exactly what to fix.</h2>
-    <p class="section-sub">After every call, an AI coach breaks down your performance across the four things that actually matter in high-ticket sales.</p>
+    <h2 class="section-title">Know exactly what to fix after every call.</h2>
+    <p class="section-sub">An AI coach breaks down your performance across the four categories that actually determine whether you close or lose in high-ticket sales.</p>
 
     <div class="scoring-grid">
       <div class="score-card">
         <div class="score-card-icon">🛡️</div>
-        <div class="score-card-content">
+        <div>
           <div class="score-card-title">Objection Handling</div>
-          <div class="score-card-desc">Did you address the objection with confidence and a clear reframe, or did you fold under pressure?</div>
+          <div class="score-card-desc">Did you address the objection with confidence and a clear reframe, or did you fold? This is the difference between closers and order-takers.</div>
         </div>
       </div>
       <div class="score-card">
         <div class="score-card-icon">🎙️</div>
-        <div class="score-card-content">
+        <div>
           <div class="score-card-title">Tonality</div>
-          <div class="score-card-desc">Were you calm, certain, and in control? Or did you sound desperate, needy, or unsure?</div>
+          <div class="score-card-desc">Were you calm, certain, and in control? Or did you sound desperate, needy, or unsure? Tone closes more deals than the words you say.</div>
         </div>
       </div>
       <div class="score-card">
         <div class="score-card-icon">🎯</div>
-        <div class="score-card-content">
+        <div>
           <div class="score-card-title">Closing Attempt</div>
-          <div class="score-card-desc">Did you actually ask for the commitment? Most reps never close because they never try.</div>
+          <div class="score-card-desc">Did you actually ask for the commitment? Most reps talk themselves out of deals they already won by never pulling the trigger.</div>
         </div>
       </div>
       <div class="score-card">
         <div class="score-card-icon">🤝</div>
-        <div class="score-card-content">
+        <div>
           <div class="score-card-title">Rapport</div>
-          <div class="score-card-desc">Did you build a real connection or go straight to pitch mode? People buy from people they trust.</div>
+          <div class="score-card-desc">Did you build a real connection or go straight to pitch mode? In high-ticket sales, people buy from people they trust -- not the best pitch.</div>
         </div>
       </div>
     </div>
@@ -348,45 +576,47 @@
 
 <!-- PRICING -->
 <section id="pricing" style="background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-  <div class="section-inner" style="text-align: center;">
+  <div class="section-inner">
     <div class="section-label" style="text-align:center;">Pricing</div>
-    <h2 class="section-title">One deal pays for a year.</h2>
-    <p class="section-sub" style="margin: 0 auto 0;">If you close high-ticket, this pays for itself the first time it helps you handle an objection you used to lose.</p>
+    <h2 class="section-title" style="text-align:center;">One closed deal pays for years of training.</h2>
+    <p class="section-sub" style="margin: 0 auto;">If you're selling high-ticket, this pays for itself the first time it helps you handle an objection you used to lose.</p>
 
-    <div class="pricing-wrap">
+    <div class="pricing-cards">
+      <!-- PRO -->
       <div class="pricing-card featured">
-        <div class="pricing-badge">Most Popular</div>
-        <div class="pricing-plan">Pro Plan</div>
+        <div class="pricing-badge">For Individual Closers</div>
+        <div class="pricing-plan">Pro</div>
         <div class="pricing-price"><span>$</span>49</div>
         <div class="pricing-period">per month</div>
+        <div class="pricing-desc">Everything a solo closer needs to train hard, get scored, and show up battle ready every single day.</div>
         <div class="pricing-features">
-          <div class="pricing-feature">
-            <span class="pricing-feature-check">✓</span>
-            Unlimited roleplay sessions
-          </div>
-          <div class="pricing-feature">
-            <span class="pricing-feature-check">✓</span>
-            AI scoring after every call
-          </div>
-          <div class="pricing-feature">
-            <span class="pricing-feature-check">✓</span>
-            Build custom AI prospects
-          </div>
-          <div class="pricing-feature">
-            <span class="pricing-feature-check">✓</span>
-            Live transcript on every call
-          </div>
-          <div class="pricing-feature">
-            <span class="pricing-feature-check">✓</span>
-            Coach notes with specific feedback
-          </div>
-          <div class="pricing-feature">
-            <span class="pricing-feature-check">✓</span>
-            New prospect scenarios monthly
-          </div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span><strong>Unlimited</strong> roleplay sessions</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>AI scoring after every call</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Build custom AI prospects</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Live transcript on every call</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Coach notes with specific feedback</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>New prospect scenarios added monthly</span></div>
         </div>
         <a class="btn-pricing" href="/">Start Free — 3 Sessions on Us</a>
         <div class="pricing-note">No credit card required to start.</div>
+      </div>
+
+      <!-- ENTERPRISE -->
+      <div class="pricing-card">
+        <div class="pricing-plan">Enterprise</div>
+        <div class="pricing-price enterprise-price">Custom</div>
+        <div class="pricing-period">team pricing</div>
+        <div class="pricing-desc">Built for sales managers and organizations who want their entire team training daily before they ever touch a live lead.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Everything in Pro for <strong>every rep on your team</strong></span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span><strong>Manager dashboard</strong> — see how every rep is scoring</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Custom AI prospects built for <strong>your specific offer</strong></span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span><strong>Onboarding program</strong> — reps ready before first live call</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Team leaderboards and progress tracking</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Dedicated support and setup</span></div>
+        </div>
+        <a class="btn-pricing ghost" href="mailto:hello@theelitecloser.ai">Contact for Team Pricing</a>
+        <div class="pricing-note">Minimum 3 seats. Volume discounts available.</div>
       </div>
     </div>
   </div>
@@ -397,11 +627,11 @@
   <div class="section-inner">
     <div class="section-label" style="text-align:center;">Get Started</div>
     <h2 class="section-title">Stop losing deals you should be closing.</h2>
-    <p class="section-sub">The reps who close consistently are the ones who practice when it doesn't count. Get your reps in.</p>
+    <p class="section-sub">The reps who close at the highest level aren't more talented. They just trained more than everyone else. Start your reps today.</p>
     <div class="hero-actions">
       <a class="btn-hero" href="/">Start Training Free</a>
     </div>
-    <p class="hero-note">3 free sessions. No credit card. Cancel anytime.</p>
+    <p class="hero-note">3 free sessions. No credit card. No commitment.</p>
   </div>
 </section>
 
