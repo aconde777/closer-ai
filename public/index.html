@@ -7,314 +7,112 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230d0d0d'/><text x='50' y='68' font-size='58' font-family='Helvetica Neue,Arial,sans-serif' font-weight='900' fill='%23e94560' text-anchor='middle'>C</text></svg>">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   :root {
-    --bg: #0a0a0a;
-    --card: #141414;
-    --card2: #1a1a1a;
-    --red: #e94560;
-    --green: #16a34a;
-    --text: #f0f0f0;
-    --muted: #666;
-    --border: #222;
+    --bg: #0a0a0a; --card: #141414; --card2: #1a1a1a;
+    --red: #e94560; --green: #16a34a; --text: #f0f0f0;
+    --muted: #666; --border: #222;
   }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    min-height: 100vh;
-  }
+  body { background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; }
 
   /* NAV */
-  nav {
-    background: #0d0d0d;
-    border-bottom: 1px solid var(--border);
-    padding: 0 32px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+  nav { background: #0d0d0d; border-bottom: 1px solid var(--border); padding: 0 32px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .logo-mark { width: 32px; height: 32px; background: var(--red); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 16px; color: #fff; }
+  .logo-text { font-size: 16px; font-weight: 700; }
+  .logo-text span { color: var(--red); }
+  .nav-right { font-size: 13px; color: var(--muted); }
 
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+  /* MAIN */
+  .main { max-width: 1000px; margin: 0 auto; padding: 40px 32px; }
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+  .page-title { font-size: 24px; font-weight: 900; }
+  .page-title span { color: var(--red); }
 
-  .nav-logo .logo-mark {
-    width: 32px;
-    height: 32px;
-    background: var(--red);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 16px;
-    color: #fff;
-  }
+  /* BUTTONS */
+  .btn-primary { background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 12px 24px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: #c73652; }
+  .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .btn-secondary:hover { border-color: var(--muted); }
 
-  .nav-logo .logo-text {
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-  }
+  /* PROSPECT GRID */
+  .prospect-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 40px; }
+  .prospect-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: all 0.15s; cursor: pointer; }
+  .prospect-card:hover { border-color: #444; transform: translateY(-2px); }
+  .prospect-card-header { background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 24px; position: relative; }
+  .prospect-card-header.b2c { background: linear-gradient(135deg, #1a1a1a, #2d1b2e); }
+  .prospect-avatar-sm { width: 56px; height: 56px; border-radius: 50%; background: var(--card2); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; color: var(--muted); border: 2px solid var(--border); margin-bottom: 12px; }
+  .prospect-card-name { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  .prospect-card-role { font-size: 12px; color: var(--muted); }
+  .prospect-type-badge { position: absolute; top: 16px; right: 16px; background: rgba(233,69,96,0.15); border: 1px solid rgba(233,69,96,0.3); color: var(--red); font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+  .prospect-card-body { padding: 16px; }
+  .prospect-objection { font-size: 12px; color: var(--muted); font-style: italic; margin-bottom: 16px; line-height: 1.4; }
+  .btn-start-session { width: 100%; background: var(--card2); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn-start-session:hover { background: var(--red); border-color: var(--red); }
 
-  .nav-logo .logo-text span {
-    color: var(--red);
-  }
+  /* MODAL OVERLAY */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+  .modal-header { padding: 24px 28px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .modal-title { font-size: 18px; font-weight: 700; }
+  .modal-subtitle { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .modal-close { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; padding: 4px; }
+  .modal-close:hover { color: var(--text); }
+  .modal-body { padding: 28px; }
+  .modal-footer { padding: 20px 28px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 12px; }
 
-  .nav-right {
-    font-size: 13px;
-    color: var(--muted);
-  }
+  /* FORM */
+  .form-section { margin-bottom: 28px; }
+  .form-section-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .form-section-desc { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .type-select { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 0; }
+  .type-option { border: 2px solid var(--border); border-radius: 10px; padding: 16px; cursor: pointer; transition: all 0.15s; text-align: center; }
+  .type-option:hover { border-color: #444; }
+  .type-option.selected { border-color: var(--red); background: rgba(233,69,96,0.05); }
+  .type-option h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .type-option p { font-size: 12px; color: var(--muted); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--card2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 14px; color: var(--text); font-family: inherit; transition: border-color 0.15s; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--red); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-group select option { background: var(--card2); }
 
-  /* HERO */
-  .hero {
-    text-align: center;
-    padding: 80px 32px 48px;
-  }
-
-  .hero-badge {
-    display: inline-block;
-    background: rgba(233, 69, 96, 0.1);
-    border: 1px solid rgba(233, 69, 96, 0.3);
-    color: var(--red);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 6px 14px;
-    border-radius: 100px;
-    margin-bottom: 20px;
-  }
-
-  .hero h1 {
-    font-size: 48px;
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 16px;
-    letter-spacing: -1px;
-  }
-
-  .hero h1 span { color: var(--red); }
-
-  .hero p {
-    font-size: 18px;
-    color: var(--muted);
-    max-width: 500px;
-    margin: 0 auto 40px;
-    line-height: 1.6;
-  }
-
-  /* SCENARIOS */
-  .scenarios {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 32px 80px;
-  }
-
-  .scenarios-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
-
-  .scenario-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-bottom: 48px;
-  }
-
-  .scenario-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    cursor: pointer;
-    transition: all 0.15s;
-    position: relative;
-  }
-
-  .scenario-card:hover {
-    border-color: var(--red);
-    transform: translateY(-2px);
-  }
-
-  .scenario-card.selected {
-    border-color: var(--red);
-    background: rgba(233, 69, 96, 0.05);
-  }
-
-  .scenario-card .difficulty {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  .difficulty.easy { color: var(--green); }
-  .difficulty.medium { color: #f5a623; }
-  .difficulty.hard { color: var(--red); }
-
-  .scenario-card h3 {
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-
-  .scenario-card p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  .scenario-card .objection-tag {
-    display: inline-block;
-    margin-top: 12px;
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 11px;
-    color: var(--muted);
-    font-style: italic;
-  }
-
-  /* CALL BOX */
-  .call-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 40px;
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .call-box.hidden { display: none; }
-
-  .prospect-avatar {
-    width: 80px;
-    height: 80px;
-    background: var(--card2);
-    border-radius: 50%;
-    margin: 0 auto 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    font-weight: 900;
-    color: var(--muted);
-    border: 2px solid var(--border);
-    transition: all 0.3s;
-  }
-
-  .prospect-avatar.speaking {
-    border-color: var(--red);
-    box-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
-  }
-
-  .prospect-name {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-
-  .prospect-desc {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 32px;
-  }
-
-  .call-status {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 24px;
-    min-height: 20px;
-  }
-
+  /* CALL MODAL */
+  .call-modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 500px; padding: 40px; text-align: center; }
+  .prospect-avatar-lg { width: 88px; height: 88px; border-radius: 50%; background: var(--card2); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 900; color: var(--muted); border: 2px solid var(--border); margin: 0 auto 20px; transition: all 0.3s; }
+  .prospect-avatar-lg.speaking { border-color: var(--red); box-shadow: 0 0 24px rgba(233,69,96,0.3); }
+  .call-name { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .call-role { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+  .call-timer { font-size: 36px; font-weight: 900; font-variant-numeric: tabular-nums; margin-bottom: 8px; display: none; }
+  .call-status { font-size: 13px; color: var(--muted); margin-bottom: 24px; min-height: 20px; }
   .call-status.active { color: var(--green); }
   .call-status.error { color: var(--red); }
-
-  .btn-start {
-    background: var(--red);
-    color: #fff;
-    border: none;
-    border-radius: 100px;
-    padding: 16px 48px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: 0.3px;
-  }
-
-  .btn-start:hover { background: #c73652; transform: scale(1.02); }
-  .btn-start:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
-
-  .btn-end {
-    background: transparent;
-    color: var(--red);
-    border: 1px solid var(--red);
-    border-radius: 100px;
-    padding: 16px 48px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.15s;
-    display: none;
-  }
-
-  .btn-end:hover { background: rgba(233, 69, 96, 0.1); }
-
-  .call-timer {
-    font-size: 32px;
-    font-weight: 900;
-    font-variant-numeric: tabular-nums;
-    margin-bottom: 24px;
-    display: none;
-  }
-
-  /* TRANSCRIPT */
-  .transcript-box {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-    margin-top: 24px;
-    text-align: left;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none;
-  }
-
-  .transcript-line {
-    font-size: 13px;
-    line-height: 1.6;
-    margin-bottom: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-
+  .call-actions { display: flex; gap: 12px; justify-content: center; }
+  .btn-call-start { background: var(--red); color: #fff; border: none; border-radius: 100px; padding: 16px 48px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-call-start:hover { background: #c73652; transform: scale(1.02); }
+  .btn-call-start:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
+  .btn-call-end { background: transparent; color: var(--red); border: 2px solid var(--red); border-radius: 100px; padding: 16px 48px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.15s; display: none; }
+  .btn-call-end:hover { background: rgba(233,69,96,0.1); }
+  .btn-call-close { background: none; border: none; color: var(--muted); font-size: 13px; cursor: pointer; margin-top: 16px; display: block; width: 100%; }
+  .btn-call-close:hover { color: var(--text); }
+  .transcript-box { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-top: 20px; text-align: left; max-height: 180px; overflow-y: auto; display: none; }
+  .transcript-line { font-size: 12px; line-height: 1.6; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
   .transcript-line:last-child { border-bottom: none; margin-bottom: 0; }
-  .transcript-line .speaker { font-weight: 700; margin-right: 8px; }
-  .transcript-line .speaker.rep { color: #60a5fa; }
-  .transcript-line .speaker.prospect { color: var(--red); }
+  .t-rep { font-weight: 700; color: #60a5fa; margin-right: 6px; }
+  .t-prospect { font-weight: 700; color: var(--red); margin-right: 6px; }
 
-  /* SELECT PROMPT */
-  .select-prompt {
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
+  /* EMPTY STATE */
+  .empty-state { text-align: center; padding: 80px 32px; color: var(--muted); }
+  .empty-state h3 { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .empty-state p { font-size: 14px; margin-bottom: 24px; }
+
+  /* SAVING STATE */
+  .saving-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; align-items: center; justify-content: center; }
+  .saving-overlay.open { display: flex; }
+  .saving-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px 48px; text-align: center; }
+  .saving-box p { color: var(--muted); font-size: 14px; margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -327,114 +125,272 @@
   <div class="nav-right">Beta</div>
 </nav>
 
-<div class="hero">
-  <div class="hero-badge">AI Sales Roleplay</div>
-  <h1>Train like the call<br>is <span>already live</span></h1>
-  <p>Practice against real objections. Get scored. Close more deals.</p>
-</div>
-
-<div class="scenarios">
-  <div class="scenarios-label">Choose a Scenario</div>
-  <div class="scenario-grid">
-    <div class="scenario-card" onclick="selectScenario(this, 'wallet')">
-      <div class="difficulty easy">Beginner</div>
-      <h3>The Staller</h3>
-      <p>Prospect is interested but keeps delaying. Classic brush-off tactics.</p>
-      <div class="objection-tag">"I don't have my wallet on me"</div>
+<div class="main">
+  <div class="page-header">
+    <div>
+      <div class="page-title">AI <span>Roleplay</span></div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px;">Practice against real objections. Get scored. Close more deals.</div>
     </div>
-    <div class="scenario-card" onclick="selectScenario(this, 'wife')">
-      <div class="difficulty medium">Intermediate</div>
-      <h3>The Spouse Card</h3>
-      <p>Prospect hides behind their partner. Needs permission to make decisions.</p>
-      <div class="objection-tag">"I need to talk to my wife"</div>
-    </div>
-    <div class="scenario-card" onclick="selectScenario(this, 'accountant')">
-      <div class="difficulty hard">Advanced</div>
-      <h3>The Analyzer</h3>
-      <p>Logical thinker who deflects with financial due diligence.</p>
-      <div class="objection-tag">"Let me check with my accountant"</div>
-    </div>
+    <button class="btn-primary" onclick="openBuilder()">+ Create Prospect</button>
   </div>
 
-  <div class="call-box" id="callBox">
-    <div class="prospect-avatar" id="prospectAvatar">?</div>
-    <div class="prospect-name" id="prospectName">Select a scenario above</div>
-    <div class="prospect-desc" id="prospectDesc">Pick one of the three scenarios to begin your practice call</div>
+  <div class="prospect-grid" id="prospectGrid">
+    <!-- Default prospects -->
+    <div class="prospect-card">
+      <div class="prospect-card-header b2c">
+        <div class="prospect-type-badge">B2C</div>
+        <div class="prospect-avatar-sm">MD</div>
+        <div class="prospect-card-name">Mike D.</div>
+        <div class="prospect-card-role">Interested prospect</div>
+      </div>
+      <div class="prospect-card-body">
+        <div class="prospect-objection">"I don't have my wallet on me right now"</div>
+        <button class="btn-start-session" onclick="openCall('ad4cdc33-c13c-4fa5-8b99-2a8cd08161df', 'Mike D.', 'MD', 'Interested prospect, classic staller')">
+          ▶ Start Session
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE PROSPECT MODAL -->
+<div class="modal-overlay" id="builderModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Create New Prospect</div>
+        <div class="modal-subtitle">Define your AI prospect's profile and objections</div>
+      </div>
+      <button class="modal-close" onclick="closeBuilder()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Prospect Type -->
+      <div class="form-section">
+        <div class="form-section-title">Prospect Type</div>
+        <div class="form-section-desc">Select prospect type and define their basic identity.</div>
+        <div class="type-select">
+          <div class="type-option" id="typeB2B" onclick="selectType('b2b')">
+            <h4>Business (B2B)</h4>
+            <p>Business clients with company roles.</p>
+          </div>
+          <div class="type-option selected" id="typeB2C" onclick="selectType('b2c')">
+            <h4>Consumer (B2C)</h4>
+            <p>Individual consumers for personal sales.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Basic Info -->
+      <div class="form-section">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="prospectName" placeholder="e.g. James Rodriguez">
+          </div>
+          <div class="form-group">
+            <label>Age</label>
+            <select id="prospectAge">
+              <option value="25-34">25-34</option>
+              <option value="35-44" selected>35-44</option>
+              <option value="45-54">45-54</option>
+              <option value="55+">55+</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="prospectDesc" placeholder="e.g. Motivated entrepreneur who wants to grow but is cautious with money. Direct communicator, values results over promises."></textarea>
+        </div>
+      </div>
+
+      <!-- Personal Profile -->
+      <div class="form-section">
+        <div class="form-section-title">Personal Profile</div>
+        <div class="form-section-desc">Establish the personal circumstances of your prospect.</div>
+        <div class="form-group">
+          <label>Occupation</label>
+          <input type="text" id="prospectOccupation" placeholder="e.g. Business Owner, Sales Manager, Entrepreneur">
+        </div>
+        <div class="form-group">
+          <label>Monthly Income</label>
+          <select id="prospectIncome">
+            <option value="under $3,000/month">Under $3,000/month</option>
+            <option value="$3,000-$7,000/month">$3,000-$7,000/month</option>
+            <option value="$7,000-$15,000/month" selected>$7,000-$15,000/month</option>
+            <option value="$15,000-$30,000/month">$15,000-$30,000/month</option>
+            <option value="$30,000+/month">$30,000+/month</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Objection Themes</label>
+          <textarea id="prospectObjections" placeholder="e.g. Needs to talk to spouse before deciding. Interested but keeps asking for time to think. Worried about whether results are guaranteed."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeBuilder()">Cancel</button>
+      <button class="btn-primary" onclick="createProspect()">Create Prospect</button>
+    </div>
+  </div>
+</div>
+
+<!-- CALL MODAL -->
+<div class="modal-overlay" id="callModal">
+  <div class="call-modal">
+    <div class="prospect-avatar-lg" id="callAvatar">?</div>
+    <div class="call-name" id="callName">--</div>
+    <div class="call-role" id="callRole">--</div>
     <div class="call-timer" id="callTimer">0:00</div>
-    <div class="call-status" id="callStatus"></div>
-    <p class="select-prompt" id="selectPrompt">Choose a scenario to start</p>
-    <button class="btn-start" id="btnStart" onclick="startCall()" disabled>Start Call</button>
-    <button class="btn-end" id="btnEnd" onclick="endCall()">End Call</button>
+    <div class="call-status" id="callStatus">Ready to start</div>
+    <div class="call-actions">
+      <button class="btn-call-start" id="btnCallStart" onclick="startCall()">Start Session</button>
+      <button class="btn-call-end" id="btnCallEnd" onclick="endCall()">End Call</button>
+    </div>
+    <button class="btn-call-close" onclick="closeCall()">Close</button>
     <div class="transcript-box" id="transcriptBox"></div>
+  </div>
+</div>
+
+<!-- SAVING OVERLAY -->
+<div class="saving-overlay" id="savingOverlay">
+  <div class="saving-box">
+    <div style="font-size:24px;">⚙️</div>
+    <div style="font-weight:700;margin-top:8px;">Creating Prospect...</div>
+    <p>Building your AI prospect. This takes a few seconds.</p>
   </div>
 </div>
 
 <script src="/vapi.bundle.js"></script>
 <script>
-  const scenarios = {
-    wallet: {
-      name: 'Mike D.',
-      initials: 'MD',
-      desc: 'Interested prospect, classic staller',
-      assistantId: 'ad4cdc33-c13c-4fa5-8b99-2a8cd08161df',
-    },
-    wife: {
-      name: 'James R.',
-      initials: 'JR',
-      desc: 'Motivated but needs spouse approval',
-      assistantId: null,
-    },
-    accountant: {
-      name: 'David K.',
-      initials: 'DK',
-      desc: 'Analytical, financially cautious',
-      assistantId: null,
-    }
-  };
-
-  let selectedScenario = null;
+  let selectedType = 'b2c';
+  let currentAssistantId = null;
+  let currentProspectName = null;
+  let currentProspectInitials = null;
   let vapi = null;
   let callActive = false;
   let timerInterval = null;
   let seconds = 0;
 
-  function selectScenario(el, key) {
-    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedScenario = key;
-    const s = scenarios[key];
-    document.getElementById('prospectAvatar').textContent = s.initials;
-    document.getElementById('prospectName').textContent = s.name;
-    document.getElementById('prospectDesc').textContent = s.desc;
-    document.getElementById('selectPrompt').style.display = 'none';
-    document.getElementById('btnStart').disabled = false;
-    document.getElementById('callStatus').textContent = 'Ready to start';
+  // Prospect builder
+  function selectType(type) {
+    selectedType = type;
+    document.getElementById('typeB2B').classList.toggle('selected', type === 'b2b');
+    document.getElementById('typeB2C').classList.toggle('selected', type === 'b2c');
   }
 
-  async function startCall() {
-    if (!selectedScenario) return;
-    const s = scenarios[selectedScenario];
+  function openBuilder() {
+    document.getElementById('builderModal').classList.add('open');
+  }
 
-    if (!s.assistantId) {
-      document.getElementById('callStatus').textContent = 'Vapi not configured yet -- coming soon';
-      document.getElementById('callStatus').className = 'call-status error';
+  function closeBuilder() {
+    document.getElementById('builderModal').classList.remove('open');
+  }
+
+  async function createProspect() {
+    const name = document.getElementById('prospectName').value.trim();
+    const age = document.getElementById('prospectAge').value;
+    const desc = document.getElementById('prospectDesc').value.trim();
+    const occupation = document.getElementById('prospectOccupation').value.trim();
+    const income = document.getElementById('prospectIncome').value;
+    const objections = document.getElementById('prospectObjections').value.trim();
+
+    if (!name || !desc || !occupation || !objections) {
+      alert('Please fill in Name, Description, Occupation, and Objections.');
       return;
     }
 
+    closeBuilder();
+    document.getElementById('savingOverlay').classList.add('open');
+
+    try {
+      const res = await fetch('/api/create-prospect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: selectedType, name, age, description: desc, occupation, income, objections })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      addProspectCard(data.assistantId, name, occupation, objections, selectedType);
+      document.getElementById('savingOverlay').classList.remove('open');
+
+      // Reset form
+      document.getElementById('prospectName').value = '';
+      document.getElementById('prospectDesc').value = '';
+      document.getElementById('prospectOccupation').value = '';
+      document.getElementById('prospectObjections').value = '';
+
+    } catch (err) {
+      document.getElementById('savingOverlay').classList.remove('open');
+      alert('Error creating prospect: ' + err.message);
+    }
+  }
+
+  function getInitials(name) {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  }
+
+  function addProspectCard(assistantId, name, role, objections, type) {
+    const grid = document.getElementById('prospectGrid');
+    const initials = getInitials(name);
+    const shortObjection = objections.length > 80 ? objections.slice(0, 80) + '...' : objections;
+    const card = document.createElement('div');
+    card.className = 'prospect-card';
+    card.innerHTML = `
+      <div class="prospect-card-header ${type === 'b2c' ? 'b2c' : ''}">
+        <div class="prospect-type-badge">${type.toUpperCase()}</div>
+        <div class="prospect-avatar-sm">${initials}</div>
+        <div class="prospect-card-name">${name}</div>
+        <div class="prospect-card-role">${role}</div>
+      </div>
+      <div class="prospect-card-body">
+        <div class="prospect-objection">"${shortObjection}"</div>
+        <button class="btn-start-session" onclick="openCall('${assistantId}', '${name}', '${initials}', '${role}')">
+          ▶ Start Session
+        </button>
+      </div>
+    `;
+    grid.appendChild(card);
+  }
+
+  // Call flow
+  function openCall(assistantId, name, initials, role) {
+    currentAssistantId = assistantId;
+    currentProspectName = name;
+    currentProspectInitials = initials;
+    document.getElementById('callAvatar').textContent = initials;
+    document.getElementById('callName').textContent = name;
+    document.getElementById('callRole').textContent = role;
+    document.getElementById('callStatus').textContent = 'Ready to start';
+    document.getElementById('callStatus').className = 'call-status';
+    document.getElementById('btnCallStart').style.display = 'inline-block';
+    document.getElementById('btnCallEnd').style.display = 'none';
+    document.getElementById('callTimer').style.display = 'none';
+    document.getElementById('transcriptBox').style.display = 'none';
+    document.getElementById('transcriptBox').innerHTML = '';
+    document.getElementById('callModal').classList.add('open');
+  }
+
+  function closeCall() {
+    if (callActive) endCall();
+    document.getElementById('callModal').classList.remove('open');
+  }
+
+  async function startCall() {
     try {
       document.getElementById('callStatus').textContent = 'Connecting...';
-      document.getElementById('callStatus').className = 'call-status';
-      document.getElementById('btnStart').disabled = true;
+      document.getElementById('btnCallStart').disabled = true;
 
-      const VapiSDK = window.Vapi.default || window.Vapi;
+      const VapiSDK = window.Vapi && window.Vapi.default ? window.Vapi.default : window.Vapi;
       vapi = new VapiSDK('0e4512c4-b8f0-4d20-90e2-2fe78b49d186');
 
       vapi.on('call-start', () => {
         callActive = true;
         document.getElementById('callStatus').textContent = 'Call live';
         document.getElementById('callStatus').className = 'call-status active';
-        document.getElementById('btnStart').style.display = 'none';
-        document.getElementById('btnEnd').style.display = 'inline-block';
+        document.getElementById('btnCallStart').style.display = 'none';
+        document.getElementById('btnCallEnd').style.display = 'inline-block';
         document.getElementById('callTimer').style.display = 'block';
         document.getElementById('transcriptBox').style.display = 'block';
         startTimer();
@@ -442,30 +398,27 @@
 
       vapi.on('message', (msg) => {
         if (msg.type === 'transcript' && msg.transcriptType === 'final') {
-          addTranscriptLine(msg.role, msg.transcript);
+          addLine(msg.role, msg.transcript);
           if (msg.role === 'assistant') {
-            document.getElementById('prospectAvatar').classList.add('speaking');
-            setTimeout(() => document.getElementById('prospectAvatar').classList.remove('speaking'), 2000);
+            document.getElementById('callAvatar').classList.add('speaking');
+            setTimeout(() => document.getElementById('callAvatar').classList.remove('speaking'), 2000);
           }
         }
       });
 
-      vapi.on('call-end', () => {
-        callEnded();
-      });
-
+      vapi.on('call-end', () => callEnded());
       vapi.on('error', (err) => {
         document.getElementById('callStatus').textContent = 'Error: ' + err.message;
         document.getElementById('callStatus').className = 'call-status error';
-        document.getElementById('btnStart').disabled = false;
+        document.getElementById('btnCallStart').disabled = false;
       });
 
-      await vapi.start(s.assistantId);
+      await vapi.start(currentAssistantId);
 
     } catch (err) {
       document.getElementById('callStatus').textContent = 'Failed to connect';
       document.getElementById('callStatus').className = 'call-status error';
-      document.getElementById('btnStart').disabled = false;
+      document.getElementById('btnCallStart').disabled = false;
     }
   }
 
@@ -479,10 +432,10 @@
     clearInterval(timerInterval);
     document.getElementById('callStatus').textContent = 'Call ended';
     document.getElementById('callStatus').className = 'call-status';
-    document.getElementById('btnEnd').style.display = 'none';
-    document.getElementById('btnStart').style.display = 'inline-block';
-    document.getElementById('btnStart').disabled = false;
-    document.getElementById('btnStart').textContent = 'Call Again';
+    document.getElementById('btnCallEnd').style.display = 'none';
+    document.getElementById('btnCallStart').style.display = 'inline-block';
+    document.getElementById('btnCallStart').disabled = false;
+    document.getElementById('btnCallStart').textContent = 'Call Again';
   }
 
   function startTimer() {
@@ -495,17 +448,16 @@
     }, 1000);
   }
 
-  function addTranscriptLine(role, text) {
+  function addLine(role, text) {
     const box = document.getElementById('transcriptBox');
     const line = document.createElement('div');
     line.className = 'transcript-line';
-    const speaker = role === 'user' ? 'You' : document.getElementById('prospectName').textContent;
-    const speakerClass = role === 'user' ? 'rep' : 'prospect';
-    line.innerHTML = `<span class="speaker ${speakerClass}">${speaker}</span>${text}`;
+    const speakerClass = role === 'user' ? 't-rep' : 't-prospect';
+    const speakerLabel = role === 'user' ? 'You' : currentProspectName;
+    line.innerHTML = `<span class="${speakerClass}">${speakerLabel}</span>${text}`;
     box.appendChild(line);
     box.scrollTop = box.scrollHeight;
   }
 </script>
-
 </body>
 </html>
