@@ -62,6 +62,11 @@
   .sidebar-bottom {
     border-top: 1px solid var(--border); padding: 16px 20px;
   }
+  .streak-block { background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.2); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+  .streak-inner { display: flex; align-items: center; gap: 10px; }
+  .streak-number { font-size: 18px; font-weight: 900; color: #f5a623; line-height: 1; }
+  .streak-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
   .session-counter {
     background: rgba(233,69,96,0.08); border: 1px solid rgba(233,69,96,0.15);
     border-radius: 8px; padding: 10px 12px; margin-bottom: 12px;
@@ -266,6 +271,15 @@
   </nav>
 
   <div class="sidebar-bottom">
+    <div class="streak-block" id="streakBlock" style="display:none;">
+      <div class="streak-inner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px;color:#f5a623;stroke:#f5a623;fill:#f5a623;"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <div>
+          <div class="streak-number" id="streakNumber">0</div>
+          <div class="streak-label">day streak</div>
+        </div>
+      </div>
+    </div>
     <div class="session-counter" id="sessionCounter" style="display:none;">
       <div class="session-counter-label">Free Sessions</div>
       <div class="session-counter-bar">
@@ -531,6 +545,14 @@
 
       if (profile) {
         document.getElementById('userPlan').textContent = profile.is_pro ? 'Pro' : 'Free Trial';
+
+        // Streak
+        if (profile.streak_days > 0) {
+          document.getElementById('streakBlock').style.display = 'block';
+          document.getElementById('streakNumber').textContent = profile.streak_days;
+        }
+
+        // Session counter (free users only)
         if (!profile.is_pro) {
           const used = profile.session_count;
           const pct = Math.min((used / 3) * 100, 100);

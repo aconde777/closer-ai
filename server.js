@@ -35,6 +35,28 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_KEY
 );
 
+// Streak calculation
+function calcStreak(profile) {
+  const today = new Date().toISOString().split('T')[0];
+  const last = profile.last_session_date;
+  let streak = profile.streak_days || 0;
+
+  if (!last) {
+    streak = 1;
+  } else if (last === today) {
+    // Already trained today, no change
+  } else {
+    const diff = Math.floor((new Date(today) - new Date(last)) / 86400000);
+    streak = diff === 1 ? streak + 1 : 1;
+  }
+  return { streak_days: streak, last_session_date: today };
+}
+
+async function updateStreak(userId, profile) {
+  const data = calcStreak(profile);
+  await supabaseAdmin.from('user_profiles').update(data).eq('id', userId);
+}
+
 // Check session count and increment if allowed
 app.post('/api/session-start', async (req, res) => {
   const authHeader = req.headers.authorization;
@@ -67,6 +89,7 @@ app.post('/api/session-start', async (req, res) => {
 
   // Pro users have unlimited sessions
   if (profile.is_pro) {
+    await updateStreak(userId, profile);
     return res.json({ allowed: true, sessionsUsed: profile.session_count, isPro: true });
   }
 
@@ -75,13 +98,14 @@ app.post('/api/session-start', async (req, res) => {
     return res.json({ allowed: false, sessionsUsed: profile.session_count, isPro: false });
   }
 
-  // Increment session count
+  // Increment session count and update streak
+  const streakData = calcStreak(profile);
   await supabaseAdmin
     .from('user_profiles')
-    .update({ session_count: profile.session_count + 1 })
+    .update({ session_count: profile.session_count + 1, ...streakData })
     .eq('id', userId);
 
-  res.json({ allowed: true, sessionsUsed: profile.session_count + 1, isPro: false });
+  res.json({ allowed: true, sessionsUsed: profile.session_count + 1, isPro: false, streak: streakData.streak_days });
 });
 
 // Create Vapi assistant from prospect form
