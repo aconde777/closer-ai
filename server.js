@@ -7,6 +7,18 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+
+// Serve auth page with Supabase credentials injected
+app.get('/auth.html', (req, res) => {
+  const fs = require('fs');
+  let html = fs.readFileSync(path.join(__dirname, 'public', 'auth.html'), 'utf8');
+  html = html
+    .replace('__SUPABASE_URL__', process.env.SUPABASE_URL || '')
+    .replace('__SUPABASE_ANON_KEY__', process.env.SUPABASE_ANON_KEY || '');
+  res.setHeader('Content-Type', 'text/html');
+  res.send(html);
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Create Vapi assistant from prospect form
