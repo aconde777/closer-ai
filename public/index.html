@@ -263,13 +263,6 @@
 <script src="/vapi.bundle.js"></script>
 <script>
   let selectedType = 'b2c';
-  let currentAssistantId = null;
-  let currentProspectName = null;
-  let currentProspectInitials = null;
-  let vapi = null;
-  let callActive = false;
-  let timerInterval = null;
-  let seconds = 0;
 
   // Prospect builder
   function selectType(type) {
@@ -354,110 +347,12 @@
     grid.appendChild(card);
   }
 
-  // Call flow
+  // Call flow -- navigate to dedicated call page
   function openCall(assistantId, name, initials, role) {
-    currentAssistantId = assistantId;
-    currentProspectName = name;
-    currentProspectInitials = initials;
-    document.getElementById('callAvatar').textContent = initials;
-    document.getElementById('callName').textContent = name;
-    document.getElementById('callRole').textContent = role;
-    document.getElementById('callStatus').textContent = 'Ready to start';
-    document.getElementById('callStatus').className = 'call-status';
-    document.getElementById('btnCallStart').style.display = 'inline-block';
-    document.getElementById('btnCallEnd').style.display = 'none';
-    document.getElementById('callTimer').style.display = 'none';
-    document.getElementById('transcriptBox').style.display = 'none';
-    document.getElementById('transcriptBox').innerHTML = '';
-    document.getElementById('callModal').classList.add('open');
+    const params = new URLSearchParams({ id: assistantId, name, initials, role });
+    window.location.href = '/call.html?' + params.toString();
   }
 
-  function closeCall() {
-    if (callActive) endCall();
-    document.getElementById('callModal').classList.remove('open');
-  }
-
-  async function startCall() {
-    try {
-      document.getElementById('callStatus').textContent = 'Connecting...';
-      document.getElementById('btnCallStart').disabled = true;
-
-      const VapiSDK = window.Vapi && window.Vapi.default ? window.Vapi.default : window.Vapi;
-      vapi = new VapiSDK('0e4512c4-b8f0-4d20-90e2-2fe78b49d186');
-
-      vapi.on('call-start', () => {
-        callActive = true;
-        document.getElementById('callStatus').textContent = 'Call live';
-        document.getElementById('callStatus').className = 'call-status active';
-        document.getElementById('btnCallStart').style.display = 'none';
-        document.getElementById('btnCallEnd').style.display = 'inline-block';
-        document.getElementById('callTimer').style.display = 'block';
-        document.getElementById('transcriptBox').style.display = 'block';
-        startTimer();
-      });
-
-      vapi.on('message', (msg) => {
-        if (msg.type === 'transcript' && msg.transcriptType === 'final') {
-          addLine(msg.role, msg.transcript);
-          if (msg.role === 'assistant') {
-            document.getElementById('callAvatar').classList.add('speaking');
-            setTimeout(() => document.getElementById('callAvatar').classList.remove('speaking'), 2000);
-          }
-        }
-      });
-
-      vapi.on('call-end', () => callEnded());
-      vapi.on('error', (err) => {
-        document.getElementById('callStatus').textContent = 'Error: ' + err.message;
-        document.getElementById('callStatus').className = 'call-status error';
-        document.getElementById('btnCallStart').disabled = false;
-      });
-
-      await vapi.start(currentAssistantId);
-
-    } catch (err) {
-      document.getElementById('callStatus').textContent = 'Failed to connect';
-      document.getElementById('callStatus').className = 'call-status error';
-      document.getElementById('btnCallStart').disabled = false;
-    }
-  }
-
-  function endCall() {
-    if (vapi) vapi.stop();
-    callEnded();
-  }
-
-  function callEnded() {
-    callActive = false;
-    clearInterval(timerInterval);
-    document.getElementById('callStatus').textContent = 'Call ended';
-    document.getElementById('callStatus').className = 'call-status';
-    document.getElementById('btnCallEnd').style.display = 'none';
-    document.getElementById('btnCallStart').style.display = 'inline-block';
-    document.getElementById('btnCallStart').disabled = false;
-    document.getElementById('btnCallStart').textContent = 'Call Again';
-  }
-
-  function startTimer() {
-    seconds = 0;
-    timerInterval = setInterval(() => {
-      seconds++;
-      const m = Math.floor(seconds / 60);
-      const s = seconds % 60;
-      document.getElementById('callTimer').textContent = `${m}:${s.toString().padStart(2, '0')}`;
-    }, 1000);
-  }
-
-  function addLine(role, text) {
-    const box = document.getElementById('transcriptBox');
-    const line = document.createElement('div');
-    line.className = 'transcript-line';
-    const speakerClass = role === 'user' ? 't-rep' : 't-prospect';
-    const speakerLabel = role === 'user' ? 'You' : currentProspectName;
-    line.innerHTML = `<span class="${speakerClass}">${speakerLabel}</span>${text}`;
-    box.appendChild(line);
-    box.scrollTop = box.scrollHeight;
-  }
 </script>
 </body>
 </html>
