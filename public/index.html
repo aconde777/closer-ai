@@ -3,8 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Closer AI — Sales Roleplay Trainer</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230d0d0d'/><text x='50' y='68' font-size='58' font-family='Helvetica Neue,Arial,sans-serif' font-weight='900' fill='%23e94560' text-anchor='middle'>C</text></svg>">
+<title>The Elite Closer — Train</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230d0d0d'/><text x='50' y='68' font-size='58' font-family='Helvetica Neue,Arial,sans-serif' font-weight='900' fill='%23e94560' text-anchor='middle'>E</text></svg>">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Auth gate -- runs before page renders
+  (async () => {
+    const { createClient } = supabase;
+    const sb = createClient('__SUPABASE_URL__', '__SUPABASE_ANON_KEY__');
+    const { data } = await sb.auth.getSession();
+    if (!data.session) window.location.href = '/auth.html';
+    window._supabase = sb;
+    window._session = data.session;
+  })();
+</script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
@@ -122,7 +134,10 @@
     <div class="logo-mark">C</div>
     <div class="logo-text"><span>Closer</span> AI</div>
   </div>
-  <div class="nav-right">Beta</div>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div style="font-size:13px;color:var(--muted);" id="navUser"></div>
+    <button onclick="signOut()" style="background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 14px;font-size:13px;cursor:pointer;">Sign Out</button>
+  </div>
 </nav>
 
 <div class="main">
@@ -262,6 +277,19 @@
 
 <script src="/vapi.bundle.js"></script>
 <script>
+  // Set user display name
+  window.addEventListener('load', () => {
+    if (window._session) {
+      const name = window._session.user.user_metadata?.full_name || window._session.user.email;
+      document.getElementById('navUser').textContent = name;
+    }
+  });
+
+  async function signOut() {
+    await window._supabase.auth.signOut();
+    window.location.href = '/auth.html';
+  }
+
   let selectedType = 'b2c';
 
   // Prospect builder
