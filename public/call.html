@@ -415,11 +415,35 @@
       const data = await res.json();
       document.getElementById('scoringOverlay').classList.remove('open');
       showScore(data);
+      saveCall(data);
 
     } catch (err) {
       document.getElementById('scoringOverlay').classList.remove('open');
-      showScore(getFallbackScore());
+      const fallback = getFallbackScore();
+      showScore(fallback);
+      saveCall(fallback);
     }
+  }
+
+  async function saveCall(scores) {
+    try {
+      const session = window._session;
+      if (!session) return;
+      await fetch('/api/save-call', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({
+          prospectName,
+          prospectRole,
+          durationSeconds: seconds,
+          scores,
+          transcript: transcript.map(t => `${t.role === 'user' ? 'You' : prospectName}: ${t.text}`).join('\n')
+        })
+      });
+    } catch(e) {}
   }
 
   function getFallbackScore() {

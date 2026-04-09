@@ -153,6 +153,41 @@
   .form-group textarea { resize: vertical; min-height: 75px; }
   .form-group select option { background: var(--card2); }
 
+  /* CALL HISTORY */
+  .call-history-empty { text-align: center; padding: 80px 32px; color: var(--muted); }
+  .call-history-empty h3 { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .call-history-empty p { font-size: 14px; }
+  .call-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 12px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; cursor: pointer; transition: all 0.15s; }
+  .call-row:hover { border-color: #333; }
+  .call-row-left { display: flex; align-items: center; gap: 20px; }
+  .call-score-circle { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--red); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 900; color: var(--red); flex-shrink: 0; }
+  .call-score-circle.good { border-color: #16a34a; color: #16a34a; }
+  .call-score-circle.ok { border-color: #f5a623; color: #f5a623; }
+  .call-info-name { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+  .call-info-meta { font-size: 12px; color: var(--muted); }
+  .call-row-right { display: flex; gap: 16px; align-items: center; }
+  .call-cat { text-align: center; }
+  .call-cat-score { font-size: 14px; font-weight: 700; }
+  .call-cat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+  /* REPLAY MODAL */
+  .replay-modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 680px; max-height: 88vh; overflow-y: auto; }
+  .replay-header { padding: 24px 28px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .replay-score-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; padding: 20px 28px; border-bottom: 1px solid var(--border); }
+  .replay-cat { background: var(--card2); border-radius: 10px; padding: 14px; text-align: center; }
+  .replay-cat-score { font-size: 20px; font-weight: 900; margin-bottom: 4px; }
+  .replay-cat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .replay-notes { padding: 20px 28px; border-bottom: 1px solid var(--border); }
+  .replay-notes-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 10px; }
+  .replay-notes-text { font-size: 13px; line-height: 1.7; color: var(--text); }
+  .replay-transcript { padding: 20px 28px; }
+  .replay-transcript-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 14px; }
+  .replay-line { margin-bottom: 12px; }
+  .replay-line-speaker { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .replay-line-speaker.you { color: #60a5fa; }
+  .replay-line-speaker.prospect { color: var(--red); }
+  .replay-line-text { font-size: 13px; line-height: 1.6; color: var(--text); background: var(--card2); border-radius: 8px; padding: 10px 14px; }
+
   /* SAVING */
   .saving-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; align-items: center; justify-content: center; }
   .saving-overlay.open { display: flex; }
@@ -184,9 +219,9 @@
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         Metrics <span class="nav-badge soon">Soon</span>
       </button>
-      <button class="nav-item" onclick="showPage('call-history')">
+      <button class="nav-item" id="nav-call-history" onclick="showPage('call-history')">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Call History <span class="nav-badge soon">Soon</span>
+        Call History
       </button>
     </div>
 
@@ -324,11 +359,8 @@
     <p>Deep dive into your scores over time. Track objection handling, tonality, closing rate, and rapport week by week.</p>
   </div>
 
-  <div class="page-content coming-soon" id="page-call-history" style="display:none;">
-    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-    <div class="coming-soon-badge">Coming Soon</div>
-    <h2>Call History</h2>
-    <p>Every session you've completed, scored, and reviewed. See how you've improved from call to call.</p>
+  <div class="page-content" id="page-call-history" style="display:none;">
+    <div id="callHistoryList"></div>
   </div>
 
   <div class="page-content coming-soon" id="page-training-paths" style="display:none;">
@@ -444,6 +476,28 @@
   </div>
 </div>
 
+<!-- REPLAY MODAL -->
+<div class="modal-overlay" id="replayModal">
+  <div class="replay-modal">
+    <div class="replay-header">
+      <div>
+        <div class="modal-title" id="replayTitle">Call Replay</div>
+        <div class="modal-subtitle" id="replayMeta">--</div>
+      </div>
+      <button class="modal-close" onclick="closeReplay()">✕</button>
+    </div>
+    <div class="replay-score-row" id="replayScoreRow"></div>
+    <div class="replay-notes" id="replayNotesSection" style="display:none;">
+      <div class="replay-notes-label">Coach Notes</div>
+      <div class="replay-notes-text" id="replayNotesText"></div>
+    </div>
+    <div class="replay-transcript" id="replayTranscriptSection" style="display:none;">
+      <div class="replay-transcript-label">Transcript</div>
+      <div id="replayTranscriptLines"></div>
+    </div>
+  </div>
+</div>
+
 <!-- SAVING OVERLAY -->
 <div class="saving-overlay" id="savingOverlay">
   <div class="saving-box">
@@ -499,7 +553,8 @@
     document.getElementById('nav-' + currentPage)?.classList.remove('active');
     currentPage = page;
     const pageEl = document.getElementById('page-' + page);
-    if (pageEl) pageEl.style.display = page === 'roleplay' ? 'block' : 'flex';
+    if (pageEl) pageEl.style.display = page === 'roleplay' || page === 'call-history' ? 'block' : 'flex';
+    if (page === 'call-history') loadCallHistory();
     document.getElementById('nav-' + page)?.classList.add('active');
 
     const titles = {
@@ -594,6 +649,113 @@
   function openCall(assistantId, name, initials, role) {
     const params = new URLSearchParams({ id: assistantId, name, initials, role });
     window.location.href = '/call.html?' + params.toString();
+  }
+
+  // Call History
+  async function loadCallHistory() {
+    const list = document.getElementById('callHistoryList');
+    list.innerHTML = '<div style="color:var(--muted);font-size:14px;padding:32px;">Loading...</div>';
+
+    const { data: calls, error } = await window._supabase
+      .from('call_history')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error || !calls || calls.length === 0) {
+      list.innerHTML = `
+        <div class="call-history-empty">
+          <h3>No calls yet</h3>
+          <p>Complete a session and your scores will appear here.</p>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = calls.map(call => {
+      const date = new Date(call.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      const dur = call.duration_seconds ? `${Math.floor(call.duration_seconds/60)}m ${call.duration_seconds%60}s` : '--';
+      const scoreClass = call.overall_score >= 80 ? 'good' : call.overall_score >= 60 ? 'ok' : '';
+      return `
+        <div class="call-row" onclick="openReplay(${JSON.stringify(call).replace(/"/g, '&quot;')})">
+          <div class="call-row-left">
+            <div class="call-score-circle ${scoreClass}">${call.overall_score || '--'}</div>
+            <div>
+              <div class="call-info-name">${call.prospect_name || 'Unknown Prospect'}</div>
+              <div class="call-info-meta">${date} &nbsp;·&nbsp; ${dur} &nbsp;·&nbsp; ${call.prospect_role || ''}</div>
+            </div>
+          </div>
+          <div class="call-row-right">
+            <div class="call-cat">
+              <div class="call-cat-score" style="color:${scoreColor(call.objection_score)}">${call.objection_score || '--'}</div>
+              <div class="call-cat-label">Objection</div>
+            </div>
+            <div class="call-cat">
+              <div class="call-cat-score" style="color:${scoreColor(call.tonality_score)}">${call.tonality_score || '--'}</div>
+              <div class="call-cat-label">Tonality</div>
+            </div>
+            <div class="call-cat">
+              <div class="call-cat-score" style="color:${scoreColor(call.closing_score)}">${call.closing_score || '--'}</div>
+              <div class="call-cat-label">Closing</div>
+            </div>
+            <div class="call-cat">
+              <div class="call-cat-score" style="color:${scoreColor(call.rapport_score)}">${call.rapport_score || '--'}</div>
+              <div class="call-cat-label">Rapport</div>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function scoreColor(s) {
+    if (!s) return 'var(--muted)';
+    return s >= 80 ? '#16a34a' : s >= 60 ? '#f5a623' : '#e94560';
+  }
+
+  function openReplay(call) {
+    document.getElementById('replayTitle').textContent = `${call.prospect_name} — Call Replay`;
+    const date = new Date(call.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const dur = call.duration_seconds ? `${Math.floor(call.duration_seconds/60)}m ${call.duration_seconds%60}s` : '--';
+    document.getElementById('replayMeta').textContent = `${date} · ${dur} · Overall: ${call.overall_score}/100`;
+
+    const cats = [
+      { label: 'Objection', score: call.objection_score },
+      { label: 'Tonality', score: call.tonality_score },
+      { label: 'Closing', score: call.closing_score },
+      { label: 'Rapport', score: call.rapport_score }
+    ];
+    document.getElementById('replayScoreRow').innerHTML = cats.map(c => `
+      <div class="replay-cat">
+        <div class="replay-cat-score" style="color:${scoreColor(c.score)}">${c.score || '--'}</div>
+        <div class="replay-cat-label">${c.label}</div>
+      </div>`).join('');
+
+    if (call.coach_notes) {
+      document.getElementById('replayNotesSection').style.display = 'block';
+      document.getElementById('replayNotesText').textContent = call.coach_notes;
+    } else {
+      document.getElementById('replayNotesSection').style.display = 'none';
+    }
+
+    if (call.transcript) {
+      document.getElementById('replayTranscriptSection').style.display = 'block';
+      const lines = call.transcript.split('\n').filter(l => l.trim());
+      document.getElementById('replayTranscriptLines').innerHTML = lines.map(line => {
+        const isYou = line.startsWith('You:');
+        const speaker = isYou ? 'You' : call.prospect_name;
+        const text = line.replace(/^[^:]+:\s*/, '');
+        return `<div class="replay-line">
+          <div class="replay-line-speaker ${isYou ? 'you' : 'prospect'}">${speaker}</div>
+          <div class="replay-line-text">${text}</div>
+        </div>`;
+      }).join('');
+    } else {
+      document.getElementById('replayTranscriptSection').style.display = 'none';
+    }
+
+    document.getElementById('replayModal').classList.add('open');
+  }
+
+  function closeReplay() {
+    document.getElementById('replayModal').classList.remove('open');
   }
 </script>
 </body>

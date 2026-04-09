@@ -138,6 +138,38 @@ Personality guidelines:
   }
 });
 
+// Save completed call to history
+app.post('/api/save-call', async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ error: 'Unauthorized' });
+
+  const token = authHeader.replace('Bearer ', '');
+  const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
+  if (error || !user) return res.status(401).json({ error: 'Invalid session' });
+
+  const { prospectName, prospectRole, durationSeconds, scores, transcript } = req.body;
+
+  try {
+    await supabaseAdmin.from('call_history').insert({
+      user_id: user.id,
+      prospect_name: prospectName,
+      prospect_role: prospectRole,
+      duration_seconds: durationSeconds,
+      overall_score: scores?.overall,
+      objection_score: scores?.categories?.[0]?.score,
+      tonality_score: scores?.categories?.[1]?.score,
+      closing_score: scores?.categories?.[2]?.score,
+      rapport_score: scores?.categories?.[3]?.score,
+      coach_notes: scores?.notes,
+      transcript
+    });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('Save call error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Score a call transcript using OpenAI
 app.post('/api/score-call', async (req, res) => {
   const { transcript, prospectName } = req.body;
