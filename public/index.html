@@ -228,6 +228,8 @@
   .date-range-controls input[type="date"]:focus { border-color: var(--red); }
   .btn-range-clear { background: rgba(233,69,96,0.12); border: 1px solid rgba(233,69,96,0.25); color: var(--red); border-radius: 6px; padding: 5px 10px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.12s; }
   .btn-range-clear:hover { background: rgba(233,69,96,0.2); }
+  .btn-download { display: flex; align-items: center; gap: 6px; background: var(--card2); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.12s; }
+  .btn-download:hover { border-color: #444; background: #222; }
   .range-stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-bottom: 1px solid var(--border); background: rgba(233,69,96,0.04); }
   .range-stat-item { padding: 12px 24px; border-right: 1px solid var(--border); }
   .range-stat-item:last-child { border-right: none; }
@@ -680,11 +682,17 @@
       <div class="log-history-card">
         <div class="log-history-header">
           <div class="log-history-title">History</div>
-          <div class="date-range-controls">
-            <input type="date" id="rangeStart" onchange="applyDateRange()">
-            <span style="color:var(--muted);font-size:12px;">to</span>
-            <input type="date" id="rangeEnd" onchange="applyDateRange()">
-            <button class="btn-range-clear" id="btnClearRange" onclick="clearDateRange()" style="display:none;">Clear</button>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="date-range-controls">
+              <input type="date" id="rangeStart" onchange="applyDateRange()">
+              <span style="color:var(--muted);font-size:12px;">to</span>
+              <input type="date" id="rangeEnd" onchange="applyDateRange()">
+              <button class="btn-range-clear" id="btnClearRange" onclick="clearDateRange()" style="display:none;">Clear</button>
+            </div>
+            <button class="btn-download" onclick="downloadSalesReport()" title="Download CSV">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export CSV
+            </button>
           </div>
         </div>
         <div id="rangeStats" style="display:none;"></div>
@@ -1273,6 +1281,36 @@
         <div><div class="log-row-val">$${Number(l.revenue || 0).toLocaleString()}</div><div class="log-row-label">Revenue</div></div>
       </div>
     `).join('');
+  }
+
+  function downloadSalesReport() {
+    const start = document.getElementById('rangeStart').value;
+    const end = document.getElementById('rangeEnd').value;
+    let data = _allSalesLogs;
+    if (start && end) data = data.filter(l => l.log_date >= start && l.log_date <= end);
+
+    if (data.length === 0) { alert('No data to export.'); return; }
+
+    const rows = [['Date', 'Calls Made', 'Closes', 'Revenue ($)', 'Notes']];
+    data.forEach(l => {
+      rows.push([l.log_date, l.calls_made || 0, l.closes || 0, l.revenue || 0, (l.notes || '').replace(/,/g, ';')]);
+    });
+
+    const totalCalls = data.reduce((a, b) => a + (b.calls_made || 0), 0);
+    const totalCloses = data.reduce((a, b) => a + (b.closes || 0), 0);
+    const totalRevenue = data.reduce((a, b) => a + (b.revenue || 0), 0);
+    rows.push([]);
+    rows.push(['TOTALS', totalCalls, totalCloses, totalRevenue, '']);
+
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const dateStr = start && end ? `${start}_to_${end}` : new Date().toISOString().split('T')[0];
+    a.href = url;
+    a.download = `sales-report-${dateStr}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   function applyDateRange() {
