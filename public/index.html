@@ -1042,6 +1042,10 @@
   }
 
   async function saveLog() {
+    const btn = document.querySelector('.btn-log');
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
     const today = new Date().toISOString().split('T')[0];
     const calls = parseInt(document.getElementById('logCalls').value) || 0;
     const closes = parseInt(document.getElementById('logCloses').value) || 0;
@@ -1058,7 +1062,21 @@
       updated_at: new Date().toISOString()
     }, { onConflict: 'user_id,log_date' });
 
-    if (error) { alert('Error saving log: ' + error.message); return; }
+    if (error) {
+      btn.disabled = false;
+      btn.textContent = 'Save Today\'s Log';
+      alert('Error saving log: ' + error.message);
+      return;
+    }
+
+    btn.textContent = 'Saved';
+    btn.style.background = '#16a34a';
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.textContent = 'Save Today\'s Log';
+      btn.style.background = '';
+    }, 2000);
+
     loadSalesTracker();
   }
 
