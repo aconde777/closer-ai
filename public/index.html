@@ -223,6 +223,16 @@
   .log-row-val.green { color: #4ade80; }
   .log-row-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
   .log-empty { padding: 48px 24px; text-align: center; color: var(--muted); font-size: 13px; }
+  .date-range-controls { display: flex; align-items: center; gap: 8px; }
+  .date-range-controls input[type="date"] { background: var(--card2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 12px; padding: 5px 10px; outline: none; cursor: pointer; }
+  .date-range-controls input[type="date"]:focus { border-color: var(--red); }
+  .btn-range-clear { background: rgba(233,69,96,0.12); border: 1px solid rgba(233,69,96,0.25); color: var(--red); border-radius: 6px; padding: 5px 10px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.12s; }
+  .btn-range-clear:hover { background: rgba(233,69,96,0.2); }
+  .range-stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-bottom: 1px solid var(--border); background: rgba(233,69,96,0.04); }
+  .range-stat-item { padding: 12px 24px; border-right: 1px solid var(--border); }
+  .range-stat-item:last-child { border-right: none; }
+  .range-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 4px; }
+  .range-stat-val { font-size: 16px; font-weight: 900; }
 
   /* LEADERBOARD */
   .leaderboard-list { display: flex; flex-direction: column; gap: 12px; }
@@ -512,7 +522,14 @@
       <div class="log-history-card">
         <div class="log-history-header">
           <div class="log-history-title">History</div>
+          <div class="date-range-controls">
+            <input type="date" id="rangeStart" onchange="applyDateRange()">
+            <span style="color:var(--muted);font-size:12px;">to</span>
+            <input type="date" id="rangeEnd" onchange="applyDateRange()">
+            <button class="btn-range-clear" id="btnClearRange" onclick="clearDateRange()" style="display:none;">Clear</button>
+          </div>
         </div>
+        <div id="rangeStats" style="display:none;"></div>
         <div class="log-row" style="background:var(--card2);border-bottom:1px solid var(--border);">
           <div class="log-row-date" style="font-size:10px;text-transform:uppercase;letter-spacing:1px;">Date</div>
           <div class="log-row-label" style="font-size:10px;text-transform:uppercase;letter-spacing:1px;">Calls</div>
@@ -917,6 +934,8 @@
   }
 
   // SALES TRACKER
+  let _allSalesLogs = [];
+
   async function loadSalesTracker() {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('logFormDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
@@ -927,6 +946,7 @@
       .order('log_date', { ascending: false });
 
     if (!logs) return;
+    _allSalesLogs = logs;
 
     // Pre-fill today if exists
     const todayLog = logs.find(l => l.log_date === today);
@@ -954,13 +974,52 @@
     document.getElementById('statClosesMonth').textContent = sum(monthLogs, 'closes');
     document.getElementById('statRevenueMonth').textContent = '$' + sum(monthLogs, 'revenue').toLocaleString();
 
-    // History list
+    renderHistoryList(logs);
+  }
+
+  function renderHistoryList(logs, rangeStart, rangeEnd) {
     const list = document.getElementById('logHistoryList');
-    if (logs.length === 0) {
-      list.innerHTML = '<div class="log-empty">No logs yet. Start tracking today.</div>';
+    const rangeStatsEl = document.getElementById('rangeStats');
+    const clearBtn = document.getElementById('btnClearRange');
+
+    let filtered = logs;
+    if (rangeStart && rangeEnd) {
+      filtered = logs.filter(l => l.log_date >= rangeStart && l.log_date <= rangeEnd);
+      clearBtn.style.display = 'block';
+
+      // Show range summary bar
+      const sum = (arr, key) => arr.reduce((a, b) => a + (Number(b[key]) || 0), 0);
+      const totalCalls = sum(filtered, 'calls_made');
+      const totalCloses = sum(filtered, 'closes');
+      const totalRevenue = sum(filtered, 'revenue');
+      const closeRate = totalCalls > 0 ? ((totalCloses / totalCalls) * 100).toFixed(1) : '0.0';
+      const fmt = d => new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      rangeStatsEl.innerHTML = `
+        <div class="range-stats-bar">
+          <div class="range-stat-item">
+            <div class="range-stat-label">${fmt(rangeStart)} &ndash; ${fmt(rangeEnd)}</div>
+            <div class="range-stat-val">${filtered.length} <span style="font-size:12px;font-weight:500;color:var(--muted)">days logged</span></div>
+          </div>
+          <div class="range-stat-item">
+            <div class="range-stat-label">Closes / Calls</div>
+            <div class="range-stat-val">${totalCloses} / ${totalCalls} <span style="font-size:12px;font-weight:500;color:var(--muted)">${closeRate}% close rate</span></div>
+          </div>
+          <div class="range-stat-item">
+            <div class="range-stat-label">Total Revenue</div>
+            <div class="range-stat-val" style="color:#4ade80;">$${totalRevenue.toLocaleString()}</div>
+          </div>
+        </div>`;
+      rangeStatsEl.style.display = 'block';
+    } else {
+      rangeStatsEl.style.display = 'none';
+      clearBtn.style.display = 'none';
+    }
+
+    if (filtered.length === 0) {
+      list.innerHTML = rangeStart ? '<div class="log-empty">No logs found in that date range.</div>' : '<div class="log-empty">No logs yet. Start tracking today.</div>';
       return;
     }
-    list.innerHTML = logs.map(l => `
+    list.innerHTML = filtered.map(l => `
       <div class="log-row">
         <div class="log-row-date">${new Date(l.log_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
         <div><div class="log-row-val">${l.calls_made || 0}</div><div class="log-row-label">Calls</div></div>
@@ -968,6 +1027,18 @@
         <div><div class="log-row-val">$${Number(l.revenue || 0).toLocaleString()}</div><div class="log-row-label">Revenue</div></div>
       </div>
     `).join('');
+  }
+
+  function applyDateRange() {
+    const start = document.getElementById('rangeStart').value;
+    const end = document.getElementById('rangeEnd').value;
+    if (start && end) renderHistoryList(_allSalesLogs, start, end);
+  }
+
+  function clearDateRange() {
+    document.getElementById('rangeStart').value = '';
+    document.getElementById('rangeEnd').value = '';
+    renderHistoryList(_allSalesLogs);
   }
 
   async function saveLog() {
