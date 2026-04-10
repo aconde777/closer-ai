@@ -533,6 +533,32 @@ app.post('/api/create-checkout', async (req, res) => {
   }
 });
 
+// Stripe billing portal -- let users update payment method
+app.post('/api/billing-portal', async (req, res) => {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ error: 'Unauthorized' });
+
+  try {
+    const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
+    if (error || !user) return res.status(401).json({ error: 'Unauthorized' });
+
+    const { data: profile } = await supabaseAdmin
+      .from('user_profiles').select('stripe_customer_id').eq('id', user.id).single();
+
+    if (!profile?.stripe_customer_id) return res.status(400).json({ error: 'No billing account found.' });
+
+    const appUrl = process.env.APP_URL || 'https://theelitecloser.io';
+    const session = await stripe.billingPortal.sessions.create({
+      customer: profile.stripe_customer_id,
+      return_url: `${appUrl}/app`,
+    });
+    res.json({ url: session.url });
+  } catch(err) {
+    console.error('Billing portal error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Stripe webhook -- update user plan after successful payment
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
