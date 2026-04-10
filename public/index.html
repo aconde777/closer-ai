@@ -108,13 +108,19 @@
   .page-content { padding: 32px; flex: 1; }
 
   /* ROLEPLAY PAGE */
-  .rp-banner { background: linear-gradient(135deg,#040c20 0%,#071428 50%,#060e1e 100%); border: 1px solid var(--border); border-radius: 16px; padding: 32px 40px; margin-bottom: 24px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  @keyframes bannerScan { 0% { transform:translateX(-100%); } 100% { transform:translateX(500%); } }
+  @keyframes avatarPulse { 0% { transform:scale(1); opacity:0.7; } 100% { transform:scale(1.9); opacity:0; } }
+  @keyframes readyPulse { 0%,100% { opacity:1; box-shadow:0 0 7px rgba(74,222,128,0.9); } 50% { opacity:0.4; box-shadow:0 0 2px rgba(74,222,128,0.3); } }
+  @keyframes sessionGlow { 0%,100% { box-shadow:0 0 16px rgba(56,189,248,0.3); } 50% { box-shadow:0 0 28px rgba(56,189,248,0.55); } }
+
+  .rp-banner { background:linear-gradient(135deg,#040c20 0%,#071428 50%,#060e1e 100%); border:1px solid var(--border); border-radius:16px; padding:32px 40px; margin-bottom:24px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:space-between; gap:24px; }
   .rp-banner::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(56,189,248,0.055) 1px,transparent 1px); background-size:28px 28px; pointer-events:none; }
-  .rp-banner::after { content:''; position:absolute; right:0; top:0; width:340px; height:100%; background:radial-gradient(ellipse at 100% 50%,rgba(56,189,248,0.13),transparent 70%); pointer-events:none; }
-  .rp-banner-label { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:8px; }
-  .rp-banner-title { font-size:26px; font-weight:900; letter-spacing:-0.5px; margin-bottom:6px; }
-  .rp-banner-sub { font-size:14px; color:var(--muted); line-height:1.6; }
-  .rp-banner-actions { flex-shrink:0; position:relative; z-index:1; }
+  .rp-banner::after { content:''; position:absolute; right:0; top:0; width:340px; height:100%; background:radial-gradient(ellipse at 100% 50%,rgba(56,189,248,0.14),transparent 70%); pointer-events:none; }
+  .rp-scan { position:absolute; top:0; left:0; width:20%; height:100%; background:linear-gradient(90deg,transparent,rgba(56,189,248,0.07),transparent); animation:bannerScan 5s ease-in-out infinite; pointer-events:none; z-index:1; }
+  .rp-banner-label { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:8px; position:relative; z-index:2; }
+  .rp-banner-title { font-size:26px; font-weight:900; letter-spacing:-0.5px; margin-bottom:6px; position:relative; z-index:2; }
+  .rp-banner-sub { font-size:14px; color:var(--muted); line-height:1.6; position:relative; z-index:2; }
+  .rp-banner-actions { flex-shrink:0; position:relative; z-index:2; }
 
   .rp-filter-bar { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
   .rp-search-wrap { flex:1; position:relative; }
@@ -136,8 +142,16 @@
   .rp-cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:16px; }
 
   /* PROSPECT CARD */
-  .rp-card { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; transition:all 0.15s; display:flex; flex-direction:column; }
-  .rp-card:hover { border-color:rgba(56,189,248,0.3); transform:translateY(-2px); box-shadow:0 0 24px rgba(56,189,248,0.08); }
+  .rp-card { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; transition:all 0.2s; display:flex; flex-direction:column; }
+  .rp-card:hover { transform:translateY(-3px); box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+  /* Difficulty accent stripe */
+  .rp-card.diff-beginner { border-top:2px solid rgba(74,222,128,0.5); }
+  .rp-card.diff-intermediate { border-top:2px solid rgba(245,166,35,0.5); }
+  .rp-card.diff-advanced { border-top:2px solid rgba(56,189,248,0.55); }
+  .rp-card.diff-beginner:hover { border-color:rgba(74,222,128,0.4); border-top-color:rgba(74,222,128,0.8); box-shadow:0 8px 32px rgba(74,222,128,0.08); }
+  .rp-card.diff-intermediate:hover { border-color:rgba(245,166,35,0.35); border-top-color:rgba(245,166,35,0.7); box-shadow:0 8px 32px rgba(245,166,35,0.08); }
+  .rp-card.diff-advanced:hover { border-color:rgba(56,189,248,0.35); border-top-color:rgba(56,189,248,0.8); box-shadow:0 8px 32px rgba(56,189,248,0.10); }
+
   .rp-card-header { padding:22px 20px 18px; background:linear-gradient(145deg,#050d1f,#081626); position:relative; overflow:hidden; border-bottom:1px solid var(--border); }
   .rp-card-header::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 80% 0%,rgba(56,189,248,0.09),transparent 70%); pointer-events:none; }
   .rp-card-top-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; position:relative; z-index:1; }
@@ -148,9 +162,20 @@
   .rp-action-btn { width:28px; height:28px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--muted); transition:all 0.15s; }
   .rp-action-btn:hover { background:rgba(56,189,248,0.1); border-color:rgba(56,189,248,0.2); color:var(--blue); }
   .rp-action-btn svg { width:13px; height:13px; }
-  .rp-avatar { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,#0a1e3d,#112b52); border:1px solid rgba(56,189,248,0.2); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:900; color:var(--blue); margin-bottom:10px; position:relative; z-index:1; }
+  /* Avatar with pulse ring */
+  .rp-avatar-wrap { position:relative; width:44px; height:44px; margin-bottom:10px; z-index:1; }
+  .rp-avatar-wrap::before,.rp-avatar-wrap::after { content:''; position:absolute; inset:-5px; border-radius:50%; border:1px solid; opacity:0; animation:avatarPulse 2.8s ease-out infinite; }
+  .rp-avatar-wrap::after { animation-delay:1.4s; }
+  .rp-card.diff-beginner .rp-avatar-wrap::before,.rp-card.diff-beginner .rp-avatar-wrap::after { border-color:rgba(74,222,128,0.7); }
+  .rp-card.diff-intermediate .rp-avatar-wrap::before,.rp-card.diff-intermediate .rp-avatar-wrap::after { border-color:rgba(245,166,35,0.7); }
+  .rp-card.diff-advanced .rp-avatar-wrap::before,.rp-card.diff-advanced .rp-avatar-wrap::after { border-color:rgba(56,189,248,0.7); }
+  .rp-avatar { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,#0a1e3d,#112b52); border:1px solid rgba(56,189,248,0.25); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:900; color:var(--blue); position:relative; }
   .rp-card-name { font-size:15px; font-weight:800; margin-bottom:2px; position:relative; z-index:1; }
-  .rp-card-role { font-size:11px; color:var(--muted); position:relative; z-index:1; }
+  .rp-card-role { font-size:11px; color:var(--muted); position:relative; z-index:1; margin-bottom:8px; }
+  /* AI Ready indicator */
+  .rp-ai-ready { display:inline-flex; align-items:center; gap:5px; font-size:10px; font-weight:700; color:#4ade80; letter-spacing:0.5px; position:relative; z-index:1; }
+  .rp-ready-dot { width:6px; height:6px; border-radius:50%; background:#4ade80; box-shadow:0 0 7px rgba(74,222,128,0.9); animation:readyPulse 2s ease-in-out infinite; flex-shrink:0; }
+
   .rp-card-body { padding:16px 20px; flex:1; display:flex; flex-direction:column; }
   .rp-diff-tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:0.5px; padding:3px 10px; border-radius:100px; margin-bottom:12px; }
   .rp-diff-tag.beginner { background:rgba(22,163,74,0.12); border:1px solid rgba(22,163,74,0.25); color:#4ade80; }
@@ -160,8 +185,9 @@
   .rp-card-stats { display:flex; gap:20px; padding:10px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:14px; }
   .rp-stat-label { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
   .rp-stat-val { font-size:16px; font-weight:800; color:var(--text); }
-  .btn-start-session { width:100%; background:var(--card2); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:9px; font-size:13px; font-weight:600; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; gap:6px; }
-  .btn-start-session:hover { background:var(--blue); border-color:var(--blue); color:#fff; }
+  /* Start Session — glowed up */
+  .btn-start-session { width:100%; background:linear-gradient(135deg,#0ea5e9,#38bdf8); border:none; color:#fff; border-radius:8px; padding:11px; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 0 16px rgba(56,189,248,0.25); animation:sessionGlow 3s ease-in-out infinite; }
+  .btn-start-session:hover { box-shadow:0 0 32px rgba(56,189,248,0.55); transform:translateY(-1px); filter:brightness(1.1); animation:none; }
 
   /* COMING SOON PAGE */
   .coming-soon { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 80px 32px; text-align: center; }
@@ -520,6 +546,7 @@
   <div class="page-content" id="page-roleplay">
     <!-- Banner -->
     <div class="rp-banner">
+      <div class="rp-scan"></div>
       <div>
         <div class="rp-banner-label">Training</div>
         <div class="rp-banner-title">AI Roleplay</div>
@@ -560,7 +587,7 @@
       <div class="rp-cards-grid" id="prospectGrid">
 
         <!-- Mike D. -->
-        <div class="rp-card" data-name="mike d" data-type="b2c" data-diff="beginner" data-obj="wallet">
+        <div class="rp-card diff-beginner" data-name="mike d" data-type="b2c" data-diff="beginner" data-obj="wallet">
           <div class="rp-card-header">
             <div class="rp-card-top-row">
               <span class="rp-badge b2c">B2C</span>
@@ -568,9 +595,10 @@
                 <button class="rp-action-btn" title="Share" onclick="copyProspectLink('Mike D.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
               </div>
             </div>
-            <div class="rp-avatar">MD</div>
+            <div class="rp-avatar-wrap"><div class="rp-avatar">MD</div></div>
             <div class="rp-card-name">Mike D.</div>
             <div class="rp-card-role">Interested prospect</div>
+            <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
           </div>
           <div class="rp-card-body">
             <span class="rp-diff-tag beginner">Beginner</span>
@@ -584,7 +612,7 @@
         </div>
 
         <!-- Sandra J. -->
-        <div class="rp-card" data-name="sandra j" data-type="b2c" data-diff="intermediate" data-obj="husband">
+        <div class="rp-card diff-intermediate" data-name="sandra j" data-type="b2c" data-diff="intermediate" data-obj="husband">
           <div class="rp-card-header">
             <div class="rp-card-top-row">
               <span class="rp-badge b2c">B2C</span>
@@ -592,9 +620,10 @@
                 <button class="rp-action-btn" title="Share" onclick="copyProspectLink('Sandra J.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
               </div>
             </div>
-            <div class="rp-avatar">SJ</div>
+            <div class="rp-avatar-wrap"><div class="rp-avatar">SJ</div></div>
             <div class="rp-card-name">Sandra J.</div>
             <div class="rp-card-role">Needs spouse approval</div>
+            <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
           </div>
           <div class="rp-card-body">
             <span class="rp-diff-tag intermediate">Intermediate</span>
@@ -608,7 +637,7 @@
         </div>
 
         <!-- Ray T. -->
-        <div class="rp-card" data-name="ray t" data-type="b2c" data-diff="advanced" data-obj="accountant">
+        <div class="rp-card diff-advanced" data-name="ray t" data-type="b2c" data-diff="advanced" data-obj="accountant">
           <div class="rp-card-header">
             <div class="rp-card-top-row">
               <span class="rp-badge b2c">B2C</span>
@@ -616,9 +645,10 @@
                 <button class="rp-action-btn" title="Share" onclick="copyProspectLink('Ray T.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
               </div>
             </div>
-            <div class="rp-avatar">RT</div>
+            <div class="rp-avatar-wrap"><div class="rp-avatar">RT</div></div>
             <div class="rp-card-name">Ray T.</div>
             <div class="rp-card-role">Analytical over-thinker</div>
+            <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
           </div>
           <div class="rp-card-body">
             <span class="rp-diff-tag advanced">Advanced</span>
@@ -1314,9 +1344,10 @@
             <button class="rp-action-btn" title="Share" onclick="copyProspectLink('${name}')">${shareIcon}</button>
           </div>
         </div>
-        <div class="rp-avatar">${initials}</div>
+        <div class="rp-avatar-wrap"><div class="rp-avatar">${initials}</div></div>
         <div class="rp-card-name">${name}</div>
         <div class="rp-card-role">${role}</div>
+        <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
       </div>
       <div class="rp-card-body">
         <span class="rp-diff-tag advanced">Custom</span>
