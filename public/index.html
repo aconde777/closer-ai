@@ -107,21 +107,61 @@
   /* PAGE CONTENT */
   .page-content { padding: 32px; flex: 1; }
 
-  /* PROSPECT GRID */
-  .prospect-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-  .prospect-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: all 0.15s; }
-  .prospect-card:hover { border-color: rgba(56,189,248,0.3); transform: translateY(-2px); box-shadow: 0 0 20px rgba(56,189,248,0.08); }
-  .prospect-card-header { background: linear-gradient(135deg, #060f22, #0a1830); padding: 22px; position: relative; }
-  .prospect-card-header.b2c { background: linear-gradient(135deg, #070d1e, #0d1530); }
-  .prospect-card-header.b2b { background: linear-gradient(135deg, #060f1a, #0a1825); }
-  .prospect-avatar-sm { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 900; color: var(--muted); margin-bottom: 10px; }
-  .prospect-card-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
-  .prospect-card-role { font-size: 11px; color: var(--muted); }
-  .prospect-type-badge { position: absolute; top: 14px; right: 14px; background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.25); color: var(--blue); font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 7px; border-radius: 4px; }
-  .prospect-card-body { padding: 14px 16px; }
-  .prospect-objection { font-size: 12px; color: var(--muted); font-style: italic; margin-bottom: 14px; line-height: 1.5; }
-  .btn-start-session { width: 100%; background: var(--card2); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 9px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
-  .btn-start-session:hover { background: var(--blue); border-color: var(--blue); }
+  /* ROLEPLAY PAGE */
+  .rp-banner { background: linear-gradient(135deg,#040c20 0%,#071428 50%,#060e1e 100%); border: 1px solid var(--border); border-radius: 16px; padding: 32px 40px; margin-bottom: 24px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .rp-banner::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(56,189,248,0.055) 1px,transparent 1px); background-size:28px 28px; pointer-events:none; }
+  .rp-banner::after { content:''; position:absolute; right:0; top:0; width:340px; height:100%; background:radial-gradient(ellipse at 100% 50%,rgba(56,189,248,0.13),transparent 70%); pointer-events:none; }
+  .rp-banner-label { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:8px; }
+  .rp-banner-title { font-size:26px; font-weight:900; letter-spacing:-0.5px; margin-bottom:6px; }
+  .rp-banner-sub { font-size:14px; color:var(--muted); line-height:1.6; }
+  .rp-banner-actions { flex-shrink:0; position:relative; z-index:1; }
+
+  .rp-filter-bar { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .rp-search-wrap { flex:1; position:relative; }
+  .rp-search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); width:15px; height:15px; color:var(--muted); pointer-events:none; }
+  .rp-search { width:100%; background:var(--card); border:1px solid var(--border); border-radius:8px; padding:10px 14px 10px 36px; font-size:13px; color:var(--text); font-family:inherit; transition:border-color 0.15s; }
+  .rp-search:focus { outline:none; border-color:var(--blue); }
+  .rp-search::placeholder { color:var(--muted); }
+  .rp-filter-select { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:13px; color:var(--text); font-family:inherit; cursor:pointer; }
+  .rp-filter-select:focus { outline:none; border-color:var(--blue); }
+
+  .rp-count-row { margin-bottom:20px; }
+  .rp-count-pill { display:inline-block; background:rgba(56,189,248,0.07); border:1px solid rgba(56,189,248,0.15); color:var(--muted); font-size:12px; font-weight:600; padding:4px 14px; border-radius:100px; }
+
+  .rp-group { margin-bottom:32px; }
+  .rp-group-header { display:flex; align-items:center; gap:10px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border); }
+  .rp-group-icon { width:16px; height:16px; color:var(--muted); flex-shrink:0; }
+  .rp-group-name { font-size:13px; font-weight:700; }
+  .rp-group-badge { font-size:11px; font-weight:700; background:var(--card2); border:1px solid var(--border); color:var(--muted); padding:2px 8px; border-radius:100px; }
+  .rp-cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:16px; }
+
+  /* PROSPECT CARD */
+  .rp-card { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; transition:all 0.15s; display:flex; flex-direction:column; }
+  .rp-card:hover { border-color:rgba(56,189,248,0.3); transform:translateY(-2px); box-shadow:0 0 24px rgba(56,189,248,0.08); }
+  .rp-card-header { padding:22px 20px 18px; background:linear-gradient(145deg,#050d1f,#081626); position:relative; overflow:hidden; border-bottom:1px solid var(--border); }
+  .rp-card-header::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 80% 0%,rgba(56,189,248,0.09),transparent 70%); pointer-events:none; }
+  .rp-card-top-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; position:relative; z-index:1; }
+  .rp-badge { font-size:9px; font-weight:800; letter-spacing:1.2px; text-transform:uppercase; padding:3px 8px; border-radius:4px; }
+  .rp-badge.b2c { background:rgba(56,189,248,0.12); border:1px solid rgba(56,189,248,0.25); color:var(--blue); }
+  .rp-badge.b2b { background:rgba(14,165,233,0.10); border:1px solid rgba(14,165,233,0.22); color:#7dd3fc; }
+  .rp-card-actions { display:flex; gap:4px; }
+  .rp-action-btn { width:28px; height:28px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--muted); transition:all 0.15s; }
+  .rp-action-btn:hover { background:rgba(56,189,248,0.1); border-color:rgba(56,189,248,0.2); color:var(--blue); }
+  .rp-action-btn svg { width:13px; height:13px; }
+  .rp-avatar { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,#0a1e3d,#112b52); border:1px solid rgba(56,189,248,0.2); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:900; color:var(--blue); margin-bottom:10px; position:relative; z-index:1; }
+  .rp-card-name { font-size:15px; font-weight:800; margin-bottom:2px; position:relative; z-index:1; }
+  .rp-card-role { font-size:11px; color:var(--muted); position:relative; z-index:1; }
+  .rp-card-body { padding:16px 20px; flex:1; display:flex; flex-direction:column; }
+  .rp-diff-tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:0.5px; padding:3px 10px; border-radius:100px; margin-bottom:12px; }
+  .rp-diff-tag.beginner { background:rgba(22,163,74,0.12); border:1px solid rgba(22,163,74,0.25); color:#4ade80; }
+  .rp-diff-tag.intermediate { background:rgba(245,166,35,0.12); border:1px solid rgba(245,166,35,0.25); color:#f5a623; }
+  .rp-diff-tag.advanced { background:rgba(56,189,248,0.10); border:1px solid rgba(56,189,248,0.22); color:var(--blue); }
+  .rp-objection { font-size:12px; color:var(--muted); font-style:italic; line-height:1.6; margin-bottom:14px; flex:1; }
+  .rp-card-stats { display:flex; gap:20px; padding:10px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:14px; }
+  .rp-stat-label { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
+  .rp-stat-val { font-size:16px; font-weight:800; color:var(--text); }
+  .btn-start-session { width:100%; background:var(--card2); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:9px; font-size:13px; font-weight:600; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; gap:6px; }
+  .btn-start-session:hover { background:var(--blue); border-color:var(--blue); color:#fff; }
 
   /* COMING SOON PAGE */
   .coming-soon { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 80px 32px; text-align: center; }
@@ -478,51 +518,119 @@
 
   <!-- ROLEPLAY PAGE -->
   <div class="page-content" id="page-roleplay">
-    <div class="prospect-grid" id="prospectGrid">
-      <!-- Mike D. -->
-      <div class="prospect-card">
-        <div class="prospect-card-header b2c">
-          <div class="prospect-type-badge">B2C</div>
-          <div class="prospect-avatar-sm">MD</div>
-          <div class="prospect-card-name">Mike D.</div>
-          <div class="prospect-card-role">Interested prospect</div>
-        </div>
-        <div class="prospect-card-body">
-          <div class="prospect-objection">"I don't have my wallet on me right now"</div>
-          <button class="btn-start-session" onclick="openCall('ad4cdc33-c13c-4fa5-8b99-2a8cd08161df', 'Mike D.', 'MD', 'Interested prospect')">
-            ▶ Start Session
-          </button>
-        </div>
+    <!-- Banner -->
+    <div class="rp-banner">
+      <div>
+        <div class="rp-banner-label">Training</div>
+        <div class="rp-banner-title">AI Roleplay</div>
+        <div class="rp-banner-sub">Practice against realistic AI prospects. Get scored after every call.</div>
       </div>
-      <!-- Sandra J. -->
-      <div class="prospect-card">
-        <div class="prospect-card-header b2b">
-          <div class="prospect-type-badge">B2C</div>
-          <div class="prospect-avatar-sm">SJ</div>
-          <div class="prospect-card-name">Sandra J.</div>
-          <div class="prospect-card-role">Needs spouse approval</div>
-        </div>
-        <div class="prospect-card-body">
-          <div class="prospect-objection">"I need to talk to my husband first"</div>
-          <button class="btn-start-session" onclick="openCall('ad4cdc33-c13c-4fa5-8b99-2a8cd08161df', 'Sandra J.', 'SJ', 'Needs spouse approval')">
-            ▶ Start Session
-          </button>
-        </div>
+      <div class="rp-banner-actions">
+        <button class="btn-primary" onclick="openBuilder()">+ Create Prospect</button>
       </div>
-      <!-- Ray T. -->
-      <div class="prospect-card">
-        <div class="prospect-card-header">
-          <div class="prospect-type-badge">B2C</div>
-          <div class="prospect-avatar-sm">RT</div>
-          <div class="prospect-card-name">Ray T.</div>
-          <div class="prospect-card-role">Analytical over-thinker</div>
+    </div>
+
+    <!-- Filters -->
+    <div class="rp-filter-bar">
+      <div class="rp-search-wrap">
+        <svg class="rp-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="rp-search" type="text" id="rpSearch" placeholder="Search prospects, objections..." oninput="filterProspects()">
+      </div>
+      <select class="rp-filter-select" id="rpFilterDiff" onchange="filterProspects()">
+        <option value="">All difficulties</option>
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select>
+      <select class="rp-filter-select" id="rpFilterType" onchange="filterProspects()">
+        <option value="">All types</option>
+        <option value="b2c">B2C</option>
+        <option value="b2b">B2B</option>
+      </select>
+    </div>
+    <div class="rp-count-row"><span class="rp-count-pill" id="rpCountPill">Showing 3 prospects</span></div>
+
+    <!-- Prospect Group -->
+    <div class="rp-group">
+      <div class="rp-group-header">
+        <svg class="rp-group-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        <span class="rp-group-name">High-Ticket B2C</span>
+        <span class="rp-group-badge" id="rpGroupBadge">3</span>
+      </div>
+      <div class="rp-cards-grid" id="prospectGrid">
+
+        <!-- Mike D. -->
+        <div class="rp-card" data-name="mike d" data-type="b2c" data-diff="beginner" data-obj="wallet">
+          <div class="rp-card-header">
+            <div class="rp-card-top-row">
+              <span class="rp-badge b2c">B2C</span>
+              <div class="rp-card-actions">
+                <button class="rp-action-btn" title="Share" onclick="copyProspectLink('Mike D.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+              </div>
+            </div>
+            <div class="rp-avatar">MD</div>
+            <div class="rp-card-name">Mike D.</div>
+            <div class="rp-card-role">Interested prospect</div>
+          </div>
+          <div class="rp-card-body">
+            <span class="rp-diff-tag beginner">Beginner</span>
+            <div class="rp-objection">"I don't have my wallet on me right now"</div>
+            <div class="rp-card-stats">
+              <div><div class="rp-stat-label">Sessions</div><div class="rp-stat-val" id="rpSess-mike">--</div></div>
+              <div><div class="rp-stat-label">Avg Score</div><div class="rp-stat-val" id="rpAvg-mike">--</div></div>
+            </div>
+            <button class="btn-start-session" onclick="openCall('ad4cdc33-c13c-4fa5-8b99-2a8cd08161df','Mike D.','MD','Interested prospect')">▶ Start Session</button>
+          </div>
         </div>
-        <div class="prospect-card-body">
-          <div class="prospect-objection">"Let me run this by my accountant first"</div>
-          <button class="btn-start-session" onclick="openCall('ad4cdc33-c13c-4fa5-8b99-2a8cd08161df', 'Ray T.', 'RT', 'Analytical over-thinker')">
-            ▶ Start Session
-          </button>
+
+        <!-- Sandra J. -->
+        <div class="rp-card" data-name="sandra j" data-type="b2c" data-diff="intermediate" data-obj="husband">
+          <div class="rp-card-header">
+            <div class="rp-card-top-row">
+              <span class="rp-badge b2c">B2C</span>
+              <div class="rp-card-actions">
+                <button class="rp-action-btn" title="Share" onclick="copyProspectLink('Sandra J.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+              </div>
+            </div>
+            <div class="rp-avatar">SJ</div>
+            <div class="rp-card-name">Sandra J.</div>
+            <div class="rp-card-role">Needs spouse approval</div>
+          </div>
+          <div class="rp-card-body">
+            <span class="rp-diff-tag intermediate">Intermediate</span>
+            <div class="rp-objection">"I need to talk to my husband before I make any decisions"</div>
+            <div class="rp-card-stats">
+              <div><div class="rp-stat-label">Sessions</div><div class="rp-stat-val" id="rpSess-sandra">--</div></div>
+              <div><div class="rp-stat-label">Avg Score</div><div class="rp-stat-val" id="rpAvg-sandra">--</div></div>
+            </div>
+            <button class="btn-start-session" onclick="openCall('ad4cdc33-c13c-4fa5-8b99-2a8cd08161df','Sandra J.','SJ','Needs spouse approval')">▶ Start Session</button>
+          </div>
         </div>
+
+        <!-- Ray T. -->
+        <div class="rp-card" data-name="ray t" data-type="b2c" data-diff="advanced" data-obj="accountant">
+          <div class="rp-card-header">
+            <div class="rp-card-top-row">
+              <span class="rp-badge b2c">B2C</span>
+              <div class="rp-card-actions">
+                <button class="rp-action-btn" title="Share" onclick="copyProspectLink('Ray T.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+              </div>
+            </div>
+            <div class="rp-avatar">RT</div>
+            <div class="rp-card-name">Ray T.</div>
+            <div class="rp-card-role">Analytical over-thinker</div>
+          </div>
+          <div class="rp-card-body">
+            <span class="rp-diff-tag advanced">Advanced</span>
+            <div class="rp-objection">"Let me run this by my accountant first"</div>
+            <div class="rp-card-stats">
+              <div><div class="rp-stat-label">Sessions</div><div class="rp-stat-val" id="rpSess-ray">--</div></div>
+              <div><div class="rp-stat-label">Avg Score</div><div class="rp-stat-val" id="rpAvg-ray">--</div></div>
+            </div>
+            <button class="btn-start-session" onclick="openCall('ad4cdc33-c13c-4fa5-8b99-2a8cd08161df','Ray T.','RT','Analytical over-thinker')">▶ Start Session</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -1109,6 +1217,7 @@
     const pageEl = document.getElementById('page-' + page);
     const blockPages = ['roleplay', 'call-history', 'sales', 'leaderboard', 'members', 'billing', 'overview', 'metrics', 'training-paths'];
     if (pageEl) pageEl.style.display = blockPages.includes(page) ? 'block' : 'flex';
+    if (page === 'roleplay') loadRoleplayStats();
     if (page === 'call-history') loadCallHistory();
     if (page === 'sales') loadSalesTracker();
     if (page === 'leaderboard') loadLeaderboard();
@@ -1132,7 +1241,7 @@
       billing: 'Billing & <span style="color:var(--blue)">Plan</span>'
     };
     document.getElementById('topbarTitle').innerHTML = titles[page] || page;
-    document.getElementById('topbarAction').style.display = page === 'roleplay' ? 'block' : 'none';
+    document.getElementById('topbarAction').style.display = 'none'; // moved into rp-banner
   }
 
   // Prospect builder
@@ -1188,25 +1297,90 @@
   function addProspectCard(assistantId, name, role, objections, type) {
     const grid = document.getElementById('prospectGrid');
     const initials = getInitials(name);
-    const shortObjection = objections.length > 75 ? objections.slice(0, 75) + '...' : objections;
-    const headerClass = type === 'b2b' ? 'b2b' : 'b2c';
+    const shortObj = objections.length > 70 ? objections.slice(0, 70) + '...' : objections;
+    const badgeClass = type === 'b2b' ? 'b2b' : 'b2c';
     const card = document.createElement('div');
-    card.className = 'prospect-card';
+    card.className = 'rp-card';
+    card.dataset.name = name.toLowerCase();
+    card.dataset.type = type;
+    card.dataset.diff = 'custom';
+    card.dataset.obj = objections.toLowerCase();
+    const shareIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`;
     card.innerHTML = `
-      <div class="prospect-card-header ${headerClass}">
-        <div class="prospect-type-badge">${type.toUpperCase()}</div>
-        <div class="prospect-avatar-sm">${initials}</div>
-        <div class="prospect-card-name">${name}</div>
-        <div class="prospect-card-role">${role}</div>
+      <div class="rp-card-header">
+        <div class="rp-card-top-row">
+          <span class="rp-badge ${badgeClass}">${type.toUpperCase()}</span>
+          <div class="rp-card-actions">
+            <button class="rp-action-btn" title="Share" onclick="copyProspectLink('${name}')">${shareIcon}</button>
+          </div>
+        </div>
+        <div class="rp-avatar">${initials}</div>
+        <div class="rp-card-name">${name}</div>
+        <div class="rp-card-role">${role}</div>
       </div>
-      <div class="prospect-card-body">
-        <div class="prospect-objection">"${shortObjection}"</div>
-        <button class="btn-start-session" onclick="openCall('${assistantId}', '${name}', '${initials}', '${role}')">
-          ▶ Start Session
-        </button>
-      </div>
-    `;
+      <div class="rp-card-body">
+        <span class="rp-diff-tag advanced">Custom</span>
+        <div class="rp-objection">"${shortObj}"</div>
+        <div class="rp-card-stats">
+          <div><div class="rp-stat-label">Sessions</div><div class="rp-stat-val">--</div></div>
+          <div><div class="rp-stat-label">Avg Score</div><div class="rp-stat-val">--</div></div>
+        </div>
+        <button class="btn-start-session" onclick="openCall('${assistantId}','${name}','${initials}','${role}')">▶ Start Session</button>
+      </div>`;
     grid.appendChild(card);
+    filterProspects();
+  }
+
+  function filterProspects() {
+    const q = (document.getElementById('rpSearch')?.value || '').toLowerCase();
+    const diff = (document.getElementById('rpFilterDiff')?.value || '').toLowerCase();
+    const type = (document.getElementById('rpFilterType')?.value || '').toLowerCase();
+    const cards = document.querySelectorAll('#prospectGrid .rp-card');
+    let visible = 0;
+    cards.forEach(c => {
+      const matchQ = !q || c.dataset.name.includes(q) || c.dataset.obj.includes(q);
+      const matchDiff = !diff || c.dataset.diff === diff;
+      const matchType = !type || c.dataset.type === type;
+      const show = matchQ && matchDiff && matchType;
+      c.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    const pill = document.getElementById('rpCountPill');
+    if (pill) pill.textContent = `Showing ${visible} prospect${visible !== 1 ? 's' : ''}`;
+    const badge = document.getElementById('rpGroupBadge');
+    if (badge) badge.textContent = visible;
+  }
+
+  function copyProspectLink(name) {
+    navigator.clipboard.writeText(window.location.origin + '/').then(() => {
+      alert('Link copied for ' + name);
+    });
+  }
+
+  async function loadRoleplayStats() {
+    if (!window._supabase) return;
+    const { data: calls } = await window._supabase
+      .from('call_history')
+      .select('prospect_name, overall_score')
+      .order('created_at', { ascending: false });
+    if (!calls || !calls.length) return;
+    const map = {};
+    calls.forEach(c => {
+      const k = (c.prospect_name || '').toLowerCase();
+      if (!map[k]) map[k] = { count: 0, total: 0 };
+      map[k].count++;
+      if (c.overall_score) map[k].total += c.overall_score;
+    });
+    const pairs = [['mike','mike'],['sandra','sandra'],['ray','ray']];
+    pairs.forEach(([key, id]) => {
+      const entry = Object.entries(map).find(([k]) => k.includes(key));
+      if (!entry) return;
+      const [, d] = entry;
+      const sEl = document.getElementById('rpSess-' + id);
+      const aEl = document.getElementById('rpAvg-' + id);
+      if (sEl) sEl.textContent = d.count;
+      if (aEl) aEl.textContent = d.count ? Math.round(d.total / d.count) : '--';
+    });
   }
 
   function openCall(assistantId, name, initials, role) {
