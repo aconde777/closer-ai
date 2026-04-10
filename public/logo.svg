@@ -1,127 +1,73 @@
 <svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Background gradient -->
-    <radialGradient id="bgGrad" cx="50%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="#0d1f3c"/>
-      <stop offset="100%" stop-color="#040c1e"/>
-    </radialGradient>
-
-    <!-- Main body gradient -->
-    <linearGradient id="mainGrad" x1="0" y1="0" x2="0.3" y2="1">
-      <stop offset="0%" stop-color="#bfdbfe"/>
-      <stop offset="30%" stop-color="#60a5fa"/>
-      <stop offset="70%" stop-color="#0ea5e9"/>
-      <stop offset="100%" stop-color="#0369a1"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#071528"/>
+      <stop offset="100%" stop-color="#030a14"/>
     </linearGradient>
-
-    <!-- Highlight gradient for cross -->
-    <linearGradient id="crossGrad" x1="0" y1="0" x2="0.2" y2="1">
+    <linearGradient id="piece" x1="0.15" y1="0" x2="0.85" y2="1">
       <stop offset="0%" stop-color="#e0f2fe"/>
-      <stop offset="40%" stop-color="#7dd3fc"/>
-      <stop offset="100%" stop-color="#0284c7"/>
+      <stop offset="25%" stop-color="#7dd3fc"/>
+      <stop offset="65%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#075985"/>
     </linearGradient>
-
-    <!-- Side sheen -->
-    <linearGradient id="sheenGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="rgba(255,255,255,0.12)"/>
-      <stop offset="40%" stop-color="rgba(255,255,255,0.04)"/>
-      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.18)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
     </linearGradient>
-
-    <!-- Glow filter -->
-    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="6" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-
-    <!-- Soft shadow -->
-    <filter id="shadow" x="-20%" y="-10%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(0,0,0,0.6)"/>
+    <filter id="softshadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
     </filter>
-
-    <!-- Inner glow for base -->
-    <filter id="baseGlow">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
+    <clipPath id="bodyClip">
+      <path d="M162,118 L238,118 L260,272 L140,272 Z"/>
+    </clipPath>
   </defs>
 
-  <!-- Background rounded square -->
-  <rect width="400" height="400" rx="80" fill="url(#bgGrad)"/>
-
-  <!-- Subtle inner border -->
-  <rect x="2" y="2" width="396" height="396" rx="79" fill="none" stroke="rgba(56,189,248,0.15)" stroke-width="1.5"/>
-
-  <!-- Bottom ambient glow -->
-  <ellipse cx="200" cy="360" rx="120" ry="30" fill="rgba(56,189,248,0.08)"/>
+  <!-- Background -->
+  <rect width="400" height="400" rx="72" fill="url(#bg)"/>
+  <!-- Subtle border -->
+  <rect x="1.5" y="1.5" width="397" height="397" rx="71" fill="none" stroke="rgba(14,165,233,0.2)" stroke-width="1.5"/>
 
   <!-- === KING PIECE === -->
 
-  <!-- CROSS - vertical bar -->
-  <rect x="186" y="28" width="28" height="72" rx="10" fill="url(#crossGrad)" filter="url(#shadow)"/>
-  <!-- CROSS - horizontal bar -->
-  <rect x="152" y="48" width="96" height="28" rx="10" fill="url(#crossGrad)" filter="url(#shadow)"/>
-  <!-- Cross center highlight -->
-  <rect x="191" y="33" width="8" height="20" rx="4" fill="rgba(255,255,255,0.3)"/>
-  <rect x="157" y="53" width="24" height="8" rx="4" fill="rgba(255,255,255,0.3)"/>
+  <!-- CROSS vertical -->
+  <rect x="188" y="30" width="24" height="68" rx="9" fill="url(#piece)" filter="url(#softshadow)"/>
+  <!-- CROSS horizontal -->
+  <rect x="150" y="50" width="100" height="24" rx="9" fill="url(#piece)" filter="url(#softshadow)"/>
 
-  <!-- NECK / COLLAR -->
-  <rect x="164" y="100" width="72" height="20" rx="6" fill="url(#mainGrad)" filter="url(#shadow)"/>
-  <!-- Collar top highlight line -->
-  <rect x="168" y="102" width="64" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+  <!-- Gem dots on cross tips -->
+  <circle cx="200" cy="33" r="5" fill="white" opacity="0.55" filter="url(#glow)"/>
+  <circle cx="152" cy="62" r="4" fill="white" opacity="0.45" filter="url(#glow)"/>
+  <circle cx="248" cy="62" r="4" fill="white" opacity="0.45" filter="url(#glow)"/>
 
-  <!-- BODY - main trapezoid (wider, more elegant shape) -->
-  <!-- Using a path for smoother curves -->
-  <path d="M168,120 L232,120 Q236,120 237,124 L256,262 Q257,267 252,267 L148,267 Q143,267 144,262 L163,124 Q164,120 168,120 Z"
-        fill="url(#mainGrad)" filter="url(#shadow)"/>
+  <!-- COLLAR -->
+  <rect x="168" y="98" width="64" height="20" rx="7" fill="url(#piece)"/>
+  <!-- Collar highlight -->
+  <rect x="173" y="101" width="54" height="5" rx="3" fill="rgba(255,255,255,0.22)"/>
 
-  <!-- Body left edge highlight -->
-  <path d="M168,120 L163,124 L148,262 L155,267 L148,267 L163,124 L168,120Z" fill="rgba(255,255,255,0.08)"/>
+  <!-- BODY -->
+  <path d="M162,118 L238,118 L260,272 L140,272 Z" fill="url(#piece)" filter="url(#softshadow)"/>
 
-  <!-- Body sheen overlay -->
-  <path d="M168,120 L232,120 Q236,120 237,124 L256,262 Q257,267 252,267 L148,267 Q143,267 144,262 L163,124 Q164,120 168,120 Z"
-        fill="url(#sheenGrad)"/>
+  <!-- Body sheen (left side catch-light) -->
+  <path d="M162,118 L200,118 L215,272 L140,272 Z" fill="url(#sheen)" clip-path="url(#bodyClip)" opacity="0.5"/>
 
-  <!-- Belt detail line 1 -->
-  <path d="M150,188 L250,188" stroke="rgba(2,12,30,0.5)" stroke-width="2"/>
-  <!-- Belt detail line 2 -->
-  <rect x="148" y="192" width="104" height="14" rx="0" fill="rgba(2,12,30,0.25)"/>
-  <!-- Belt buckle highlight -->
-  <rect x="193" y="193" width="14" height="12" rx="3" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <!-- Single clean belt line -->
+  <rect x="146" y="194" width="108" height="12" rx="2" fill="rgba(3,10,20,0.4)"/>
+  <!-- Belt highlight -->
+  <rect x="146" y="194" width="108" height="3" rx="1" fill="rgba(255,255,255,0.1)"/>
 
-  <!-- Lower body decorative lines -->
-  <path d="M152,230 L248,230" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-  <path d="M155,245 L245,245" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <!-- BASE - main -->
+  <rect x="96" y="272" width="208" height="36" rx="10" fill="url(#piece)" filter="url(#softshadow)"/>
+  <!-- Base highlight -->
+  <rect x="101" y="274" width="198" height="7" rx="5" fill="rgba(255,255,255,0.22)"/>
 
-  <!-- BASE - wider, more substantial -->
-  <rect x="88" y="267" width="224" height="40" rx="12" fill="url(#mainGrad)" filter="url(#baseGlow)"/>
-  <!-- Base top highlight -->
-  <rect x="93" y="269" width="214" height="8" rx="6" fill="rgba(255,255,255,0.2)"/>
-  <!-- Base bottom edge -->
-  <rect x="92" y="297" width="216" height="6" rx="4" fill="rgba(0,0,0,0.25)"/>
+  <!-- BASE - bottom step -->
+  <rect x="80" y="304" width="240" height="20" rx="8" fill="url(#piece)"/>
+  <rect x="85" y="306" width="230" height="5" rx="3" fill="rgba(255,255,255,0.14)"/>
 
-  <!-- BASE PLATFORM - bottom step -->
-  <rect x="72" y="303" width="256" height="22" rx="8" fill="url(#mainGrad)"/>
-  <rect x="77" y="305" width="246" height="6" rx="4" fill="rgba(255,255,255,0.15)"/>
-
-  <!-- Crown top orb/gem on cross -->
-  <circle cx="200" cy="30" r="9" fill="url(#crossGrad)" filter="url(#glow)"/>
-  <circle cx="200" cy="28" r="4" fill="rgba(255,255,255,0.5)"/>
-
-  <!-- Left arm tip gem -->
-  <circle cx="154" cy="62" r="6" fill="url(#crossGrad)" filter="url(#glow)"/>
-  <circle cx="153" cy="61" r="3" fill="rgba(255,255,255,0.45)"/>
-
-  <!-- Right arm tip gem -->
-  <circle cx="246" cy="62" r="6" fill="url(#crossGrad)" filter="url(#glow)"/>
-  <circle cx="245" cy="61" r="3" fill="rgba(255,255,255,0.45)"/>
-
-  <!-- Subtle blue glow at base -->
-  <ellipse cx="200" cy="322" rx="100" ry="8" fill="rgba(56,189,248,0.12)"/>
+  <!-- Floor glow -->
+  <ellipse cx="200" cy="330" rx="110" ry="10" fill="rgba(14,165,233,0.12)"/>
 </svg>
