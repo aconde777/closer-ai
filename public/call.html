@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Elite Closer — Live Session</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230d0d0d'/><text x='50' y='68' font-size='58' font-family='Helvetica Neue,Arial,sans-serif' font-weight='900' fill='%23e94560' text-anchor='middle'>E</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='9' fill='%23040c1e'/><rect x='16' y='2' width='4' height='9' rx='1.5' fill='%2338bdf8'/><rect x='11.5' y='5' width='13' height='4' rx='1.5' fill='%2338bdf8'/><rect x='13' y='11' width='10' height='3' rx='1' fill='%2338bdf8'/><polygon points='13,14 23,14 26,27 10,27' fill='%2338bdf8'/><rect x='5' y='27' width='26' height='5' rx='1.5' fill='%2338bdf8'/></svg>">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   (async () => {
@@ -19,110 +19,177 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --bg: #0a0a0a; --card: #141414; --card2: #1a1a1a;
-    --red: #e94560; --green: #16a34a; --text: #f0f0f0;
-    --muted: #666; --border: #222;
+    --bg: #030712; --card: #080f1e; --card2: #0d1628;
+    --blue: #38bdf8; --green: #4ade80; --amber: #f59e0b;
+    --red: #f87171; --text: #e2eaf8; --muted: #4a6080; --border: #0f2040;
   }
   body { background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
 
   /* NAV */
-  nav { background: #0d0d0d; border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
-  .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); }
-  .logo-mark { width: 28px; height: 28px; background: var(--red); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; color: #fff; }
-  .logo-text { font-size: 15px; font-weight: 700; }
-  .logo-text span { color: var(--red); }
-  .btn-back { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 6px 14px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
-  .btn-back:hover { border-color: var(--muted); color: var(--text); }
+  nav {
+    background: rgba(3,7,18,0.95); border-bottom: 1px solid var(--border);
+    padding: 0 28px; height: 60px;
+    display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+  .logo-mark { flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(56,189,248,0.45)); }
+  .logo-name { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
+  .logo-name span { color: var(--blue); }
+  .btn-back {
+    display: flex; align-items: center; gap: 6px;
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 8px; padding: 7px 14px; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .btn-back:hover { border-color: rgba(56,189,248,0.3); color: var(--text); }
 
   /* LAYOUT */
   .call-layout { display: grid; grid-template-columns: 1fr 360px; flex: 1; overflow: hidden; }
 
   /* LEFT -- CALL AREA */
-  .call-area { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; border-right: 1px solid var(--border); }
+  .call-area {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 40px; border-right: 1px solid var(--border);
+    background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(56,189,248,0.04) 0%, transparent 70%);
+  }
 
   .prospect-info { text-align: center; margin-bottom: 48px; }
-  .prospect-avatar { width: 100px; height: 100px; border-radius: 50%; background: var(--card2); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 900; color: var(--muted); border: 3px solid var(--border); margin: 0 auto 20px; transition: all 0.3s; position: relative; }
-  .prospect-avatar.speaking { border-color: var(--red); box-shadow: 0 0 0 8px rgba(233,69,96,0.1), 0 0 0 16px rgba(233,69,96,0.05); }
-  .prospect-avatar.listening { border-color: #60a5fa; box-shadow: 0 0 0 8px rgba(96,165,250,0.1); }
-  .pulse-ring { position: absolute; inset: -8px; border-radius: 50%; border: 2px solid var(--red); opacity: 0; animation: pulse 1.5s ease-out infinite; }
-  @keyframes pulse { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.3); opacity: 0; } }
-  .prospect-name-lg { font-size: 26px; font-weight: 900; margin-bottom: 6px; }
-  .prospect-role-lg { font-size: 14px; color: var(--muted); }
+  .prospect-avatar {
+    width: 108px; height: 108px; border-radius: 50%;
+    background: var(--card); display: flex; align-items: center; justify-content: center;
+    font-size: 30px; font-weight: 900; color: var(--muted);
+    border: 2px solid var(--border); margin: 0 auto 20px;
+    transition: all 0.3s; position: relative;
+    letter-spacing: -1px;
+  }
+  .prospect-avatar.speaking {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 6px rgba(56,189,248,0.08), 0 0 0 12px rgba(56,189,248,0.04);
+  }
+  .prospect-avatar.listening {
+    border-color: rgba(56,189,248,0.4);
+    box-shadow: 0 0 0 6px rgba(56,189,248,0.05);
+  }
+  .pulse-ring {
+    position: absolute; inset: -8px; border-radius: 50%;
+    border: 1.5px solid var(--blue); opacity: 0;
+    animation: pulse 2s ease-out infinite;
+  }
+  @keyframes pulse { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.35); opacity: 0; } }
+  .prospect-name-lg { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .prospect-role-lg { font-size: 13px; color: var(--muted); }
 
   /* STATUS */
-  .call-status-area { text-align: center; margin-bottom: 40px; }
-  .status-label { font-size: 13px; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.5px; }
-  .call-timer-lg { font-size: 48px; font-weight: 900; font-variant-numeric: tabular-nums; letter-spacing: -1px; }
-  .status-text { font-size: 14px; color: var(--muted); margin-top: 8px; min-height: 20px; }
+  .call-status-area { text-align: center; margin-bottom: 44px; }
+  .call-timer-lg { font-size: 52px; font-weight: 900; font-variant-numeric: tabular-nums; letter-spacing: -2px; color: var(--text); }
+  .status-text { font-size: 13px; color: var(--muted); margin-top: 10px; min-height: 20px; font-weight: 500; }
   .status-text.active { color: var(--green); }
   .status-text.error { color: var(--red); }
-  .status-text.connecting { color: #f5a623; }
+  .status-text.connecting { color: var(--amber); }
 
   /* CONTROLS */
-  .call-controls { display: flex; align-items: center; gap: 16px; }
-  .btn-call-main { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; transition: all 0.2s; }
-  .btn-call-main.start { background: var(--red); }
-  .btn-call-main.start:hover { background: #c73652; transform: scale(1.05); }
-  .btn-call-main.end { background: #333; }
-  .btn-call-main.end:hover { background: #444; transform: scale(1.05); }
-  .btn-mute { width: 48px; height: 48px; border-radius: 50%; background: var(--card2); border: 1px solid var(--border); color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: all 0.15s; }
-  .btn-mute:hover { background: var(--card); }
-  .btn-mute.muted { background: var(--red); border-color: var(--red); }
+  .call-controls { display: flex; align-items: center; gap: 20px; }
+
+  .btn-call-main {
+    width: 68px; height: 68px; border-radius: 50%; border: none;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .btn-call-main.start { background: linear-gradient(135deg, #0ea5e9, #38bdf8); box-shadow: 0 0 20px rgba(56,189,248,0.3); }
+  .btn-call-main.start:hover { box-shadow: 0 0 32px rgba(56,189,248,0.5); transform: scale(1.05); }
+  .btn-call-main.end { background: rgba(248,113,113,0.15); border: 1px solid rgba(248,113,113,0.3); }
+  .btn-call-main.end:hover { background: rgba(248,113,113,0.25); transform: scale(1.05); }
+
+  .btn-mute {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .btn-mute:hover { border-color: rgba(56,189,248,0.3); color: var(--text); }
+  .btn-mute.muted { background: rgba(248,113,113,0.1); border-color: rgba(248,113,113,0.3); color: var(--red); }
 
   /* RIGHT -- TRANSCRIPT */
-  .transcript-panel { display: flex; flex-direction: column; overflow: hidden; }
-  .transcript-header { padding: 20px 24px; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .transcript-panel { display: flex; flex-direction: column; overflow: hidden; background: var(--card); }
+  .transcript-header {
+    padding: 18px 24px; border-bottom: 1px solid var(--border);
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .transcript-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 6px rgba(56,189,248,0.6); }
   .transcript-messages { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
-  .transcript-messages::-webkit-scrollbar { width: 4px; }
+  .transcript-messages::-webkit-scrollbar { width: 3px; }
   .transcript-messages::-webkit-scrollbar-track { background: transparent; }
   .transcript-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
   .msg { display: flex; flex-direction: column; gap: 4px; }
-  .msg-speaker { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-  .msg-speaker.rep { color: #60a5fa; }
-  .msg-speaker.prospect { color: var(--red); }
-  .msg-text { font-size: 13px; line-height: 1.6; color: var(--text); background: var(--card2); border-radius: 8px; padding: 10px 14px; }
-  .msg.rep .msg-text { background: rgba(96,165,250,0.08); }
-  .transcript-empty { text-align: center; color: var(--muted); font-size: 13px; margin-top: 40px; line-height: 1.6; }
+  .msg-speaker { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
+  .msg-speaker.rep { color: var(--blue); }
+  .msg-speaker.prospect { color: var(--muted); }
+  .msg-text { font-size: 13px; line-height: 1.65; color: var(--text); background: var(--card2); border-radius: 8px; padding: 10px 14px; }
+  .msg.rep .msg-text { background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.08); }
+  .transcript-empty { text-align: center; color: var(--muted); font-size: 13px; margin-top: 48px; line-height: 1.7; }
 
   /* SCORE SCREEN */
-  .score-screen { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; flex: 1; }
+  .score-screen { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; flex: 1; overflow-y: auto; }
   .score-screen.visible { display: flex; }
-  .score-circle { width: 140px; height: 140px; border-radius: 50%; border: 6px solid var(--red); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 32px; }
-  .score-number { font-size: 48px; font-weight: 900; color: var(--red); line-height: 1; }
-  .score-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-top: 4px; }
-  .score-title { font-size: 22px; font-weight: 900; margin-bottom: 8px; }
-  .score-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
-  .feedback-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 600px; margin-bottom: 32px; }
-  .feedback-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: left; }
-  .feedback-card-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 6px; }
-  .feedback-card-score { font-size: 20px; font-weight: 900; margin-bottom: 4px; }
+  .score-circle {
+    width: 140px; height: 140px; border-radius: 50%;
+    border: 3px solid var(--blue); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; margin: 0 auto 32px;
+    background: rgba(56,189,248,0.04);
+  }
+  .score-number { font-size: 48px; font-weight: 900; color: var(--blue); line-height: 1; letter-spacing: -2px; }
+  .score-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-top: 4px; }
+  .score-title { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .score-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+  .feedback-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 560px; margin-bottom: 20px; }
+  .feedback-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; text-align: left; }
+  .feedback-card-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 8px; }
+  .feedback-card-score { font-size: 22px; font-weight: 900; letter-spacing: -1px; margin-bottom: 6px; }
   .feedback-card-score.good { color: var(--green); }
-  .feedback-card-score.ok { color: #f5a623; }
+  .feedback-card-score.ok { color: var(--amber); }
   .feedback-card-score.bad { color: var(--red); }
-  .feedback-card-text { font-size: 12px; color: var(--muted); line-height: 1.5; }
-  .feedback-notes { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: left; width: 100%; max-width: 600px; margin-bottom: 32px; }
-  .feedback-notes-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 10px; }
-  .feedback-notes-text { font-size: 13px; line-height: 1.7; color: var(--text); }
+  .feedback-card-text { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .feedback-notes { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: left; width: 100%; max-width: 560px; margin-bottom: 32px; }
+  .feedback-notes-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--blue); margin-bottom: 10px; }
+  .feedback-notes-text { font-size: 13px; line-height: 1.75; color: var(--text); }
   .score-actions { display: flex; gap: 12px; }
-  .btn-try-again { background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 12px 28px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
-  .btn-try-again:hover { background: #c73652; }
-  .btn-go-back { background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 12px 28px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
-  .btn-go-back:hover { border-color: var(--muted); }
+  .btn-try-again { background: linear-gradient(135deg,#0ea5e9,#38bdf8); color: #fff; border: none; border-radius: 8px; padding: 12px 28px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-try-again:hover { box-shadow: 0 0 20px rgba(56,189,248,0.4); transform: translateY(-1px); }
+  .btn-go-back { background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 12px 28px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+  .btn-go-back:hover { border-color: rgba(56,189,248,0.3); }
 
-  /* LOADING */
-  .scoring-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
-  .scoring-overlay.open { display: flex; }
-  .scoring-overlay p { color: var(--muted); font-size: 14px; }
+  /* OVERLAYS */
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+  .overlay.open { display: flex; }
+  .overlay-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 44px 40px; text-align: center; max-width: 400px; width: 90%; }
+  .overlay-icon { margin-bottom: 20px; color: var(--blue); }
+  .overlay-title { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .overlay-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; line-height: 1.7; }
+  .overlay-price { font-size: 40px; font-weight: 900; letter-spacing: -2px; margin-bottom: 4px; }
+  .overlay-price span { font-size: 16px; font-weight: 500; color: var(--muted); vertical-align: super; }
+  .overlay-period { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+  .btn-upgrade { width: 100%; background: linear-gradient(135deg,#0ea5e9,#38bdf8); color: #fff; border: none; border-radius: 10px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 10px; font-family: inherit; }
+  .btn-upgrade:hover { box-shadow: 0 0 20px rgba(56,189,248,0.4); }
+  .btn-dismiss { width: 100%; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 10px; padding: 13px; font-size: 14px; cursor: pointer; font-family: inherit; }
+  .btn-dismiss:hover { color: var(--text); border-color: var(--muted); }
+
+  .scoring-spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
 <nav>
   <a class="nav-logo" href="/">
-    <div class="logo-mark">C</div>
-    <div class="logo-text"><span>Closer</span> AI</div>
+    <div class="logo-mark"><svg width="32" height="32" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="9" fill="#040c1e"/><defs><linearGradient id="call-kg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#0ea5e9"/></linearGradient></defs><rect x="16" y="2" width="4" height="9" rx="1.5" fill="url(#call-kg)"/><rect x="11.5" y="5" width="13" height="4" rx="1.5" fill="url(#call-kg)"/><rect x="13" y="11" width="10" height="3" rx="1" fill="url(#call-kg)"/><polygon points="13,14 23,14 26,27 10,27" fill="url(#call-kg)"/><rect x="11" y="20" width="14" height="2" rx="1" fill="#040c1e" opacity="0.35"/><rect x="5" y="27" width="26" height="5" rx="1.5" fill="url(#call-kg)"/></svg></div>
+    <div class="logo-name">The <span>Elite</span> Closer</div>
   </a>
-  <button class="btn-back" onclick="goBack()">← Back to Prospects</button>
+  <button class="btn-back" onclick="goBack()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Prospects
+  </button>
 </nav>
 
 <!-- CALL VIEW -->
@@ -144,15 +211,29 @@
     </div>
 
     <div class="call-controls">
-      <button class="btn-mute" id="btnMute" onclick="toggleMute()" style="visibility:hidden;">🎤</button>
-      <button class="btn-call-main start" id="btnMain" onclick="handleMainButton()">📞</button>
+      <!-- Mute -->
+      <button class="btn-mute" id="btnMute" onclick="toggleMute()" style="visibility:hidden;" title="Mute">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      </button>
+
+      <!-- Start/End call button -->
+      <button class="btn-call-main start" id="btnMain" onclick="handleMainButton()">
+        <!-- Phone icon (start) -->
+        <svg id="iconStart" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.6 1.2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 6 6l.86-.86a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>
+        <!-- End icon (hidden) -->
+        <svg id="iconEnd" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none; color: var(--red);"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
       <div style="width:48px;"></div>
     </div>
   </div>
 
   <!-- RIGHT -->
   <div class="transcript-panel">
-    <div class="transcript-header">Live Transcript</div>
+    <div class="transcript-header">
+      <div class="transcript-dot" id="transcriptDot" style="opacity:0.3;"></div>
+      Live Transcript
+    </div>
     <div class="transcript-messages" id="transcriptMessages">
       <div class="transcript-empty" id="transcriptEmpty">
         Start the session to see<br>the live conversation here.
@@ -165,7 +246,7 @@
 <div class="score-screen" id="scoreScreen">
   <div class="score-circle">
     <div class="score-number" id="scoreNumber">--</div>
-    <div class="score-label">Score</div>
+    <div class="score-label">Overall Score</div>
   </div>
   <div class="score-title" id="scoreTitle">Session Complete</div>
   <div class="score-subtitle" id="scoreSubtitle">Here's how you performed</div>
@@ -175,56 +256,51 @@
     <div class="feedback-notes-text" id="feedbackNotesText"></div>
   </div>
   <div class="score-actions">
-    <button class="btn-go-back" onclick="goBack()">← Back to Prospects</button>
+    <button class="btn-go-back" onclick="goBack()">Back to Prospects</button>
     <button class="btn-try-again" onclick="tryAgain()">Try Again</button>
   </div>
 </div>
 
 <!-- PAYWALL -->
-<div class="scoring-overlay" id="paywallOverlay">
-  <div style="text-align:center;max-width:400px;padding:40px;background:#141414;border:1px solid #222;border-radius:20px;">
-    <div style="font-size:36px;margin-bottom:16px;">🔒</div>
-    <div style="font-size:22px;font-weight:900;margin-bottom:8px;">Free Trial Complete</div>
-    <div style="font-size:14px;color:#666;margin-bottom:28px;line-height:1.7;">You've used your 3 free sessions. Upgrade to Pro to keep training with unlimited sessions and AI scoring.</div>
-    <div style="font-size:36px;font-weight:900;margin-bottom:4px;">$49<span style="font-size:16px;font-weight:400;color:#666;">/month</span></div>
-    <div style="font-size:13px;color:#666;margin-bottom:24px;">Unlimited sessions. Cancel anytime.</div>
-    <button onclick="window.location.href='/landing.html#pricing'" style="width:100%;background:#e94560;color:#fff;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px;">Upgrade to Pro</button>
-    <button onclick="goBack()" style="width:100%;background:transparent;color:#666;border:1px solid #222;border-radius:10px;padding:14px;font-size:14px;cursor:pointer;">Back to Prospects</button>
+<div class="overlay" id="paywallOverlay">
+  <div class="overlay-card">
+    <div class="overlay-icon">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <div class="overlay-title">Free Trial Complete</div>
+    <div class="overlay-sub">You've used your 3 free sessions. Upgrade to Pro to keep training with unlimited sessions and AI scoring.</div>
+    <div class="overlay-price"><span>$</span>49</div>
+    <div class="overlay-period">per month -- unlimited sessions, cancel anytime</div>
+    <button class="btn-upgrade" onclick="window.location.href='/?billing=1'">Upgrade to Pro</button>
+    <button class="btn-dismiss" onclick="goBack()">Back to Prospects</button>
   </div>
 </div>
 
 <!-- SCORING OVERLAY -->
-<div class="scoring-overlay" id="scoringOverlay">
-  <div style="font-size:32px;">⚡</div>
-  <div style="font-weight:700;font-size:18px;">Analyzing your call...</div>
-  <p>AI is scoring your performance. This takes a few seconds.</p>
+<div class="overlay" id="scoringOverlay">
+  <div class="overlay-card">
+    <div class="scoring-spinner"></div>
+    <div class="overlay-title" style="font-size:18px;">Analyzing your call...</div>
+    <div class="overlay-sub" style="margin-bottom:0;">AI coach is scoring your performance. This takes a few seconds.</div>
+  </div>
 </div>
 
 <script src="/vapi.bundle.js"></script>
 <script>
-  // Get params from URL
   const params = new URLSearchParams(window.location.search);
   const assistantId = params.get('id');
   const prospectName = params.get('name') || 'Prospect';
   const prospectRole = params.get('role') || 'AI Prospect';
   const prospectInitials = params.get('initials') || prospectName.slice(0,2).toUpperCase();
 
-  // Set prospect info
   document.getElementById('prospectName').textContent = prospectName;
   document.getElementById('prospectRole').textContent = prospectRole;
   document.getElementById('prospectAvatar').innerHTML = `<div class="pulse-ring" id="pulseRing" style="display:none;"></div>${prospectInitials}`;
 
-  let vapi = null;
-  let callActive = false;
-  let callStarted = false;
-  let muted = false;
-  let timerInterval = null;
-  let seconds = 0;
-  let transcript = [];
+  let vapi = null, callActive = false, callStarted = false, muted = false;
+  let timerInterval = null, seconds = 0, transcript = [];
 
-  function showPaywall() {
-    document.getElementById('paywallOverlay').classList.add('open');
-  }
+  function showPaywall() { document.getElementById('paywallOverlay').classList.add('open'); }
 
   function goBack() {
     if (callActive) endCall();
@@ -234,23 +310,20 @@
   function tryAgain() {
     document.getElementById('scoreScreen').classList.remove('visible');
     document.getElementById('callView').style.display = 'grid';
-    transcript = [];
-    seconds = 0;
+    transcript = []; seconds = 0;
     document.getElementById('callTimer').textContent = '0:00';
-    document.getElementById('transcriptMessages').innerHTML = '<div class="transcript-empty" id="transcriptEmpty">Start the session to see<br>the live conversation here.</div>';
+    document.getElementById('transcriptMessages').innerHTML = '<div class="transcript-empty">Start the session to see<br>the live conversation here.</div>';
     document.getElementById('btnMain').className = 'btn-call-main start';
-    document.getElementById('btnMain').textContent = '📞';
+    document.getElementById('iconStart').style.display = 'block';
+    document.getElementById('iconEnd').style.display = 'none';
     document.getElementById('btnMute').style.visibility = 'hidden';
     document.getElementById('statusText').textContent = 'Ready to start your session';
     document.getElementById('statusText').className = 'status-text';
+    document.getElementById('transcriptDot').style.opacity = '0.3';
   }
 
   async function handleMainButton() {
-    if (!callActive) {
-      await startCall();
-    } else {
-      endCall();
-    }
+    if (!callActive) await startCall(); else endCall();
   }
 
   async function startCall() {
@@ -259,24 +332,20 @@
       document.getElementById('statusText').className = 'status-text error';
       return;
     }
-
     try {
       document.getElementById('statusText').textContent = 'Checking session...';
       document.getElementById('statusText').className = 'status-text connecting';
       document.getElementById('btnMain').style.opacity = '0.5';
 
-      // Check session limit
       const session = window._session;
       if (session) {
         const check = await fetch('/api/session-start', {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${session.access_token}` }
+          method: 'POST', headers: { 'Authorization': `Bearer ${session.access_token}` }
         });
         const result = await check.json();
         if (!result.allowed) {
           document.getElementById('btnMain').style.opacity = '1';
-          showPaywall();
-          return;
+          showPaywall(); return;
         }
       }
 
@@ -287,15 +356,16 @@
       vapi = new VapiSDK('0e4512c4-b8f0-4d20-90e2-2fe78b49d186');
 
       vapi.on('call-start', () => {
-        callActive = true;
-        callStarted = true;
+        callActive = true; callStarted = true;
         document.getElementById('statusText').textContent = 'Call live';
         document.getElementById('statusText').className = 'status-text active';
         document.getElementById('btnMain').className = 'btn-call-main end';
-        document.getElementById('btnMain').textContent = '📵';
+        document.getElementById('iconStart').style.display = 'none';
+        document.getElementById('iconEnd').style.display = 'block';
         document.getElementById('btnMain').style.opacity = '1';
         document.getElementById('btnMute').style.visibility = 'visible';
         document.getElementById('pulseRing').style.display = 'block';
+        document.getElementById('transcriptDot').style.opacity = '1';
         startTimer();
       });
 
@@ -303,46 +373,32 @@
         document.getElementById('prospectAvatar').classList.add('speaking');
         document.getElementById('prospectAvatar').classList.remove('listening');
       });
-
       vapi.on('speech-end', () => {
         document.getElementById('prospectAvatar').classList.remove('speaking');
       });
-
       vapi.on('message', (msg) => {
         if (msg.type === 'transcript' && msg.transcriptType === 'final') {
-          const role = msg.role;
-          const text = msg.transcript;
-          transcript.push({ role, text });
-          addMessage(role, text);
-          if (role === 'user') {
-            document.getElementById('prospectAvatar').classList.add('listening');
-          }
+          transcript.push({ role: msg.role, text: msg.transcript });
+          addMessage(msg.role, msg.transcript);
+          if (msg.role === 'user') document.getElementById('prospectAvatar').classList.add('listening');
         }
       });
-
-      vapi.on('call-end', () => {
-        callEnded();
-      });
-
+      vapi.on('call-end', () => { callEnded(); });
       vapi.on('error', (err) => {
-        document.getElementById('statusText').textContent = 'Connection failed: ' + err.message;
+        document.getElementById('statusText').textContent = 'Connection failed';
         document.getElementById('statusText').className = 'status-text error';
         document.getElementById('btnMain').style.opacity = '1';
       });
 
       await vapi.start(assistantId);
-
-    } catch (err) {
+    } catch(err) {
       document.getElementById('statusText').textContent = 'Failed to connect';
       document.getElementById('statusText').className = 'status-text error';
       document.getElementById('btnMain').style.opacity = '1';
     }
   }
 
-  function endCall() {
-    if (vapi) vapi.stop();
-    callEnded();
-  }
+  function endCall() { if (vapi) vapi.stop(); callEnded(); }
 
   function callEnded() {
     callActive = false;
@@ -350,6 +406,7 @@
     document.getElementById('pulseRing').style.display = 'none';
     document.getElementById('prospectAvatar').classList.remove('speaking', 'listening');
     document.getElementById('btnMute').style.visibility = 'hidden';
+    document.getElementById('transcriptDot').style.opacity = '0.3';
 
     if (transcript.length > 0) {
       scoreCall();
@@ -357,7 +414,8 @@
       document.getElementById('statusText').textContent = 'Call ended';
       document.getElementById('statusText').className = 'status-text';
       document.getElementById('btnMain').className = 'btn-call-main start';
-      document.getElementById('btnMain').textContent = '📞';
+      document.getElementById('iconStart').style.display = 'block';
+      document.getElementById('iconEnd').style.display = 'none';
       document.getElementById('btnMain').style.opacity = '1';
     }
   }
@@ -367,8 +425,10 @@
     muted = !muted;
     vapi.setMuted(muted);
     const btn = document.getElementById('btnMute');
-    btn.textContent = muted ? '🔇' : '🎤';
     btn.classList.toggle('muted', muted);
+    btn.innerHTML = muted
+      ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>`
+      : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>`;
   }
 
   function startTimer() {
@@ -377,7 +437,7 @@
       seconds++;
       const m = Math.floor(seconds / 60);
       const s = seconds % 60;
-      document.getElementById('callTimer').textContent = `${m}:${s.toString().padStart(2, '0')}`;
+      document.getElementById('callTimer').textContent = `${m}:${s.toString().padStart(2,'0')}`;
     }, 1000);
   }
 
@@ -385,43 +445,31 @@
     const container = document.getElementById('transcriptMessages');
     const empty = document.getElementById('transcriptEmpty');
     if (empty) empty.remove();
-
     const msg = document.createElement('div');
     msg.className = `msg ${role === 'user' ? 'rep' : 'prospect'}`;
     const speakerLabel = role === 'user' ? 'You' : prospectName;
     const speakerClass = role === 'user' ? 'rep' : 'prospect';
-    msg.innerHTML = `
-      <div class="msg-speaker ${speakerClass}">${speakerLabel}</div>
-      <div class="msg-text">${text}</div>
-    `;
+    msg.innerHTML = `<div class="msg-speaker ${speakerClass}">${speakerLabel}</div><div class="msg-text">${text}</div>`;
     container.appendChild(msg);
     container.scrollTop = container.scrollHeight;
   }
 
   async function scoreCall() {
     document.getElementById('scoringOverlay').classList.add('open');
-
-    const transcriptText = transcript.map(t =>
-      `${t.role === 'user' ? 'Sales Rep' : prospectName}: ${t.text}`
-    ).join('\n');
-
+    const transcriptText = transcript.map(t => `${t.role === 'user' ? 'Sales Rep' : prospectName}: ${t.text}`).join('\n');
     try {
       const res = await fetch('/api/score-call', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ transcript: transcriptText, prospectName })
       });
-
       const data = await res.json();
       document.getElementById('scoringOverlay').classList.remove('open');
-      showScore(data);
-      saveCall(data);
-
-    } catch (err) {
+      showScore(data); saveCall(data);
+    } catch(err) {
       document.getElementById('scoringOverlay').classList.remove('open');
       const fallback = getFallbackScore();
-      showScore(fallback);
-      saveCall(fallback);
+      showScore(fallback); saveCall(fallback);
     }
   }
 
@@ -431,17 +479,9 @@
       if (!session) return;
       await fetch('/api/save-call', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`
-        },
-        body: JSON.stringify({
-          prospectName,
-          prospectRole,
-          durationSeconds: seconds,
-          scores,
-          transcript: transcript.map(t => `${t.role === 'user' ? 'You' : prospectName}: ${t.text}`).join('\n')
-        })
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+        body: JSON.stringify({ prospectName, prospectRole, durationSeconds: seconds, scores,
+          transcript: transcript.map(t => `${t.role === 'user' ? 'You' : prospectName}: ${t.text}`).join('\n') })
       });
     } catch(e) {}
   }
@@ -452,43 +492,35 @@
       categories: [
         { label: 'Objection Handling', score: 70, note: 'Addressed the objection but could be more direct.' },
         { label: 'Tonality', score: 75, note: 'Good energy, maintain confidence throughout.' },
-        { label: 'Closing Attempt', score: 65, note: 'Try to ask for the close more assertively.' },
+        { label: 'Closing Attempt', score: 65, note: 'Ask for the close more assertively.' },
         { label: 'Rapport', score: 78, note: 'Good connection established early.' }
       ],
-      notes: 'Overall solid attempt. Focus on handling the objection with more certainty. When they say they need to talk to their spouse, acknowledge it then redirect to their personal decision-making. Close more directly.'
+      notes: 'Overall solid attempt. Focus on handling the objection with more certainty. Close more directly.'
     };
   }
 
   function showScore(data) {
     document.getElementById('callView').style.display = 'none';
     document.getElementById('scoreScreen').classList.add('visible');
-
     const overall = data.overall || 70;
     document.getElementById('scoreNumber').textContent = overall;
-
-    const scoreColor = overall >= 80 ? 'var(--green)' : overall >= 60 ? '#f5a623' : 'var(--red)';
+    const scoreColor = overall >= 80 ? 'var(--green)' : overall >= 60 ? 'var(--amber)' : 'var(--red)';
     document.getElementById('scoreNumber').style.color = scoreColor;
     document.querySelector('.score-circle').style.borderColor = scoreColor;
-
-    const titles = { 80: 'Strong Performance', 60: 'Good Effort', 0: 'Needs Work' };
+    document.querySelector('.score-circle').style.background = overall >= 80
+      ? 'rgba(74,222,128,0.05)' : overall >= 60 ? 'rgba(245,158,11,0.05)' : 'rgba(248,113,113,0.05)';
     const title = overall >= 80 ? 'Strong Performance' : overall >= 60 ? 'Good Effort' : 'Needs Work';
     document.getElementById('scoreTitle').textContent = title;
-    document.getElementById('scoreSubtitle').textContent = `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2,'0')} session with ${prospectName}`;
-
+    document.getElementById('scoreSubtitle').textContent = `${Math.floor(seconds/60)}:${(seconds%60).toString().padStart(2,'0')} session with ${prospectName}`;
     const grid = document.getElementById('feedbackGrid');
     grid.innerHTML = '';
     (data.categories || []).forEach(cat => {
       const scoreClass = cat.score >= 80 ? 'good' : cat.score >= 60 ? 'ok' : 'bad';
       const card = document.createElement('div');
       card.className = 'feedback-card';
-      card.innerHTML = `
-        <div class="feedback-card-label">${cat.label}</div>
-        <div class="feedback-card-score ${scoreClass}">${cat.score}/100</div>
-        <div class="feedback-card-text">${cat.note}</div>
-      `;
+      card.innerHTML = `<div class="feedback-card-label">${cat.label}</div><div class="feedback-card-score ${scoreClass}">${cat.score}/100</div><div class="feedback-card-text">${cat.note}</div>`;
       grid.appendChild(card);
     });
-
     if (data.notes) {
       document.getElementById('feedbackNotes').style.display = 'block';
       document.getElementById('feedbackNotesText').textContent = data.notes;
