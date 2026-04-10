@@ -579,6 +579,83 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
   res.json({ received: true });
 });
 
+// ─── ADMIN ────────────────────────────────────────────────────────────────
+const ADMIN_PASS = process.env.ADMIN_PASSWORD || 'elitecloser2024';
+
+function adminAuth(req, res, next) {
+  const auth = req.headers['x-admin-key'];
+  if (auth !== ADMIN_PASS) return res.status(401).json({ error: 'Unauthorized' });
+  next();
+}
+
+// Admin HTML page
+app.get('/admin', (req, res) => {
+  const html = fs.readFileSync(path.join(__dirname, 'public', 'admin.html'), 'utf8');
+  res.setHeader('Content-Type', 'text/html');
+  res.send(html);
+});
+
+// Admin stats endpoint
+app.get('/api/admin/stats', adminAuth, async (req, res) => {
+  const planPrices = { solo: 49, team_starter: 129, team_pro: 249, team_elite: 399 };
+
+  const [
+    { data: users },
+    { data: calls },
+    { data: teams },
+  ] = await Promise.all([
+    supabaseAdmin.from('user_profiles').select('id, plan, is_pro, session_count, streak_days, last_session_date, created_at'),
+    supabaseAdmin.from('call_history').select('id, user_id, overall_score, duration_seconds, created_at'),
+    supabaseAdmin.from('teams').select('id, plan, max_seats, owner_id'),
+  ]);
+
+  const totalUsers = users?.length || 0;
+  const proUsers = users?.filter(u => u.is_pro).length || 0;
+  const freeUsers = totalUsers - proUsers;
+  const totalCalls = calls?.length || 0;
+  const avgScore = calls?.length
+    ? Math.round(calls.reduce((s, c) => s + (c.overall_score || 0), 0) / calls.length)
+    : 0;
+  const totalMinutes = Math.round((calls?.reduce((s, c) => s + (c.duration_seconds || 0), 0) || 0) / 60);
+
+  // MRR estimate
+  const mrr = users?.reduce((sum, u) => sum + (planPrices[u.plan] || 0), 0) || 0;
+
+  // Plan breakdown
+  const planCounts = { free: 0, solo: 0, team_starter: 0, team_pro: 0, team_elite: 0 };
+  users?.forEach(u => { planCounts[u.plan || 'free'] = (planCounts[u.plan || 'free'] || 0) + 1; });
+
+  // Recent signups (last 7 days)
+  const week = new Date(Date.now() - 7 * 86400000).toISOString();
+  const recentSignups = users?.filter(u => u.created_at > week).length || 0;
+
+  // Recent calls (last 7 days)
+  const recentCalls = calls?.filter(c => c.created_at > week).length || 0;
+
+  // Active users (trained in last 7 days)
+  const activeUsers = users?.filter(u => u.last_session_date > week.split('T')[0]).length || 0;
+
+  // Recent user list
+  const recentUsers = [...(users || [])]
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .slice(0, 20)
+    .map(u => ({
+      id: u.id,
+      plan: u.plan || 'free',
+      is_pro: u.is_pro,
+      session_count: u.session_count || 0,
+      streak_days: u.streak_days || 0,
+      last_session_date: u.last_session_date,
+      created_at: u.created_at,
+    }));
+
+  res.json({
+    totalUsers, proUsers, freeUsers, totalCalls, avgScore, totalMinutes,
+    mrr, planCounts, recentSignups, recentCalls, activeUsers, recentUsers,
+    totalTeams: teams?.length || 0,
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Closer AI running on port ${PORT}`);
 });
