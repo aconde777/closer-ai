@@ -210,13 +210,30 @@
   .footer-logo span { color: var(--blue); }
   .footer-copy { font-size: 13px; color: var(--muted); }
 
-  /* CITY CANVAS */
-  .city-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+  /* CHESS BOARD HERO BACKGROUND */
+  .chess-hero-bg {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(45deg, rgba(56,189,248,0.04) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(56,189,248,0.04) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(56,189,248,0.04) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(56,189,248,0.04) 75%);
+    background-size: 56px 56px;
+    background-position: 0 0, 0 28px, 28px -28px, -28px 0px;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, rgba(0,0,0,0.55) 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, rgba(0,0,0,0.55) 0%, transparent 75%);
+  }
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
-    nav { padding: 0 20px; }
+    nav { padding: 0 16px; }
     .nav-links { display: none; }
+    .btn-nav { padding: 8px 16px; font-size: 12px; }
+    .hero { padding: 100px 20px 64px; min-height: auto; }
+    .hero-headline { font-size: clamp(32px, 9vw, 52px); letter-spacing: -1.5px; }
+    .hero-sub { font-size: 16px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .btn-hero, .btn-hero-ghost { text-align: center; padding: 15px 28px; }
     .steps { grid-template-columns: 1fr; }
     .step-connector { display: none; }
     .prospects-grid { grid-template-columns: 1fr; }
@@ -224,11 +241,19 @@
     .who-grid { grid-template-columns: 1fr; }
     .problem-grid { grid-template-columns: 1fr; }
     .why-grid { grid-template-columns: 1fr; }
-    .stat-row { grid-template-columns: 1fr; }
+    .stat-row { grid-template-columns: 1fr 1fr; gap: 12px; }
     .pricing-cards { grid-template-columns: 1fr !important; }
     .testimonials-grid { grid-template-columns: 1fr; }
-    section { padding: 64px 20px; }
-    .proof-bar { gap: 24px; padding: 20px; }
+    section { padding: 56px 20px; }
+    .proof-bar { gap: 20px; padding: 16px 20px; flex-direction: column; align-items: flex-start; }
+    .section-title { font-size: clamp(24px, 6vw, 36px); }
+    footer { flex-direction: column; align-items: center; text-align: center; padding: 24px 20px; }
+    .boxing-quote { font-size: clamp(18px, 5vw, 26px); padding-left: 20px; }
+  }
+
+  @media (max-width: 420px) {
+    .stat-row { grid-template-columns: 1fr; }
+    .hero-headline { font-size: 30px; letter-spacing: -1px; }
   }
 </style>
 </head>
@@ -251,7 +276,7 @@
 
 <!-- HERO -->
 <section class="hero">
-  <canvas class="city-canvas" id="cityCanvas"></canvas>
+  <div class="chess-hero-bg"></div>
   <div class="hero-glow"></div>
   <div class="hero-inner">
     <div class="hero-badge">
@@ -709,168 +734,5 @@
   <div class="footer-copy">Built for closers who want to be elite.</div>
 </footer>
 
-<script>
-(function(){
-  var canvas = document.getElementById('cityCanvas');
-  if(!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var W, H, buildings = [], rainDrops = [], raf;
-
-  function rand(a,b){ return a + Math.random()*(b-a); }
-
-  function buildCity(){
-    buildings = [];
-
-    // Far background buildings
-    for(var i=0;i<38;i++){
-      var w=rand(18,50);
-      buildings.push({ x:rand(0,W-w), w:w, h:rand(70,200), layer:0, windows:[], antenna:null });
-    }
-    // Mid buildings
-    for(var i=0;i<16;i++){
-      var w=rand(48,105);
-      buildings.push({ x:rand(0,W-w), w:w, h:rand(160,360), layer:1, windows:[], antenna:null });
-    }
-    // Hero skyscrapers -- the standouts
-    [0.12,0.28,0.45,0.58,0.72,0.86].forEach(function(p){
-      var w=rand(52,88);
-      buildings.push({ x:W*p-w/2+rand(-25,25), w:w, h:rand(280,H*0.78), layer:1, windows:[], antenna:null });
-    });
-    // Foreground silhouettes
-    for(var i=0;i<7;i++){
-      var w=rand(110,210);
-      buildings.push({ x:(W/7)*i+rand(-20,20), w:w, h:rand(H*0.22,H*0.52), layer:2, windows:[], antenna:null });
-    }
-
-    buildings.sort(function(a,b){ return a.layer-b.layer; });
-
-    buildings.forEach(function(b){
-      var bY = H-b.h;
-      var wW=b.layer===0?4:b.layer===1?5:6;
-      var wH=b.layer===0?5:b.layer===1?7:8;
-      var pX=b.layer===0?9:b.layer===1?11:14;
-      var pY=b.layer===0?9:b.layer===1?12:15;
-      var lit=b.layer===0?0.28:b.layer===1?0.26:0.10;
-      var cols=Math.floor((b.w-8)/pX);
-      var rows=Math.floor((b.h-14)/pY);
-      for(var r=0;r<rows;r++){
-        for(var c=0;c<cols;c++){
-          if(Math.random()<lit){
-            b.windows.push({ wx:b.x+4+(c*pX), wy:bY+10+(r*pY), wW:wW, wH:wH, blue:Math.random()>0.52, op:rand(0.35,1.0) });
-          }
-        }
-      }
-      // Antenna on tall mid buildings
-      if(b.layer===1 && b.h>260 && Math.random()<0.55){
-        b.antenna = { spH:rand(22,55), phase:rand(0,Math.PI*2) };
-      }
-    });
-  }
-
-  function buildRain(){
-    rainDrops = [];
-    for(var i=0;i<140;i++){
-      rainDrops.push({ x:rand(0,W), y:rand(0,H), len:rand(12,30), speed:rand(7,15), alpha:rand(0.04,0.13) });
-    }
-  }
-
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-
-    // Sky
-    var sg=ctx.createLinearGradient(0,0,0,H);
-    sg.addColorStop(0,'#030712');
-    sg.addColorStop(0.4,'#040c1b');
-    sg.addColorStop(1,'#061726');
-    ctx.fillStyle=sg; ctx.fillRect(0,0,W,H);
-
-    // Horizon glow
-    var hg=ctx.createRadialGradient(W*0.5,H*0.5,0,W*0.5,H*0.5,W*0.58);
-    hg.addColorStop(0,'rgba(56,189,248,0.10)');
-    hg.addColorStop(0.45,'rgba(56,189,248,0.04)');
-    hg.addColorStop(1,'transparent');
-    ctx.fillStyle=hg; ctx.fillRect(0,0,W,H);
-
-    var now=Date.now();
-
-    buildings.forEach(function(b){
-      var bY=H-b.h;
-      var fill,stroke;
-      if(b.layer===0){ fill='rgba(7,16,40,0.78)'; stroke='rgba(56,189,248,0.11)'; }
-      else if(b.layer===1){ fill='rgba(4,10,24,0.93)'; stroke='rgba(56,189,248,0.20)'; }
-      else { fill='rgba(2,4,12,0.97)'; stroke='rgba(56,189,248,0.07)'; }
-
-      ctx.fillStyle=fill; ctx.strokeStyle=stroke; ctx.lineWidth=0.5;
-      ctx.fillRect(b.x,bY,b.w,b.h);
-      ctx.strokeRect(b.x,bY,b.w,b.h);
-
-      // Antenna / spire
-      if(b.antenna){
-        var cx=b.x+b.w/2;
-        ctx.strokeStyle='rgba(56,189,248,0.28)'; ctx.lineWidth=0.8;
-        ctx.beginPath(); ctx.moveTo(cx,bY); ctx.lineTo(cx,bY-b.antenna.spH); ctx.stroke();
-        // Blinking warning light
-        var blink=0.35+Math.sin(now/900+b.antenna.phase)*0.45;
-        ctx.fillStyle='rgba(56,189,248,'+blink.toFixed(2)+')';
-        ctx.beginPath(); ctx.arc(cx,bY-b.antenna.spH,2,0,Math.PI*2); ctx.fill();
-      }
-
-      // Windows
-      var baseOp=b.layer===0?0.38:b.layer===1?0.78:0.55;
-      b.windows.forEach(function(w){
-        ctx.globalAlpha=w.op*baseOp;
-        ctx.fillStyle=w.blue?'rgba(56,189,248,0.95)':'rgba(210,228,255,0.90)';
-        ctx.fillRect(w.wx,w.wy,w.wW,w.wH);
-      });
-      ctx.globalAlpha=1;
-    });
-
-    // Street-level ambient glow
-    var sg2=ctx.createLinearGradient(0,H*0.72,0,H);
-    sg2.addColorStop(0,'transparent');
-    sg2.addColorStop(1,'rgba(56,189,248,0.07)');
-    ctx.fillStyle=sg2; ctx.fillRect(0,H*0.72,W,H*0.28);
-
-    // Rain
-    ctx.lineWidth=0.55;
-    rainDrops.forEach(function(d){
-      ctx.globalAlpha=d.alpha;
-      ctx.strokeStyle='rgba(185,218,255,1)';
-      ctx.beginPath();
-      ctx.moveTo(d.x,d.y);
-      ctx.lineTo(d.x-d.len*0.14,d.y+d.len);
-      ctx.stroke();
-      d.y+=d.speed; d.x-=d.speed*0.1;
-      if(d.y>H){ d.y=-d.len; d.x=rand(0,W); }
-    });
-    ctx.globalAlpha=1;
-
-    // Glass glare -- subtle diagonal sheen top-left
-    var gl=ctx.createLinearGradient(0,0,W*0.35,H*0.35);
-    gl.addColorStop(0,'rgba(56,189,248,0.05)');
-    gl.addColorStop(0.6,'rgba(56,189,248,0.01)');
-    gl.addColorStop(1,'transparent');
-    ctx.fillStyle=gl; ctx.fillRect(0,0,W,H);
-
-    raf=requestAnimationFrame(draw);
-  }
-
-  function resize(){
-    W=canvas.width=canvas.offsetWidth;
-    H=canvas.height=canvas.offsetHeight;
-    buildCity();
-    buildRain();
-  }
-
-  window.addEventListener('resize',function(){
-    cancelAnimationFrame(raf);
-    resize();
-    draw();
-  });
-
-  resize();
-  draw();
-})();
-</script>
 </body>
 </html>

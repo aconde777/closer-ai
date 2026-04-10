@@ -9,89 +9,182 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --bg: #0a0a0a; --card: #141414; --card2: #1a1a1a;
-    --red: #e94560; --text: #f0f0f0; --muted: #666; --border: #222;
+    --bg: #030712; --card: #080f1e; --card2: #0d1628;
+    --blue: #38bdf8; --text: #e2eaf8; --muted: #4a6080; --border: #0f2040;
   }
+
   body {
     background: var(--bg); color: var(--text);
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     min-height: 100vh; display: flex; flex-direction: column;
     align-items: center; justify-content: center; padding: 24px;
+    position: relative; overflow-x: hidden;
   }
-  .glow {
-    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+
+  /* CHESS BOARD BACKGROUND */
+  .chess-bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(45deg, rgba(56,189,248,0.035) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(56,189,248,0.035) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(56,189,248,0.035) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(56,189,248,0.035) 75%);
+    background-size: 48px 48px;
+    background-position: 0 0, 0 24px, 24px -24px, -24px 0px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(0,0,0,0.6) 0%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(0,0,0,0.6) 0%, transparent 100%);
+  }
+
+  /* TOP GLOW */
+  .top-glow {
+    position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
     width: 600px; height: 400px;
-    background: radial-gradient(ellipse, rgba(233,69,96,0.08) 0%, transparent 70%);
-    pointer-events: none;
+    background: radial-gradient(ellipse, rgba(56,189,248,0.1) 0%, transparent 65%);
+    pointer-events: none; z-index: 0;
   }
 
   /* LOGO */
-  .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; text-decoration: none; color: var(--text); }
-  .logo-mark { flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(56,189,248,0.45)); }
-  .logo-name { font-size: 16px; font-weight: 800; }
-  .logo-name span { color: #38bdf8; }
+  .logo {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 36px;
+    text-decoration: none; color: var(--text); position: relative; z-index: 1;
+  }
+  .logo-mark { flex-shrink: 0; filter: drop-shadow(0 0 10px rgba(56,189,248,0.5)); }
+  .logo-name { font-size: 17px; font-weight: 900; letter-spacing: -0.3px; }
+  .logo-name span { color: var(--blue); }
+
+  /* TAGLINE */
+  .auth-tagline {
+    font-size: 13px; color: var(--muted); text-align: center;
+    margin-bottom: 28px; position: relative; z-index: 1;
+    letter-spacing: 0.3px;
+  }
+  .auth-tagline strong { color: var(--blue); }
 
   /* CARD */
   .auth-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 20px; width: 100%; max-width: 420px;
-    padding: 40px; position: relative;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    width: 100%; max-width: 420px;
+    padding: 36px;
+    position: relative; z-index: 1;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(56,189,248,0.05);
+  }
+
+  /* TOP CARD ACCENT */
+  .auth-card::before {
+    content: '';
+    position: absolute; top: 0; left: 24px; right: 24px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(56,189,248,0.4), transparent);
   }
 
   /* TABS */
-  .tabs { display: grid; grid-template-columns: 1fr 1fr; background: var(--card2); border-radius: 10px; padding: 4px; margin-bottom: 32px; }
-  .tab { padding: 10px; text-align: center; font-size: 14px; font-weight: 600; color: var(--muted); border-radius: 8px; cursor: pointer; transition: all 0.15s; border: none; background: none; }
-  .tab.active { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+  .tabs {
+    display: grid; grid-template-columns: 1fr 1fr;
+    background: var(--card2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 4px; margin-bottom: 28px;
+  }
+  .tab {
+    padding: 10px; text-align: center; font-size: 14px; font-weight: 700;
+    color: var(--muted); border-radius: 7px; cursor: pointer;
+    transition: all 0.15s; border: none; background: none; font-family: inherit;
+  }
+  .tab.active {
+    background: rgba(56,189,248,0.1); color: var(--blue);
+    border: 1px solid rgba(56,189,248,0.2);
+  }
 
   /* FORM */
-  .auth-title { font-size: 22px; font-weight: 900; margin-bottom: 6px; }
-  .auth-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; line-height: 1.5; }
-  .form-group { margin-bottom: 16px; }
-  .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .auth-title { font-size: 22px; font-weight: 900; margin-bottom: 6px; letter-spacing: -0.5px; }
+  .auth-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+
+  .trial-note {
+    background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.15);
+    border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--muted);
+    line-height: 1.6; margin-bottom: 20px;
+  }
+  .trial-note strong { color: var(--blue); }
+
+  .form-group { margin-bottom: 14px; }
+  .form-group label {
+    display: block; font-size: 11px; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 7px;
+  }
   .form-group input {
     width: 100%; background: var(--card2); border: 1px solid var(--border);
-    border-radius: 8px; padding: 12px 14px; font-size: 14px; color: var(--text);
+    border-radius: 9px; padding: 13px 14px; font-size: 15px; color: var(--text);
     font-family: inherit; transition: border-color 0.15s;
+    -webkit-appearance: none; appearance: none;
   }
-  .form-group input:focus { outline: none; border-color: var(--red); }
+  .form-group input:focus { outline: none; border-color: rgba(56,189,248,0.4); background: rgba(13,22,40,0.8); }
   .form-group input::placeholder { color: var(--muted); }
 
   .btn-submit {
-    width: 100%; background: var(--red); color: #fff; border: none;
-    border-radius: 10px; padding: 14px; font-size: 15px; font-weight: 700;
-    cursor: pointer; transition: all 0.15s; margin-top: 8px;
+    width: 100%; background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+    color: #fff; border: none; border-radius: 10px; padding: 15px;
+    font-size: 16px; font-weight: 800; cursor: pointer; font-family: inherit;
+    transition: all 0.15s; margin-top: 6px;
+    box-shadow: 0 0 20px rgba(56,189,248,0.25);
+    letter-spacing: -0.2px;
   }
-  .btn-submit:hover { background: #c73652; }
-  .btn-submit:disabled { background: #444; cursor: not-allowed; }
+  .btn-submit:hover { box-shadow: 0 0 32px rgba(56,189,248,0.4); transform: translateY(-1px); }
+  .btn-submit:disabled { background: #1a2a3a; color: var(--muted); cursor: not-allowed; box-shadow: none; transform: none; }
 
-  .auth-message { font-size: 13px; text-align: center; margin-top: 16px; min-height: 20px; }
-  .auth-message.error { color: var(--red); }
+  .auth-message { font-size: 13px; text-align: center; margin-top: 14px; min-height: 20px; line-height: 1.5; }
+  .auth-message.error { color: #f87171; }
   .auth-message.success { color: #4ade80; }
 
-  .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
-
-  .forgot-link { display: block; text-align: center; font-size: 13px; color: var(--muted); text-decoration: none; margin-top: 16px; transition: color 0.15s; }
-  .forgot-link:hover { color: var(--text); }
-
-  .trial-note {
-    background: rgba(233,69,96,0.06); border: 1px solid rgba(233,69,96,0.15);
-    border-radius: 10px; padding: 14px 16px; font-size: 13px; color: var(--muted);
-    line-height: 1.6; margin-bottom: 24px;
+  .forgot-link {
+    display: block; text-align: center; font-size: 13px; color: var(--muted);
+    text-decoration: none; margin-top: 14px; transition: color 0.15s;
   }
-  .trial-note strong { color: var(--text); }
+  .forgot-link:hover { color: var(--blue); }
 
-  .back-link { font-size: 13px; color: var(--muted); text-align: center; margin-top: 24px; }
-  .back-link a { color: var(--red); text-decoration: none; }
-  .back-link a:hover { text-decoration: underline; }
+  /* BACK LINK */
+  .back-link {
+    font-size: 13px; color: var(--muted); text-align: center;
+    margin-top: 20px; position: relative; z-index: 1;
+  }
+  .back-link a { color: var(--muted); text-decoration: none; transition: color 0.15s; }
+  .back-link a:hover { color: var(--blue); }
+
+  /* MOBILE */
+  @media (max-width: 480px) {
+    body { padding: 20px 16px; justify-content: flex-start; padding-top: 48px; }
+    .auth-card { padding: 28px 24px; border-radius: 16px; }
+    .logo { margin-bottom: 28px; }
+    .auth-tagline { margin-bottom: 20px; }
+    .auth-title { font-size: 20px; }
+    .btn-submit { font-size: 15px; padding: 14px; }
+    .form-group input { font-size: 16px; } /* prevents iOS zoom */
+  }
 </style>
 </head>
 <body>
-<div class="glow"></div>
+
+<div class="chess-bg"></div>
+<div class="top-glow"></div>
 
 <a class="logo" href="/landing.html">
-  <div class="logo-mark"><svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="9" fill="#040c1e"/><defs><linearGradient id="auth-kg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#0ea5e9"/></linearGradient></defs><rect x="16" y="2" width="4" height="9" rx="1.5" fill="url(#auth-kg)"/><rect x="11.5" y="5" width="13" height="4" rx="1.5" fill="url(#auth-kg)"/><rect x="13" y="11" width="10" height="3" rx="1" fill="url(#auth-kg)"/><polygon points="13,14 23,14 26,27 10,27" fill="url(#auth-kg)"/><rect x="11" y="20" width="14" height="2" rx="1" fill="#040c1e" opacity="0.35"/><rect x="5" y="27" width="26" height="5" rx="1.5" fill="url(#auth-kg)"/></svg></div>
+  <div class="logo-mark">
+    <svg width="38" height="38" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+      <rect width="36" height="36" rx="9" fill="#040c1e"/>
+      <defs><linearGradient id="auth-kg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#93c5fd"/>
+        <stop offset="100%" stop-color="#0ea5e9"/>
+      </linearGradient></defs>
+      <rect x="16" y="2" width="4" height="9" rx="1.5" fill="url(#auth-kg)"/>
+      <rect x="11.5" y="5" width="13" height="4" rx="1.5" fill="url(#auth-kg)"/>
+      <rect x="13" y="11" width="10" height="3" rx="1" fill="url(#auth-kg)"/>
+      <polygon points="13,14 23,14 26,27 10,27" fill="url(#auth-kg)"/>
+      <rect x="11" y="20" width="14" height="2" rx="1" fill="#040c1e" opacity="0.35"/>
+      <rect x="5" y="27" width="26" height="5" rx="1.5" fill="url(#auth-kg)"/>
+    </svg>
+  </div>
   <div class="logo-name">The <span>Elite</span> Closer</div>
 </a>
+
+<div class="auth-tagline">AI-powered sales roleplay. <strong>Train like a pro.</strong></div>
 
 <div class="auth-card">
   <div class="tabs">
@@ -102,9 +195,9 @@
   <!-- SIGN UP -->
   <div id="signupForm">
     <div class="auth-title">Start Training Free</div>
-    <div class="auth-sub">Create your account and get 3 free sessions. No credit card required.</div>
+    <div class="auth-sub">3 free sessions. No credit card required.</div>
     <div class="trial-note">
-      <strong>Free Trial:</strong> 3 full sessions with AI scoring included. Upgrade to Pro for $49/month to unlock unlimited access.
+      <strong>Free Trial:</strong> 3 full AI-scored sessions included. Upgrade to Pro for $49/month for unlimited access.
     </div>
     <div class="form-group">
       <label>Full Name</label>
@@ -118,7 +211,7 @@
       <label>Password</label>
       <input type="password" id="signupPassword" placeholder="Min 8 characters" autocomplete="new-password">
     </div>
-    <button class="btn-submit" id="btnSignup" onclick="handleSignup()">Create Account</button>
+    <button class="btn-submit" id="btnSignup" onclick="handleSignup()">Create Account — It's Free</button>
     <div class="auth-message" id="signupMessage"></div>
   </div>
 
@@ -145,20 +238,19 @@
 </div>
 
 <script>
-  // Init Supabase
   const { createClient } = supabase;
-  const sb = createClient(
-    '__SUPABASE_URL__',
-    '__SUPABASE_ANON_KEY__'
-  );
+  const sb = createClient('__SUPABASE_URL__', '__SUPABASE_ANON_KEY__');
 
-  // Support redirect param (e.g. from join page)
   const _redirect = new URLSearchParams(window.location.search).get('redirect') || '/';
 
-  // Check if already logged in
   sb.auth.getSession().then(({ data }) => {
     if (data.session) window.location.href = _redirect;
   });
+
+  // Auto-switch to login tab if ?tab=login
+  if (new URLSearchParams(window.location.search).get('tab') === 'login') {
+    switchTab('login');
+  }
 
   function switchTab(tab) {
     const isSignup = tab === 'signup';
@@ -200,7 +292,7 @@
       msg.textContent = error.message;
       msg.className = 'auth-message error';
       btn.disabled = false;
-      btn.textContent = 'Create Account';
+      btn.textContent = 'Create Account — It\'s Free';
       return;
     }
 
@@ -263,7 +355,6 @@
     }
   }
 
-  // Allow enter key to submit
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       const signupVisible = document.getElementById('signupForm').style.display !== 'none';
