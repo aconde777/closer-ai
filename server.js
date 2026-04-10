@@ -603,11 +603,17 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
     { data: users },
     { data: calls },
     { data: teams },
+    { data: { users: authUsers } },
   ] = await Promise.all([
     supabaseAdmin.from('user_profiles').select('id, plan, is_pro, session_count, streak_days, last_session_date, created_at'),
     supabaseAdmin.from('call_history').select('id, user_id, overall_score, duration_seconds, created_at'),
     supabaseAdmin.from('teams').select('id, plan, max_seats, owner_id'),
+    supabaseAdmin.auth.admin.listUsers({ perPage: 1000 }),
   ]);
+
+  // Build email lookup map
+  const emailMap = {};
+  (authUsers || []).forEach(u => { emailMap[u.id] = u.email; });
 
   const totalUsers = users?.length || 0;
   const proUsers = users?.filter(u => u.is_pro).length || 0;
@@ -638,9 +644,10 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
   // Recent user list
   const recentUsers = [...(users || [])]
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-    .slice(0, 20)
+    .slice(0, 50)
     .map(u => ({
       id: u.id,
+      email: emailMap[u.id] || '--',
       plan: u.plan || 'free',
       is_pro: u.is_pro,
       session_count: u.session_count || 0,

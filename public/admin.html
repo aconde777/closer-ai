@@ -174,7 +174,7 @@
       <table>
         <thead>
           <tr>
-            <th>User ID</th>
+            <th>Email</th>
             <th>Plan</th>
             <th>Sessions</th>
             <th>Streak</th>
@@ -257,9 +257,8 @@
         const plan = u.plan || 'free';
         const badgeClass = plan.startsWith('team') ? `badge-${plan}` : `badge-${plan}`;
         const joined = u.created_at ? new Date(u.created_at).toLocaleDateString() : '--';
-        const shortId = u.id ? u.id.substring(0, 8) + '...' : '--';
         return `<tr>
-          <td><span class="dot ${isActive ? 'dot-active' : 'dot-inactive'}"></span>${shortId}</td>
+          <td><span class="dot ${isActive ? 'dot-active' : 'dot-inactive'}"></span>${u.email || '--'}</td>
           <td><span class="badge ${badgeClass}">${plan}</span></td>
           <td>${u.session_count}</td>
           <td>${u.streak_days} days</td>
