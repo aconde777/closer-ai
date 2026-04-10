@@ -1,0 +1,23 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-ec" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#071528"/>
+      <stop offset="100%" stop-color="#030a14"/>
+    </linearGradient>
+    <linearGradient id="text-ec" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bfdbfe"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" rx="80" fill="url(#bg-ec)"/>
+  <rect x="1.5" y="1.5" width="397" height="397" rx="79" fill="none" stroke="rgba(56,189,248,0.15)" stroke-width="1.5"/>
+
+  <!-- EC Monogram -->
+  <!-- E -->
+  <text x="88" y="272" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="220" font-weight="900" fill="url(#text-ec)" letter-spacing="-8">EC</text>
+
+  <!-- Subtle underline accent -->
+  <rect x="72" y="300" width="256" height="4" rx="2" fill="rgba(56,189,248,0.3)"/>
+</svg>

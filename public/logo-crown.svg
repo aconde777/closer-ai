@@ -1,0 +1,50 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-cr" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#071528"/>
+      <stop offset="100%" stop-color="#030a14"/>
+    </linearGradient>
+    <linearGradient id="crown-gr" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#e0f2fe"/>
+      <stop offset="40%" stop-color="#7dd3fc"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <filter id="cr-glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" rx="80" fill="url(#bg-cr)"/>
+  <rect x="1.5" y="1.5" width="397" height="397" rx="79" fill="none" stroke="rgba(56,189,248,0.15)" stroke-width="1.5"/>
+
+  <!-- Crown shape -->
+  <!-- Main crown body -->
+  <path d="M80,290 L80,230 L140,140 L200,210 L260,100 L320,210 L320,230 L320,290 Z"
+        fill="url(#crown-gr)"/>
+
+  <!-- Left point gem -->
+  <circle cx="140" cy="136" r="14" fill="url(#crown-gr)" filter="url(#cr-glow)"/>
+  <circle cx="140" cy="133" r="6" fill="rgba(255,255,255,0.6)"/>
+
+  <!-- Center point gem (tallest) -->
+  <circle cx="260" cy="96" r="18" fill="url(#crown-gr)" filter="url(#cr-glow)"/>
+  <circle cx="260" cy="92" r="8" fill="rgba(255,255,255,0.65)"/>
+
+  <!-- Right point gem -->
+  <circle cx="320" cy="208" r="14" fill="url(#crown-gr)" filter="url(#cr-glow)"/>
+  <circle cx="320" cy="205" r="6" fill="rgba(255,255,255,0.6)"/>
+
+  <!-- Crown base band -->
+  <rect x="80" y="270" width="240" height="28" rx="0" fill="url(#crown-gr)"/>
+  <!-- Base highlight -->
+  <rect x="80" y="270" width="240" height="6" rx="0" fill="rgba(255,255,255,0.2)"/>
+
+  <!-- Bottom base -->
+  <rect x="64" y="294" width="272" height="22" rx="6" fill="url(#crown-gr)"/>
+  <rect x="68" y="296" width="264" height="6" rx="3" fill="rgba(255,255,255,0.15)"/>
+
+  <!-- Floor glow -->
+  <ellipse cx="200" cy="322" rx="120" ry="10" fill="rgba(56,189,248,0.15)"/>
+</svg>
