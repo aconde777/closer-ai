@@ -187,6 +187,18 @@
   .btn-pricing.ghost:hover { border-color: var(--muted); background: transparent; }
   .pricing-note { font-size: 12px; color: var(--muted); margin-top: 12px; text-align: center; }
 
+  /* TESTIMONIALS */
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 56px; }
+  .testi-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 20px; }
+  .testi-stars { display: flex; gap: 4px; }
+  .testi-star { color: #f59e0b; font-size: 14px; }
+  .testi-quote { font-size: 14px; color: var(--muted); line-height: 1.8; flex: 1; }
+  .testi-quote strong { color: var(--text); }
+  .testi-author { display: flex; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .testi-avatar { width: 40px; height: 40px; border-radius: 50%; background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.2); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: var(--blue); flex-shrink: 0; }
+  .testi-name { font-size: 14px; font-weight: 700; }
+  .testi-role { font-size: 12px; color: var(--muted); margin-top: 1px; }
+
   /* FINAL CTA */
   .final-cta { text-align: center; }
   .final-cta .section-inner { max-width: 680px; }
@@ -213,7 +225,8 @@
     .problem-grid { grid-template-columns: 1fr; }
     .why-grid { grid-template-columns: 1fr; }
     .stat-row { grid-template-columns: 1fr; }
-    .pricing-cards { grid-template-columns: 1fr; }
+    .pricing-cards { grid-template-columns: 1fr !important; }
+    .testimonials-grid { grid-template-columns: 1fr; }
     section { padding: 64px 20px; }
     .proof-bar { gap: 24px; padding: 20px; }
   }
@@ -246,7 +259,7 @@
       AI Sales Roleplay — Live Now
     </div>
     <h1 class="hero-headline">
-      You Can't Show Up<br>to the Fight Without<br><span class="accent">Training First.</span>
+      You Can't Get On<br>the Call Without<br><span class="accent">Training First.</span>
     </h1>
     <p class="hero-sub">
       The Elite Closer puts you 1-on-1 with AI prospects who stall, deflect, and throw real objections -- anytime, anywhere. Train hard. Show up battle ready. Close more deals.
@@ -283,7 +296,7 @@
 <section>
   <div class="section-inner">
     <div class="section-label">The Problem</div>
-    <h2 class="section-title">Your reps are showing up to the fight unprepared.</h2>
+    <h2 class="section-title">Your reps are showing up to their calls unprepared.</h2>
     <p class="section-sub">Top performers in every field train constantly before the real thing. Sales is no different -- and most teams are skipping the training entirely.</p>
 
     <div class="problem-grid">
@@ -300,12 +313,12 @@
       <div class="problem-card">
         <div class="problem-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
         <div class="problem-card-title">Roleplaying with humans has limits.</div>
-        <div class="problem-card-desc">Human partners go easy. They break character. They don't push back the way a real prospect does. You need someone who <strong>fights back every single time</strong> -- with no ego and infinite patience.</div>
+        <div class="problem-card-desc">Human partners go easy. They break character. They don't push back the way a real prospect does. You need someone who <strong>pushes back every single time</strong> -- with no ego and infinite patience.</div>
       </div>
       <div class="problem-card highlight">
         <div class="problem-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <div class="problem-card-title">No boxer steps into the ring without training.</div>
-        <div class="problem-card-desc">You wouldn't show up to a championship fight having skipped every practice. So why are your reps <strong>showing up to high-ticket calls</strong> without putting in the reps first? That's the gap we close.</div>
+        <div class="problem-card-title">No rep should get on a call without putting in reps first.</div>
+        <div class="problem-card-desc">Top athletes don't skip practice before the game. So why are your reps <strong>getting on high-ticket calls</strong> without drilling the objections they know are coming? That's the gap we close.</div>
       </div>
     </div>
   </div>
@@ -396,7 +409,7 @@
       "The reps who consistently close at the highest level aren't more talented. They've just put in <span>more reps</span> than everyone else -- and they never stopped."
     </div>
 
-    <p class="section-sub" style="max-width: 660px; margin: 0 auto;">Increasing your close rate is simple: train more than your competition. The Elite Closer gives you an opponent that never gets tired, never goes easy, and never lets you slide by without handling the objection. Show up to the sales floor having already fought the hardest version of every prospect you'll face.</p>
+    <p class="section-sub" style="max-width: 660px; margin: 0 auto;">Increasing your close rate is simple: train more than your competition. The Elite Closer gives you an AI prospect that never gets tired, never goes easy, and never lets you slide by without handling the objection. Show up to every call having already handled the hardest version of every prospect you'll face.</p>
 
     <div class="stat-row">
       <div class="stat-card">
@@ -579,49 +592,99 @@
   </div>
 </section>
 
+<!-- TESTIMONIALS -->
+<section style="background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-inner">
+    <div class="section-label" style="text-align:center;">What Closers Are Saying</div>
+    <h2 class="section-title" style="text-align:center;">Real reps. Real results.</h2>
+    <p class="section-sub" style="margin: 0 auto; text-align:center;">The closers putting in reps here are the ones winning more deals out there.</p>
+    <div class="testimonials-grid">
+      <div class="testi-card">
+        <div class="testi-stars"><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span></div>
+        <div class="testi-quote">"I used to dread the 'let me think about it' objection. After two weeks drilling it with the AI prospect, I <strong>closed a $12k deal</strong> the first time it came up. I actually looked forward to it."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">AM</div>
+          <div><div class="testi-name">Alex M.</div><div class="testi-role">High-Ticket Sales Rep, Coaching Industry</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars"><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span></div>
+        <div class="testi-quote">"I onboarded two new closers using this. They were <strong>drilling objections on their own at 10pm</strong> without me having to set anything up. First week on real calls, both hit their targets."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">JR</div>
+          <div><div class="testi-name">Jordan R.</div><div class="testi-role">Sales Director, Remote Closing Team</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars"><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span></div>
+        <div class="testi-quote">"The AI scoring is brutal -- and that's the point. It told me I was <strong>rushing the close every single call</strong>. I fixed it. My close rate went from 22% to 38% in a month."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">CV</div>
+          <div><div class="testi-name">Chris V.</div><div class="testi-role">Life Insurance Closer, IUL Specialist</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- PRICING -->
-<section id="pricing" style="background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+<section id="pricing">
   <div class="section-inner">
     <div class="section-label" style="text-align:center;">Pricing</div>
     <h2 class="section-title" style="text-align:center;">One closed deal pays for years of training.</h2>
     <p class="section-sub" style="margin: 0 auto;">If you're selling high-ticket, this pays for itself the first time it helps you handle an objection you used to lose.</p>
 
-    <div class="pricing-cards">
+    <div class="pricing-cards" style="grid-template-columns: repeat(3,1fr); max-width: 1000px;">
+      <!-- FREE -->
+      <div class="pricing-card">
+        <div class="pricing-plan">Free Trial</div>
+        <div class="pricing-price"><span>$</span>0</div>
+        <div class="pricing-period">3 sessions included</div>
+        <div class="pricing-desc">Get in the reps. No card, no commitment. See exactly what your training is missing.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>3 full AI roleplay sessions</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>AI scoring after every call</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Live voice, full transcript</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>3 built-in prospect scenarios</span></div>
+        </div>
+        <a class="btn-pricing ghost" href="/">Start Free</a>
+        <div class="pricing-note">No credit card required.</div>
+      </div>
+
       <!-- PRO -->
       <div class="pricing-card featured">
-        <div class="pricing-badge">For Individual Closers</div>
+        <div class="pricing-badge">Most Popular</div>
         <div class="pricing-plan">Pro</div>
         <div class="pricing-price"><span>$</span>49</div>
         <div class="pricing-period">per month</div>
-        <div class="pricing-desc">Everything a solo closer needs to train hard, get scored, and show up battle ready every single day.</div>
+        <div class="pricing-desc">Everything a solo closer needs to train hard, get scored, and show up ready every single day.</div>
         <div class="pricing-features">
           <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span><strong>Unlimited</strong> roleplay sessions</span></div>
           <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>AI scoring after every call</span></div>
           <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Build custom AI prospects</span></div>
           <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Live transcript on every call</span></div>
           <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Coach notes with specific feedback</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>New prospect scenarios added monthly</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>New scenarios added monthly</span></div>
         </div>
-        <a class="btn-pricing" href="/">Start Free — 3 Sessions on Us</a>
-        <div class="pricing-note">No credit card required to start.</div>
+        <a class="btn-pricing" href="/">Start Free — Upgrade Anytime</a>
+        <div class="pricing-note">Cancel anytime. No contracts.</div>
       </div>
 
-      <!-- ENTERPRISE -->
+      <!-- TEAM -->
       <div class="pricing-card">
-        <div class="pricing-plan">Enterprise</div>
-        <div class="pricing-price enterprise-price">Custom</div>
-        <div class="pricing-period">team pricing</div>
-        <div class="pricing-desc">Built for sales managers and organizations who want their entire team training daily before they ever touch a live lead.</div>
+        <div class="pricing-plan">Team</div>
+        <div class="pricing-price enterprise-price">From <span style="font-size:16px;vertical-align:super;">$</span>129</div>
+        <div class="pricing-period">per month · up to 5 seats</div>
+        <div class="pricing-desc">Your whole team training daily before they ever touch a live lead. Manager dashboard included.</div>
         <div class="pricing-features">
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Everything in Pro for <strong>every rep on your team</strong></span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span><strong>Manager dashboard</strong> — see how every rep is scoring</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Custom AI prospects built for <strong>your specific offer</strong></span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span><strong>Onboarding program</strong> — reps ready before first live call</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Team leaderboards and progress tracking</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Dedicated support and setup</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Everything in Pro for <strong>every rep</strong></span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span><strong>Manager dashboard</strong> — track every rep's scores</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Team leaderboard and progress tracking</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Invite reps via email link</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span><span>Up to 15 seats available</span></div>
         </div>
-        <a class="btn-pricing ghost" href="mailto:hello@theelitecloser.ai">Contact for Team Pricing</a>
-        <div class="pricing-note">Minimum 3 seats. Volume discounts available.</div>
+        <a class="btn-pricing ghost" href="/">Get Started</a>
+        <div class="pricing-note">$249/mo up to 10 seats · $399/mo up to 15 seats</div>
       </div>
     </div>
   </div>
