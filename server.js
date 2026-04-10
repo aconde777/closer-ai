@@ -257,6 +257,237 @@ Respond ONLY with valid JSON in this exact format:
   }
 });
 
+// Helper: verify auth token and return user
+async function getUser(req, res) {
+  const auth = req.headers.authorization;
+  if (!auth) { res.status(401).json({ error: 'Unauthorized' }); return null; }
+  const { data: { user }, error } = await supabaseAdmin.auth.getUser(auth.replace('Bearer ', ''));
+  if (error || !user) { res.status(401).json({ error: 'Invalid session' }); return null; }
+  return user;
+}
+
+// Get current user's profile + team info
+app.get('/api/me', async (req, res) => {
+  const user = await getUser(req, res);
+  if (!user) return;
+
+  const { data: profile } = await supabaseAdmin
+    .from('user_profiles')
+    .select('plan, team_id, is_team_owner, session_count, streak_days, is_pro')
+    .eq('id', user.id)
+    .single();
+
+  let team = null;
+  if (profile?.team_id) {
+    const { data } = await supabaseAdmin
+      .from('teams')
+      .select('id, plan, max_seats, sessions_per_seat')
+      .eq('id', profile.team_id)
+      .single();
+    team = data;
+  }
+
+  res.json({ profile, team, email: user.email });
+});
+
+// Create a team (owner upgrades from solo to team)
+app.post('/api/create-team', async (req, res) => {
+  const user = await getUser(req, res);
+  if (!user) return;
+
+  const { plan } = req.body;
+  const planConfig = {
+    team_starter: { max_seats: 5, sessions_per_seat: 20 },
+    team_pro:     { max_seats: 10, sessions_per_seat: 20 },
+    team_elite:   { max_seats: 15, sessions_per_seat: 20 }
+  };
+  const config = planConfig[plan];
+  if (!config) return res.status(400).json({ error: 'Invalid plan' });
+
+  // Check if user already owns a team
+  const { data: existing } = await supabaseAdmin
+    .from('teams').select('id').eq('owner_id', user.id).single();
+  if (existing) return res.status(400).json({ error: 'Already have a team' });
+
+  const { data: team, error } = await supabaseAdmin
+    .from('teams')
+    .insert({ owner_id: user.id, plan, ...config })
+    .select().single();
+
+  if (error) return res.status(500).json({ error: error.message });
+
+  await supabaseAdmin.from('user_profiles').update({
+    plan, team_id: team.id, is_team_owner: true, is_pro: true
+  }).eq('id', user.id);
+
+  res.json({ team });
+});
+
+// Invite a member to the team
+app.post('/api/invite-member', async (req, res) => {
+  const user = await getUser(req, res);
+  if (!user) return;
+
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email required' });
+
+  // Must be a team owner
+  const { data: profile } = await supabaseAdmin
+    .from('user_profiles').select('team_id, is_team_owner').eq('id', user.id).single();
+  if (!profile?.is_team_owner || !profile?.team_id)
+    return res.status(403).json({ error: 'Not a team owner' });
+
+  // Check seat limit
+  const { data: team } = await supabaseAdmin
+    .from('teams').select('max_seats').eq('id', profile.team_id).single();
+  const { count } = await supabaseAdmin
+    .from('user_profiles').select('id', { count: 'exact', head: true })
+    .eq('team_id', profile.team_id);
+  if (count >= team.max_seats)
+    return res.status(400).json({ error: 'Seat limit reached. Upgrade your plan to add more members.' });
+
+  // Check for existing pending invite
+  const { data: existing } = await supabaseAdmin
+    .from('team_invites').select('id, status').eq('team_id', profile.team_id).eq('email', email).single();
+  if (existing?.status === 'accepted') return res.status(400).json({ error: 'That user is already on the team.' });
+
+  let invite;
+  if (existing) {
+    // Resend -- reuse token
+    invite = existing;
+  } else {
+    const { data: newInvite, error } = await supabaseAdmin
+      .from('team_invites').insert({ team_id: profile.team_id, email }).select().single();
+    if (error) return res.status(500).json({ error: error.message });
+    invite = newInvite;
+  }
+
+  const baseUrl = process.env.APP_URL || 'http://localhost:3000';
+  res.json({ inviteLink: `${baseUrl}/join.html?token=${invite.token}`, email });
+});
+
+// Get team members list (owner only)
+app.get('/api/team-members', async (req, res) => {
+  const user = await getUser(req, res);
+  if (!user) return;
+
+  const { data: profile } = await supabaseAdmin
+    .from('user_profiles').select('team_id, is_team_owner').eq('id', user.id).single();
+  if (!profile?.team_id) return res.status(403).json({ error: 'No team' });
+
+  const { data: team } = await supabaseAdmin
+    .from('teams').select('max_seats, plan').eq('id', profile.team_id).single();
+
+  // Active members
+  const { data: members } = await supabaseAdmin
+    .from('user_profiles').select('id, plan, is_team_owner')
+    .eq('team_id', profile.team_id);
+
+  // Enrich with auth emails
+  const enriched = await Promise.all((members || []).map(async m => {
+    const { data: { user: u } } = await supabaseAdmin.auth.admin.getUserById(m.id);
+    return { id: m.id, email: u?.email || 'Unknown', is_owner: m.is_team_owner };
+  }));
+
+  // Pending invites
+  const { data: invites } = await supabaseAdmin
+    .from('team_invites').select('email, token, status').eq('team_id', profile.team_id)
+    .eq('status', 'pending');
+
+  const baseUrl = process.env.APP_URL || 'http://localhost:3000';
+  const pendingWithLinks = (invites || []).map(i => ({
+    ...i, inviteLink: `${baseUrl}/join.html?token=${i.token}`
+  }));
+
+  res.json({
+    members: enriched,
+    pending: pendingWithLinks,
+    seatsUsed: enriched.length,
+    maxSeats: team?.max_seats,
+    plan: team?.plan
+  });
+});
+
+// Remove a member from the team (owner only)
+app.post('/api/remove-member', async (req, res) => {
+  const user = await getUser(req, res);
+  if (!user) return;
+
+  const { memberId } = req.body;
+  const { data: profile } = await supabaseAdmin
+    .from('user_profiles').select('team_id, is_team_owner').eq('id', user.id).single();
+  if (!profile?.is_team_owner) return res.status(403).json({ error: 'Not a team owner' });
+
+  await supabaseAdmin.from('user_profiles')
+    .update({ team_id: null, plan: 'free' }).eq('id', memberId).eq('team_id', profile.team_id);
+
+  res.json({ ok: true });
+});
+
+// Join a team via invite token
+app.post('/api/join-team', async (req, res) => {
+  const user = await getUser(req, res);
+  if (!user) return;
+
+  const { token } = req.body;
+  if (!token) return res.status(400).json({ error: 'Token required' });
+
+  const { data: invite, error } = await supabaseAdmin
+    .from('team_invites').select('*').eq('token', token).single();
+  if (error || !invite) return res.status(404).json({ error: 'Invite not found or expired' });
+  if (invite.status === 'accepted') return res.status(400).json({ error: 'Invite already used' });
+
+  // Get team plan
+  const { data: team } = await supabaseAdmin
+    .from('teams').select('plan, max_seats').eq('id', invite.team_id).single();
+
+  // Check seat limit
+  const { count } = await supabaseAdmin
+    .from('user_profiles').select('id', { count: 'exact', head: true })
+    .eq('team_id', invite.team_id);
+  if (count >= team.max_seats)
+    return res.status(400).json({ error: 'Team is full. Ask your manager to upgrade the plan.' });
+
+  await supabaseAdmin.from('user_profiles')
+    .update({ team_id: invite.team_id, plan: team.plan, is_pro: true })
+    .eq('id', user.id);
+
+  await supabaseAdmin.from('team_invites')
+    .update({ status: 'accepted' }).eq('id', invite.id);
+
+  res.json({ ok: true, plan: team.plan });
+});
+
+// Upgrade team plan
+app.post('/api/upgrade-team', async (req, res) => {
+  const user = await getUser(req, res);
+  if (!user) return;
+
+  const { plan } = req.body;
+  const planConfig = {
+    team_starter: { max_seats: 5, sessions_per_seat: 20 },
+    team_pro:     { max_seats: 10, sessions_per_seat: 20 },
+    team_elite:   { max_seats: 15, sessions_per_seat: 20 }
+  };
+  const config = planConfig[plan];
+  if (!config) return res.status(400).json({ error: 'Invalid plan' });
+
+  const { data: profile } = await supabaseAdmin
+    .from('user_profiles').select('team_id, is_team_owner').eq('id', user.id).single();
+  if (!profile?.is_team_owner) return res.status(403).json({ error: 'Not a team owner' });
+
+  await supabaseAdmin.from('teams')
+    .update({ plan, ...config }).eq('id', profile.team_id);
+
+  // Update all team members' plan
+  await supabaseAdmin.from('user_profiles')
+    .update({ plan }).eq('team_id', profile.team_id);
+
+  res.json({ ok: true });
+});
+
+app.get('/join.html', serveWithSupabase('join.html'));
+
 app.listen(PORT, () => {
   console.log(`Closer AI running on port ${PORT}`);
 });

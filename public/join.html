@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join Team - The Elite Closer</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #f0f0f0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+  .card { background: #141414; border: 1px solid #1e1e1e; border-radius: 16px; padding: 48px 40px; width: 100%; max-width: 420px; text-align: center; }
+  .logo { width: 48px; height: 48px; background: #e94560; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 22px; color: #fff; margin: 0 auto 24px; }
+  h1 { font-size: 22px; font-weight: 900; margin-bottom: 8px; }
+  h1 span { color: #e94560; }
+  .sub { font-size: 14px; color: #555; margin-bottom: 32px; line-height: 1.5; }
+  .btn { width: 100%; background: #e94560; color: #fff; border: none; border-radius: 8px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.15s; margin-bottom: 12px; }
+  .btn:hover { background: #c73652; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-outline { background: transparent; border: 1px solid #1e1e1e; color: #f0f0f0; }
+  .btn-outline:hover { background: rgba(255,255,255,0.04); }
+  .status { font-size: 13px; color: #555; margin-top: 16px; }
+  .status.error { color: #e94560; }
+  .status.success { color: #4ade80; }
+  .divider { border: none; border-top: 1px solid #1e1e1e; margin: 24px 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">E</div>
+  <h1>You're invited to join a <span>team</span></h1>
+  <p class="sub" id="subText">Loading invite details...</p>
+
+  <div id="actionArea" style="display:none;">
+    <button class="btn" id="btnJoin" onclick="handleJoin()">Accept Invite & Join Team</button>
+    <p class="status" id="statusMsg"></p>
+  </div>
+
+  <div id="authArea" style="display:none;">
+    <p class="sub" style="margin-bottom:20px;">Create an account or sign in first, then you'll be joined automatically.</p>
+    <button class="btn" onclick="goAuth()">Create Account / Sign In</button>
+  </div>
+</div>
+
+<script>
+  const { createClient } = supabase;
+  const sb = createClient('__SUPABASE_URL__', '__SUPABASE_ANON_KEY__');
+
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
+
+  async function init() {
+    if (!token) {
+      document.getElementById('subText').textContent = 'Invalid invite link.';
+      return;
+    }
+
+    // Store token for after auth
+    sessionStorage.setItem('joinToken', token);
+
+    const { data: session } = await sb.auth.getSession();
+
+    if (!session.session) {
+      document.getElementById('subText').textContent = 'You need an account to join this team. Sign in or create one -- you\'ll be joined automatically after.';
+      document.getElementById('authArea').style.display = 'block';
+      return;
+    }
+
+    // Logged in -- show join button
+    document.getElementById('subText').textContent = 'You\'ve been invited to train with a team on The Elite Closer. Accept below to get started.';
+    document.getElementById('actionArea').style.display = 'block';
+  }
+
+  async function handleJoin() {
+    const btn = document.getElementById('btnJoin');
+    const status = document.getElementById('statusMsg');
+    btn.disabled = true;
+    btn.textContent = 'Joining...';
+
+    const { data: { session } } = await sb.auth.getSession();
+    const res = await fetch('/api/join-team', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+      body: JSON.stringify({ token })
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      btn.disabled = false;
+      btn.textContent = 'Accept Invite & Join Team';
+      status.textContent = data.error;
+      status.className = 'status error';
+      return;
+    }
+
+    sessionStorage.removeItem('joinToken');
+    status.textContent = 'You\'re in. Redirecting...';
+    status.className = 'status success';
+    setTimeout(() => window.location.href = '/', 1500);
+  }
+
+  function goAuth() {
+    window.location.href = `/auth.html?redirect=/join.html?token=${token}`;
+  }
+
+  init();
+</script>
+</body>
+</html>

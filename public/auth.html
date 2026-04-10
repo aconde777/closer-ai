@@ -152,9 +152,12 @@
     '__SUPABASE_ANON_KEY__'
   );
 
+  // Support redirect param (e.g. from join page)
+  const _redirect = new URLSearchParams(window.location.search).get('redirect') || '/';
+
   // Check if already logged in
   sb.auth.getSession().then(({ data }) => {
-    if (data.session) window.location.href = '/';
+    if (data.session) window.location.href = _redirect;
   });
 
   function switchTab(tab) {
@@ -205,9 +208,8 @@
     msg.className = 'auth-message success';
     btn.textContent = 'Account Created';
 
-    // If email confirmation is off, redirect immediately
     if (data.session) {
-      setTimeout(() => window.location.href = '/', 1000);
+      setTimeout(() => window.location.href = _redirect, 1000);
     }
   }
 
@@ -237,7 +239,7 @@
       return;
     }
 
-    window.location.href = '/';
+    window.location.href = _redirect;
   }
 
   async function handleForgot(e) {

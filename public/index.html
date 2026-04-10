@@ -252,6 +252,40 @@
   .lb-stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
   .lb-empty { text-align: center; padding: 80px 32px; color: var(--muted); font-size: 14px; }
 
+  /* BILLING */
+  .plan-toggle { background: none; border: none; color: var(--muted); font-size: 13px; font-weight: 600; padding: 8px 20px; border-radius: 7px; cursor: pointer; transition: all 0.12s; }
+  .plan-toggle.active { background: var(--card2); color: var(--text); border: 1px solid var(--border); }
+  .plan-grid { display: grid; gap: 16px; }
+  .solo-grid { grid-template-columns: repeat(2, 1fr); max-width: 680px; }
+  .team-grid { grid-template-columns: repeat(3, 1fr); }
+  .plan-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; display: flex; flex-direction: column; gap: 0; position: relative; }
+  .plan-card.featured { border-color: var(--red); }
+  .plan-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--red); color: #fff; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; padding: 3px 12px; border-radius: 100px; white-space: nowrap; }
+  .plan-name { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .plan-price { font-size: 36px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+  .plan-price span { font-size: 14px; font-weight: 500; color: var(--muted); }
+  .plan-period { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+  .plan-features { list-style: none; margin-bottom: 24px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .plan-features li { font-size: 13px; color: #ccc; padding-left: 18px; position: relative; }
+  .plan-features li::before { content: ''; position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
+  .plan-btn { width: 100%; padding: 11px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: 1px solid var(--border); background: var(--card2); color: var(--text); transition: all 0.15s; margin-top: auto; }
+  .plan-btn:disabled { opacity: 0.4; cursor: default; }
+  .plan-btn.current { background: rgba(22,163,74,0.1); border-color: rgba(22,163,74,0.3); color: #4ade80; cursor: default; }
+
+  /* MEMBERS */
+  .member-row { display: grid; grid-template-columns: 1fr 120px 100px; gap: 16px; padding: 14px 24px; border-bottom: 1px solid var(--border); align-items: center; }
+  .member-row:last-child { border-bottom: none; }
+  .member-email { font-size: 13px; font-weight: 600; }
+  .member-badge { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .member-status { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .member-status.owner { color: #f5a623; }
+  .member-status.active { color: #4ade80; }
+  .member-status.pending { color: var(--muted); }
+  .btn-remove { background: none; border: 1px solid var(--border); color: var(--muted); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: all 0.12s; }
+  .btn-remove:hover { border-color: var(--red); color: var(--red); }
+  .invite-link-box { background: var(--card2); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; font-size: 11px; color: var(--muted); word-break: break-all; margin-top: 6px; display: flex; align-items: center; gap: 8px; }
+  .btn-copy { background: none; border: none; color: var(--red); font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+
   /* SAVING */
   .saving-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; align-items: center; justify-content: center; }
   .saving-overlay.open { display: flex; }
@@ -464,11 +498,58 @@
     <p>Custom scorecards for your team. Define what great looks like for your specific offer and sales process.</p>
   </div>
 
-  <div class="page-content coming-soon" id="page-members" style="display:none;">
-    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-    <div class="coming-soon-badge">Enterprise</div>
-    <h2>Team Members</h2>
-    <p>Add your reps, track their individual progress, and see who's putting in the work and who needs coaching.</p>
+  <!-- TEAM MEMBERS -->
+  <div class="page-content" id="page-members" style="display:none;">
+    <!-- Non-owner view -->
+    <div id="membersNonOwner" style="display:none;">
+      <div class="section-header" style="margin-bottom:24px;">
+        <div style="font-size:22px;font-weight:900;letter-spacing:-0.5px;">Team <span style="color:var(--red)">Members</span></div>
+        <div style="font-size:13px;color:var(--muted);margin-top:6px;">You're a member of this team. Only the team manager can invite or remove members.</div>
+      </div>
+      <div id="memberListNonOwner"></div>
+    </div>
+    <!-- No team view -->
+    <div id="membersNoTeam" style="display:none;">
+      <div class="section-header" style="margin-bottom:24px;">
+        <div style="font-size:22px;font-weight:900;letter-spacing:-0.5px;">Team <span style="color:var(--red)">Management</span></div>
+        <div style="font-size:13px;color:var(--muted);margin-top:6px;">Upgrade to a team plan to invite reps and track everyone in one place.</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:48px;text-align:center;">
+        <div style="font-size:15px;font-weight:700;margin-bottom:8px;">No team yet</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:24px;">Go to Billing to upgrade to a team plan.</div>
+        <button class="btn-primary" onclick="showPage('billing')">View Plans</button>
+      </div>
+    </div>
+    <!-- Owner view -->
+    <div id="membersOwner" style="display:none;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:22px;font-weight:900;letter-spacing:-0.5px;">Team <span style="color:var(--red)">Management</span></div>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px;" id="seatCountLabel">Loading...</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <input type="email" id="inviteEmail" placeholder="rep@email.com" style="background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;padding:9px 14px;outline:none;width:220px;">
+          <button class="btn-primary" onclick="sendInvite()">Send Invite</button>
+        </div>
+      </div>
+      <div id="inviteResult" style="font-size:13px;margin-bottom:16px;display:none;"></div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+        <div style="padding:16px 24px;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);display:grid;grid-template-columns:1fr 120px 100px;gap:16px;">
+          <div>Member</div><div>Status</div><div></div>
+        </div>
+        <div id="membersList">
+          <div style="padding:48px 24px;text-align:center;color:var(--muted);font-size:13px;">Loading members...</div>
+        </div>
+      </div>
+
+      <div id="pendingSection" style="margin-top:24px;display:none;">
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px;">Pending Invites</div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+          <div id="pendingList"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- SALES TRACKER -->
@@ -554,11 +635,95 @@
     </div>
   </div>
 
-  <div class="page-content coming-soon" id="page-billing" style="display:none;">
-    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
-    <div class="coming-soon-badge">Coming Soon</div>
-    <h2>Billing & Plan</h2>
-    <p>Manage your subscription, upgrade to Pro, or contact us about Enterprise pricing for your team.</p>
+  <!-- BILLING -->
+  <div class="page-content" id="page-billing" style="display:none;">
+    <div style="margin-bottom:28px;">
+      <div style="font-size:22px;font-weight:900;letter-spacing:-0.5px;">Billing & <span style="color:var(--red)">Plan</span></div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;">Current plan: <strong id="currentPlanLabel" style="color:var(--text);">Loading...</strong></div>
+    </div>
+
+    <!-- Plan toggle -->
+    <div style="display:flex;align-items:center;gap:0;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:4px;width:fit-content;margin-bottom:28px;">
+      <button class="plan-toggle active" id="toggleSolo" onclick="switchPlanView('solo')">Solo</button>
+      <button class="plan-toggle" id="toggleTeam" onclick="switchPlanView('team')">Team</button>
+    </div>
+
+    <!-- Solo plans -->
+    <div id="soloPlans">
+      <div class="plan-grid solo-grid">
+        <div class="plan-card" id="planFree">
+          <div class="plan-name">Free Trial</div>
+          <div class="plan-price">$0</div>
+          <div class="plan-period">3 sessions included</div>
+          <ul class="plan-features">
+            <li>3 AI roleplay sessions</li>
+            <li>Call scoring</li>
+            <li>Basic prospect library</li>
+          </ul>
+          <button class="plan-btn" disabled id="btnFree">Current Plan</button>
+        </div>
+        <div class="plan-card featured" id="planSolo">
+          <div class="plan-badge">Most Popular</div>
+          <div class="plan-name">Solo Pro</div>
+          <div class="plan-price">$49<span>/mo</span></div>
+          <div class="plan-period">Unlimited sessions</div>
+          <ul class="plan-features">
+            <li>Unlimited AI roleplay</li>
+            <li>Full call scoring & replay</li>
+            <li>Sales Tracker</li>
+            <li>All prospect types</li>
+            <li>Daily streak tracking</li>
+          </ul>
+          <button class="plan-btn btn-primary" id="btnSolo" onclick="selectPlan('solo')">Upgrade to Solo Pro</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team plans -->
+    <div id="teamPlans" style="display:none;">
+      <div class="plan-grid team-grid">
+        <div class="plan-card" id="planTeamStarter">
+          <div class="plan-name">Team Starter</div>
+          <div class="plan-price">$129<span>/mo</span></div>
+          <div class="plan-period">Up to 5 seats</div>
+          <ul class="plan-features">
+            <li>5 rep seats</li>
+            <li>20 sessions per seat/mo</li>
+            <li>Team leaderboard</li>
+            <li>Member management</li>
+            <li>Everything in Solo Pro</li>
+          </ul>
+          <button class="plan-btn btn-primary" id="btnTeamStarter" onclick="selectPlan('team_starter')">Get Team Starter</button>
+        </div>
+        <div class="plan-card featured" id="planTeamPro">
+          <div class="plan-badge">Best Value</div>
+          <div class="plan-name">Team Pro</div>
+          <div class="plan-price">$249<span>/mo</span></div>
+          <div class="plan-period">Up to 10 seats</div>
+          <ul class="plan-features">
+            <li>10 rep seats</li>
+            <li>20 sessions per seat/mo</li>
+            <li>Team leaderboard</li>
+            <li>Member management</li>
+            <li>Everything in Solo Pro</li>
+          </ul>
+          <button class="plan-btn btn-primary" id="btnTeamPro" onclick="selectPlan('team_pro')">Get Team Pro</button>
+        </div>
+        <div class="plan-card" id="planTeamElite">
+          <div class="plan-name">Team Elite</div>
+          <div class="plan-price">$399<span>/mo</span></div>
+          <div class="plan-period">Up to 15 seats</div>
+          <ul class="plan-features">
+            <li>15 rep seats</li>
+            <li>20 sessions per seat/mo</li>
+            <li>Team leaderboard</li>
+            <li>Member management</li>
+            <li>Priority support</li>
+          </ul>
+          <button class="plan-btn btn-primary" id="btnTeamElite" onclick="selectPlan('team_elite')">Get Team Elite</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -724,11 +889,13 @@
     document.getElementById('nav-' + currentPage)?.classList.remove('active');
     currentPage = page;
     const pageEl = document.getElementById('page-' + page);
-    const blockPages = ['roleplay', 'call-history', 'sales', 'leaderboard'];
+    const blockPages = ['roleplay', 'call-history', 'sales', 'leaderboard', 'members', 'billing'];
     if (pageEl) pageEl.style.display = blockPages.includes(page) ? 'block' : 'flex';
     if (page === 'call-history') loadCallHistory();
     if (page === 'sales') loadSalesTracker();
     if (page === 'leaderboard') loadLeaderboard();
+    if (page === 'members') loadMembers();
+    if (page === 'billing') loadBilling();
     document.getElementById('nav-' + page)?.classList.add('active');
 
     const titles = {
@@ -1150,6 +1317,160 @@
           <div class="lb-stat"><div class="lb-stat-val">${rep.streak}</div><div class="lb-stat-label">Streak</div></div>
         </div>`;
     }).join('');
+  }
+
+  // BILLING
+  let _userPlan = 'free';
+
+  function switchPlanView(view) {
+    document.getElementById('soloPlans').style.display = view === 'solo' ? 'block' : 'none';
+    document.getElementById('teamPlans').style.display = view === 'team' ? 'block' : 'none';
+    document.getElementById('toggleSolo').classList.toggle('active', view === 'solo');
+    document.getElementById('toggleTeam').classList.toggle('active', view === 'team');
+  }
+
+  async function loadBilling() {
+    const { data: { session } } = await window._supabase.auth.getSession();
+    const res = await fetch('/api/me', { headers: { 'Authorization': `Bearer ${session.access_token}` } });
+    const { profile } = await res.json();
+    _userPlan = profile?.plan || 'free';
+
+    const planLabels = {
+      free: 'Free Trial', solo: 'Solo Pro ($49/mo)',
+      team_starter: 'Team Starter ($129/mo)', team_pro: 'Team Pro ($249/mo)', team_elite: 'Team Elite ($399/mo)'
+    };
+    document.getElementById('currentPlanLabel').textContent = planLabels[_userPlan] || _userPlan;
+
+    // Mark current plan button
+    const planBtnMap = { free: 'btnFree', solo: 'btnSolo', team_starter: 'btnTeamStarter', team_pro: 'btnTeamPro', team_elite: 'btnTeamElite' };
+    Object.entries(planBtnMap).forEach(([plan, btnId]) => {
+      const btn = document.getElementById(btnId);
+      if (!btn) return;
+      if (plan === _userPlan) {
+        btn.textContent = 'Current Plan';
+        btn.className = 'plan-btn current';
+        btn.disabled = true;
+      }
+    });
+
+    // Default to team toggle if already on a team plan
+    if (_userPlan.startsWith('team_')) switchPlanView('team');
+  }
+
+  async function selectPlan(plan) {
+    // Stripe not live yet -- show contact message
+    const planLabels = { solo: 'Solo Pro', team_starter: 'Team Starter', team_pro: 'Team Pro', team_elite: 'Team Elite' };
+    alert(`To upgrade to ${planLabels[plan]}, contact us at support@theelitecloser.ai and we'll get you set up.`);
+  }
+
+  // TEAM MEMBERS
+  async function loadMembers() {
+    const { data: { session } } = await window._supabase.auth.getSession();
+    const res = await fetch('/api/me', { headers: { 'Authorization': `Bearer ${session.access_token}` } });
+    const { profile } = await res.json();
+
+    if (!profile?.team_id) {
+      document.getElementById('membersNoTeam').style.display = 'block';
+      document.getElementById('membersOwner').style.display = 'none';
+      document.getElementById('membersNonOwner').style.display = 'none';
+      return;
+    }
+
+    if (!profile.is_team_owner) {
+      document.getElementById('membersNoTeam').style.display = 'none';
+      document.getElementById('membersNonOwner').style.display = 'block';
+      document.getElementById('membersOwner').style.display = 'none';
+      return;
+    }
+
+    document.getElementById('membersNoTeam').style.display = 'none';
+    document.getElementById('membersNonOwner').style.display = 'none';
+    document.getElementById('membersOwner').style.display = 'block';
+
+    const mRes = await fetch('/api/team-members', { headers: { 'Authorization': `Bearer ${session.access_token}` } });
+    const { members, pending, seatsUsed, maxSeats, plan } = await mRes.json();
+
+    document.getElementById('seatCountLabel').textContent = `${seatsUsed} of ${maxSeats} seats used`;
+
+    const membersList = document.getElementById('membersList');
+    if (!members || members.length === 0) {
+      membersList.innerHTML = '<div style="padding:32px 24px;text-align:center;color:var(--muted);font-size:13px;">No members yet. Send an invite to get started.</div>';
+    } else {
+      membersList.innerHTML = members.map(m => `
+        <div class="member-row">
+          <div>
+            <div class="member-email">${m.email}</div>
+            <div class="member-badge">${m.is_owner ? 'Team Owner' : 'Member'}</div>
+          </div>
+          <div class="member-status ${m.is_owner ? 'owner' : 'active'}">${m.is_owner ? 'Owner' : 'Active'}</div>
+          <div>${m.is_owner ? '' : `<button class="btn-remove" onclick="removeMember('${m.id}')">Remove</button>`}</div>
+        </div>`).join('');
+    }
+
+    const pendingSection = document.getElementById('pendingSection');
+    const pendingList = document.getElementById('pendingList');
+    if (pending && pending.length > 0) {
+      pendingSection.style.display = 'block';
+      pendingList.innerHTML = pending.map(p => `
+        <div class="member-row">
+          <div>
+            <div class="member-email">${p.email}</div>
+            <div class="invite-link-box">
+              <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.inviteLink}</span>
+              <button class="btn-copy" onclick="copyLink('${p.inviteLink}')">Copy</button>
+            </div>
+          </div>
+          <div class="member-status pending">Pending</div>
+          <div></div>
+        </div>`).join('');
+    } else {
+      pendingSection.style.display = 'none';
+    }
+  }
+
+  async function sendInvite() {
+    const email = document.getElementById('inviteEmail').value.trim();
+    const resultEl = document.getElementById('inviteResult');
+    if (!email) return;
+
+    resultEl.style.display = 'block';
+    resultEl.style.color = 'var(--muted)';
+    resultEl.textContent = 'Sending invite...';
+
+    const { data: { session } } = await window._supabase.auth.getSession();
+    const res = await fetch('/api/invite-member', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      resultEl.style.color = '#e94560';
+      resultEl.textContent = data.error;
+      return;
+    }
+
+    document.getElementById('inviteEmail').value = '';
+    resultEl.style.color = '#4ade80';
+    resultEl.innerHTML = `Invite link generated. <button class="btn-copy" onclick="copyLink('${data.inviteLink}')">Copy Link</button>`;
+    loadMembers();
+  }
+
+  async function removeMember(memberId) {
+    if (!confirm('Remove this member from the team?')) return;
+    const { data: { session } } = await window._supabase.auth.getSession();
+    await fetch('/api/remove-member', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+      body: JSON.stringify({ memberId })
+    });
+    loadMembers();
+  }
+
+  function copyLink(link) {
+    navigator.clipboard.writeText(link);
+    alert('Invite link copied to clipboard.');
   }
 </script>
 </body>
