@@ -580,7 +580,7 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
 });
 
 // ─── ADMIN ────────────────────────────────────────────────────────────────
-const ADMIN_PASS = process.env.ADMIN_PASSWORD || 'elitecloser2024';
+const ADMIN_PASS = process.env.ADMIN_PASS || 'elitecloser2024';
 
 function adminAuth(req, res, next) {
   const auth = req.headers['x-admin-key'];
