@@ -1237,12 +1237,7 @@
 
 <!-- SETTINGS PAGE -->
 <div class="page-content" id="page-settings" style="display:none;">
-  <div style="margin-bottom:28px;">
-    <div style="font-size:22px;font-weight:900;letter-spacing:-0.5px;">Account <span style="color:var(--blue)">Settings</span></div>
-    <div style="font-size:13px;color:var(--muted);margin-top:6px;">Manage your profile, billing, and preferences.</div>
-  </div>
-
-  <div class="settings-grid">
+  <div class="settings-grid" style="max-width:900px;">
 
     <!-- PROFILE -->
     <div class="settings-section">
@@ -1334,7 +1329,7 @@
   </div>
 
   <!-- DANGER ZONE -->
-  <div class="settings-danger">
+  <div class="settings-danger" style="max-width:900px;margin-top:20px;">
     <div class="settings-section-title" style="color:#f87171;">Danger Zone</div>
     <div class="settings-section-desc" style="margin-bottom:16px;">These actions are permanent and cannot be undone.</div>
     <button class="settings-btn settings-btn-danger" onclick="confirmDeleteAccount()">Delete My Account</button>
