@@ -77,7 +77,7 @@
     padding: 20px 40px; display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap;
   }
   .proof-item { display: flex; align-items: center; gap: 10px; }
-  .proof-icon { font-size: 18px; }
+  .proof-icon { width: 18px; height: 18px; color: var(--blue); flex-shrink: 0; }
   .proof-text { font-size: 13px; color: var(--muted); }
   .proof-text strong { color: var(--text); }
 
@@ -92,7 +92,7 @@
   .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; }
   .problem-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
   .problem-card.highlight { border-color: var(--blue); background: rgba(56,189,248,0.04); }
-  .problem-card-icon { font-size: 28px; margin-bottom: 16px; }
+  .problem-card-icon { width: 28px; height: 28px; margin-bottom: 16px; color: var(--blue); }
   .problem-card-title { font-size: 17px; font-weight: 800; margin-bottom: 10px; }
   .problem-card-desc { font-size: 14px; color: var(--muted); line-height: 1.8; }
   .problem-card-desc strong { color: var(--text); }
@@ -127,7 +127,7 @@
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
   .step { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; position: relative; }
   .step-number { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); margin-bottom: 20px; }
-  .step-icon { font-size: 32px; margin-bottom: 16px; }
+  .step-icon { width: 32px; height: 32px; margin-bottom: 16px; color: var(--blue); }
   .step-title { font-size: 18px; font-weight: 800; margin-bottom: 10px; }
   .step-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
   .step-connector { position: absolute; top: 40px; right: -13px; width: 26px; height: 2px; background: var(--border); z-index: 1; }
@@ -135,7 +135,7 @@
   /* WHY AI */
   .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
   .why-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
-  .why-card-icon { font-size: 28px; margin-bottom: 16px; }
+  .why-card-icon { width: 28px; height: 28px; margin-bottom: 16px; color: var(--blue); }
   .why-card-title { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
   .why-card-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
 
@@ -258,19 +258,19 @@
 <!-- PROOF BAR -->
 <div class="proof-bar">
   <div class="proof-item">
-    <div class="proof-icon">🎯</div>
+    <div class="proof-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
     <div class="proof-text">Built for <strong>high-ticket closers</strong></div>
   </div>
   <div class="proof-item">
-    <div class="proof-icon">🎙️</div>
+    <div class="proof-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
     <div class="proof-text"><strong>Live voice</strong> — real conversation, not typing</div>
   </div>
   <div class="proof-item">
-    <div class="proof-icon">⚡</div>
+    <div class="proof-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
     <div class="proof-text"><strong>AI scored</strong> after every call</div>
   </div>
   <div class="proof-item">
-    <div class="proof-icon">🕐</div>
+    <div class="proof-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
     <div class="proof-text">Train <strong>24/7</strong> — no manager needed</div>
   </div>
 </div>
@@ -284,22 +284,22 @@
 
     <div class="problem-grid">
       <div class="problem-card">
-        <div class="problem-card-icon">💸</div>
+        <div class="problem-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
         <div class="problem-card-title">Training on the clock costs you money.</div>
         <div class="problem-card-desc">When your reps practice on <strong>live prospects</strong>, they're burning leads, killing your close rate, and losing deals that should have been won. Every fumbled objection is money out of your pocket.</div>
       </div>
       <div class="problem-card">
-        <div class="problem-card-icon">😴</div>
+        <div class="problem-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
         <div class="problem-card-title">Managers can't be there 24/7.</div>
         <div class="problem-card-desc">Your best rep wants to drill objections at <strong>11pm on a Tuesday</strong>. No manager is available. No partner wants to roleplay. So they don't practice, and they show up the next day hoping it clicks.</div>
       </div>
       <div class="problem-card">
-        <div class="problem-card-icon">🤝</div>
+        <div class="problem-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
         <div class="problem-card-title">Roleplaying with humans has limits.</div>
         <div class="problem-card-desc">Human partners go easy. They break character. They don't push back the way a real prospect does. You need someone who <strong>fights back every single time</strong> -- with no ego and infinite patience.</div>
       </div>
       <div class="problem-card highlight">
-        <div class="problem-card-icon">🥊</div>
+        <div class="problem-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
         <div class="problem-card-title">No boxer steps into the ring without training.</div>
         <div class="problem-card-desc">You wouldn't show up to a championship fight having skipped every practice. So why are your reps <strong>showing up to high-ticket calls</strong> without putting in the reps first? That's the gap we close.</div>
       </div>
@@ -317,7 +317,7 @@
     <div class="who-grid">
       <div class="who-card">
         <div class="who-card-header">
-          <div class="who-icon">🎯</div>
+          <div class="who-icon"><svg width="22" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue)"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
           <div>
             <div class="who-title">Sales Reps & Closers</div>
             <div class="who-subtitle">Individual performers selling high-ticket</div>
@@ -349,7 +349,7 @@
 
       <div class="who-card">
         <div class="who-card-header">
-          <div class="who-icon">🏢</div>
+          <div class="who-icon"><svg width="22" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue)"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
           <div>
             <div class="who-title">Sales Managers & Teams</div>
             <div class="who-subtitle">Leaders building elite sales floors</div>
@@ -421,21 +421,21 @@
     <div class="steps">
       <div class="step">
         <div class="step-number">Step 01</div>
-        <div class="step-icon">🎯</div>
+        <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
         <div class="step-title">Pick Your Prospect</div>
         <div class="step-desc">Choose from pre-built AI prospects or create your own. Set their objections, personality, income level, and background. Match exactly what you face on your calls.</div>
         <div class="step-connector"></div>
       </div>
       <div class="step">
         <div class="step-number">Step 02</div>
-        <div class="step-icon">🎙️</div>
+        <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
         <div class="step-title">Run the Call Live</div>
         <div class="step-desc">Click Start and talk. The AI prospect responds in real-time with natural objections. Handle them or lose the deal -- just like the real thing. Full voice, live transcript.</div>
         <div class="step-connector"></div>
       </div>
       <div class="step">
         <div class="step-number">Step 03</div>
-        <div class="step-icon">📊</div>
+        <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
         <div class="step-title">Get Your Score</div>
         <div class="step-desc">An AI coach scores you on 4 categories with specific notes on what to fix. No generic feedback. Real coaching on exactly what cost you the close.</div>
       </div>
@@ -452,32 +452,32 @@
 
     <div class="why-grid">
       <div class="why-card">
-        <div class="why-card-icon">🕐</div>
+        <div class="why-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div class="why-card-title">Available 24/7</div>
         <div class="why-card-desc">It's 11pm and you want to drill the spouse objection 10 times. No manager needed. No scheduling. Just open the app and go.</div>
       </div>
       <div class="why-card">
-        <div class="why-card-icon">🥊</div>
+        <div class="why-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
         <div class="why-card-title">Never Goes Easy</div>
         <div class="why-card-desc">Human partners hold back. They don't want to make you feel bad. Your AI prospect pushes back every single time -- the way a real prospect would.</div>
       </div>
       <div class="why-card">
-        <div class="why-card-icon">♾️</div>
+        <div class="why-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
         <div class="why-card-title">Infinite Patience</div>
         <div class="why-card-desc">Run the same objection 50 times in a row until you own the response. No frustration, no ego, no quitting. Just reps.</div>
       </div>
       <div class="why-card">
-        <div class="why-card-icon">📊</div>
+        <div class="why-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
         <div class="why-card-title">Objective Feedback</div>
         <div class="why-card-desc">No manager opinions or bias. An AI coach analyzes every word and tells you exactly what cost you the close and what to do differently.</div>
       </div>
       <div class="why-card">
-        <div class="why-card-icon">🎯</div>
+        <div class="why-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
         <div class="why-card-title">Custom to Your Sale</div>
         <div class="why-card-desc">Build a prospect that matches your exact buyer -- their income, personality, objections, and industry. Train for the real thing, not a generic scenario.</div>
       </div>
       <div class="why-card">
-        <div class="why-card-icon">💰</div>
+        <div class="why-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
         <div class="why-card-title">Stop Wasting Leads</div>
         <div class="why-card-desc">Stop practicing on live prospects. Train here until you're sharp, then go close the real deal with confidence instead of hoping it clicks.</div>
       </div>
@@ -544,28 +544,28 @@
 
     <div class="scoring-grid">
       <div class="score-card">
-        <div class="score-card-icon">🛡️</div>
+        <div class="score-card-icon"><svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
         <div>
           <div class="score-card-title">Objection Handling</div>
           <div class="score-card-desc">Did you address the objection with confidence and a clear reframe, or did you fold? This is the difference between closers and order-takers.</div>
         </div>
       </div>
       <div class="score-card">
-        <div class="score-card-icon">🎙️</div>
+        <div class="score-card-icon"><svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue)"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
         <div>
           <div class="score-card-title">Tonality</div>
           <div class="score-card-desc">Were you calm, certain, and in control? Or did you sound desperate, needy, or unsure? Tone closes more deals than the words you say.</div>
         </div>
       </div>
       <div class="score-card">
-        <div class="score-card-icon">🎯</div>
+        <div class="score-card-icon"><svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue)"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
         <div>
           <div class="score-card-title">Closing Attempt</div>
           <div class="score-card-desc">Did you actually ask for the commitment? Most reps talk themselves out of deals they already won by never pulling the trigger.</div>
         </div>
       </div>
       <div class="score-card">
-        <div class="score-card-icon">🤝</div>
+        <div class="score-card-icon"><svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue)"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
         <div>
           <div class="score-card-title">Rapport</div>
           <div class="score-card-desc">Did you build a real connection or go straight to pitch mode? In high-ticket sales, people buy from people they trust -- not the best pitch.</div>
