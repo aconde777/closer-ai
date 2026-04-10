@@ -412,18 +412,55 @@
   .saving-overlay.open { display: flex; }
   .saving-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px 48px; text-align: center; }
   .saving-box p { color: var(--muted); font-size: 13px; margin-top: 8px; }
+
+  /* MOBILE */
+  .hamburger { display: none; background: none; border: none; color: var(--text); cursor: pointer; padding: 6px; margin-right: 8px; }
+  .sidebar-close { display: none; background: none; border: none; color: var(--muted); cursor: pointer; padding: 4px; margin-left: auto; }
+  .sidebar-close:hover { color: var(--text); }
+  .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 49; backdrop-filter: blur(2px); }
+
+  @media (max-width: 768px) {
+    body { flex-direction: column; }
+
+    .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      z-index: 51;
+      width: 260px;
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-overlay.open { display: block; }
+
+    .sidebar-logo { padding: 16px; }
+    .sidebar-close { display: block; }
+
+    .main-content { margin-left: 0; width: 100%; }
+
+    .topbar { padding: 0 16px; }
+    .hamburger { display: flex; align-items: center; justify-content: center; }
+
+    .page-content { padding: 16px !important; }
+
+    .prospect-grid,
+    .history-grid { grid-template-columns: 1fr !important; }
+  }
 </style>
 </head>
 <body>
 
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
 <!-- SIDEBAR -->
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
   <div class="sidebar-logo">
     <div class="logo-mark"><svg width="34" height="34" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="9" fill="#040c1e"/><defs><linearGradient id="sidebar-kg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#0ea5e9"/></linearGradient></defs><rect x="16" y="2" width="4" height="9" rx="1.5" fill="url(#sidebar-kg)"/><rect x="11.5" y="5" width="13" height="4" rx="1.5" fill="url(#sidebar-kg)"/><rect x="13" y="11" width="10" height="3" rx="1" fill="url(#sidebar-kg)"/><polygon points="13,14 23,14 26,27 10,27" fill="url(#sidebar-kg)"/><rect x="11" y="20" width="14" height="2" rx="1" fill="#040c1e" opacity="0.35"/><rect x="5" y="27" width="26" height="5" rx="1.5" fill="url(#sidebar-kg)"/></svg></div>
     <div>
       <div class="logo-name">The <span>Elite</span> Closer</div>
       <div class="logo-sub">Sales Training Platform</div>
     </div>
+    <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
   </div>
 
   <nav class="sidebar-nav">
@@ -531,6 +568,9 @@
 
   <!-- TOP BAR -->
   <div class="topbar">
+    <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
     <div class="topbar-title" id="topbarTitle">AI <span>Roleplay</span></div>
     <button class="btn-primary" id="topbarAction" onclick="openBuilder()">+ Create Prospect</button>
   </div>
@@ -1189,6 +1229,15 @@
   let selectedType = 'b2c';
   let currentPage = 'roleplay';
 
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sidebarOverlay').classList.add('open');
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+  }
+
   // Init user info and session counter
   window.addEventListener('load', async () => {
     if (!window._session) return;
@@ -1266,6 +1315,7 @@
     if (page === 'metrics') loadMetrics();
     if (page === 'training-paths') loadLms();
     document.getElementById('nav-' + page)?.classList.add('active');
+    closeSidebar();
 
     const titles = {
       roleplay: 'AI <span style="color:var(--blue)">Roleplay</span>',
