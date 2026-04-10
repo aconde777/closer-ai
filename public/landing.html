@@ -32,6 +32,8 @@
   .nav-link:hover { color: var(--text); }
   .btn-nav { background: linear-gradient(135deg,#0ea5e9,#38bdf8); color: #fff; border: none; border-radius: 8px; padding: 9px 20px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.15s; box-shadow: 0 0 14px rgba(56,189,248,0.25); }
   .btn-nav:hover { box-shadow: 0 0 24px rgba(56,189,248,0.4); transform: translateY(-1px); }
+  .btn-nav-ghost { color: var(--muted); font-size: 13px; font-weight: 600; text-decoration: none; padding: 9px 16px; border-radius: 8px; transition: color 0.15s; }
+  .btn-nav-ghost:hover { color: var(--text); }
 
   /* HERO */
   .hero {
@@ -288,7 +290,8 @@
     <a class="nav-link" href="#scoring">Scoring</a>
     <a class="nav-link" href="#pricing">Pricing</a>
   </div>
-  <a class="btn-nav" href="/auth.html">Start Training Free</a>
+  <a class="btn-nav-ghost" href="/auth.html?tab=login">Log In</a>
+  <a class="btn-nav" href="/auth.html">Sign Up Free</a>
 </nav>
 
 <!-- HERO -->
