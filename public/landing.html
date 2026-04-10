@@ -109,15 +109,27 @@
   .who-item-check { color: var(--blue); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
   .who-item strong { color: var(--text); }
 
-  /* BOXING SECTION */
+  /* CHESS MINDSET SECTION */
   .boxing-section { text-align: center; }
-  .boxing-section .section-inner { max-width: 760px; }
+  .boxing-section .section-inner { max-width: 900px; }
   .boxing-quote {
-    font-size: clamp(22px, 3.5vw, 36px); font-weight: 900; letter-spacing: -1px;
-    line-height: 1.3; margin: 40px auto;
+    font-size: clamp(20px, 3vw, 32px); font-weight: 900; letter-spacing: -0.5px;
+    line-height: 1.4; margin: 40px auto;
     border-left: 4px solid var(--blue); text-align: left; padding-left: 28px;
+    font-style: italic; color: var(--text);
   }
-  .boxing-quote span { color: var(--blue); }
+  .boxing-quote span { color: var(--blue); font-style: normal; }
+
+  .chess-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 56px; text-align: left; }
+  .chess-pillar { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; transition: border-color 0.2s; }
+  .chess-pillar:hover { border-color: rgba(56,189,248,0.25); }
+  .chess-pillar-icon { width: 52px; height: 52px; border-radius: 12px; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.15); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+  .chess-pillar-title { font-size: 17px; font-weight: 800; margin-bottom: 10px; color: var(--text); }
+  .chess-pillar-desc { font-size: 14px; color: var(--muted); line-height: 1.8; }
+
+  .chess-cta-block { margin-top: 56px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  .chess-cta-text { font-size: 20px; font-weight: 700; color: var(--muted); }
+
   .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
   .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; text-align: center; }
   .stat-number { font-size: 48px; font-weight: 900; color: var(--blue); letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
@@ -232,6 +244,7 @@
     .hero-sub { font-size: 16px; }
     .hero-actions { flex-direction: column; align-items: stretch; }
     .btn-hero, .btn-hero-ghost { text-align: center; padding: 15px 28px; }
+    .chess-pillars { grid-template-columns: 1fr; }
     .steps { grid-template-columns: 1fr; }
     .step-connector { display: none; }
     .prospects-grid { grid-template-columns: 1fr; }
@@ -422,31 +435,45 @@
   </div>
 </section>
 
-<!-- BOXING / MINDSET -->
+<!-- CHESS MINDSET -->
 <section class="boxing-section">
   <div class="section-inner">
     <div class="section-label">The Mindset</div>
-    <h2 class="section-title">Top reps train. Average reps hope.</h2>
+    <h2 class="section-title">Closing is a game of chess.<br>Are you playing it that way?</h2>
 
     <div class="boxing-quote">
-      "The reps who consistently close at the highest level aren't more talented. They've just put in <span>more reps</span> than everyone else -- and they never stopped."
+      "A grandmaster doesn't react to the board. He already <span>knows his next move</span> before his opponent finishes theirs."
     </div>
 
-    <p class="section-sub" style="max-width: 660px; margin: 0 auto;">Increasing your close rate is simple: train more than your competition. The Elite Closer gives you an AI prospect that never gets tired, never goes easy, and never lets you slide by without handling the objection. Show up to every call having already handled the hardest version of every prospect you'll face.</p>
+    <p class="section-sub" style="max-width: 680px; margin: 0 auto 48px;">The best closers in the world aren't winging it. When a prospect says "I need to think about it," they already know what comes next -- because they've been in that exact position a hundred times. They've practiced the board. They know every move, every counter, every path to yes. That's not talent. That's preparation.</p>
 
-    <div class="stat-row">
-      <div class="stat-card">
-        <div class="stat-number">24/7</div>
-        <div class="stat-label">Train at midnight if you want. Your AI prospect is always ready.</div>
+    <div class="chess-pillars">
+      <div class="chess-pillar">
+        <div class="chess-pillar-icon">
+          <svg width="28" height="28" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="cp-kg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#0ea5e9"/></linearGradient></defs><rect x="16" y="2" width="4" height="9" rx="1.5" fill="url(#cp-kg1)"/><rect x="11.5" y="5" width="13" height="4" rx="1.5" fill="url(#cp-kg1)"/><rect x="13" y="11" width="10" height="3" rx="1" fill="url(#cp-kg1)"/><polygon points="13,14 23,14 26,27 10,27" fill="url(#cp-kg1)"/><rect x="5" y="27" width="26" height="5" rx="1.5" fill="url(#cp-kg1)"/></svg>
+        </div>
+        <div class="chess-pillar-title">Know Every Move</div>
+        <div class="chess-pillar-desc">Every objection your prospect throws has an optimal response. Elite closers know them cold -- not because they're gifted, because they've practiced them relentlessly.</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-number">∞</div>
-        <div class="stat-label">Unlimited sessions. Run the same objection 50 times until you own it.</div>
+      <div class="chess-pillar">
+        <div class="chess-pillar-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="chess-pillar-title">See Several Moves Ahead</div>
+        <div class="chess-pillar-desc">While an average rep is reacting to "I need to think about it," an elite closer is already three moves deep -- steering the conversation toward the close before the prospect even knows it.</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-number">4</div>
-        <div class="stat-label">Categories scored every call. Know exactly what to fix before the next one.</div>
+      <div class="chess-pillar">
+        <div class="chess-pillar-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <div class="chess-pillar-title">Never Get Checkmated</div>
+        <div class="chess-pillar-desc">Objections are not dead ends. They're moves on the board. The closer who has prepared for every possible objection cannot be beaten -- they've already played this game a thousand times.</div>
       </div>
+    </div>
+
+    <div class="chess-cta-block">
+      <p class="chess-cta-text">The board is set. <strong style="color:var(--blue);">Are you prepared to play?</strong></p>
+      <a class="btn-hero" href="/auth.html" style="margin-top:0;">Start Training Free</a>
     </div>
   </div>
 </section>
