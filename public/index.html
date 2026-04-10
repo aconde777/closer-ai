@@ -492,8 +492,8 @@
     <div class="nav-section">
       <div class="nav-section-label">Account</div>
       <button class="nav-item" onclick="showPage('billing')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-        Billing
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Upgrade
       </button>
     </div>
   </nav>
@@ -987,7 +987,7 @@
   <!-- BILLING -->
   <div class="page-content" id="page-billing" style="display:none;">
     <div style="margin-bottom:28px;">
-      <div style="font-size:22px;font-weight:900;letter-spacing:-0.5px;">Billing & <span style="color:var(--blue)">Plan</span></div>
+      <div style="font-size:22px;font-weight:900;letter-spacing:-0.5px;">Upgrade Your <span style="color:var(--blue)">Plan</span></div>
       <div style="font-size:13px;color:var(--muted);margin-top:6px;">Current plan: <strong id="currentPlanLabel" style="color:var(--text);">Loading...</strong></div>
     </div>
 
@@ -1273,7 +1273,7 @@
       members: 'Team <span style="color:var(--blue)">Members</span>',
       sales: 'Sales <span style="color:var(--blue)">Tracker</span>',
       leaderboard: '<span style="color:var(--blue)">Leaderboard</span>',
-      billing: 'Billing & <span style="color:var(--blue)">Plan</span>'
+      billing: 'Upgrade Your <span style="color:var(--blue)">Plan</span>'
     };
     document.getElementById('topbarTitle').innerHTML = titles[page] || page;
     document.getElementById('topbarAction').style.display = 'none'; // moved into rp-banner
