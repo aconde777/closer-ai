@@ -1219,9 +1219,13 @@
         if (!profile.is_pro) {
           const used = profile.session_count;
           const pct = Math.min((used / 3) * 100, 100);
+          const maxed = used >= 3;
           document.getElementById('sessionCounter').style.display = 'block';
           document.getElementById('sessionFill').style.width = pct + '%';
-          document.getElementById('sessionText').innerHTML = `<strong>${used} of 3</strong> sessions used`;
+          document.getElementById('sessionFill').style.background = maxed ? '#f87171' : 'var(--blue)';
+          document.getElementById('sessionText').innerHTML = maxed
+            ? `<strong style="color:#f87171;">Sessions used up</strong> — <a href="#" onclick="showPage('billing');return false;" style="color:var(--blue);text-decoration:none;font-weight:700;">Upgrade</a>`
+            : `<strong>${used} of 3</strong> sessions used`;
         }
       }
     } catch(e) {}
@@ -1419,7 +1423,31 @@
     });
   }
 
-  function openCall(assistantId, name, initials, role) {
+  async function openCall(assistantId, name, initials, role) {
+    // Check session limit before navigating
+    try {
+      const { data: profile } = await window._supabase
+        .from('user_profiles')
+        .select('session_count, is_pro')
+        .eq('id', window._session.user.id)
+        .single();
+
+      if (profile && !profile.is_pro && profile.session_count >= 3) {
+        showPage('billing');
+        // Show a banner at top of upgrade page
+        const existing = document.getElementById('upgradeNudge');
+        if (!existing) {
+          const nudge = document.createElement('div');
+          nudge.id = 'upgradeNudge';
+          nudge.style.cssText = 'background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:14px;color:var(--text);line-height:1.6;';
+          nudge.innerHTML = '<strong style="color:var(--blue);">Your 3 free sessions are up.</strong> Upgrade to Pro to keep training with unlimited sessions and AI scoring.';
+          const billingPage = document.getElementById('page-billing');
+          billingPage.insertBefore(nudge, billingPage.firstChild);
+        }
+        return;
+      }
+    } catch(e) {}
+
     const params = new URLSearchParams({ id: assistantId, name, initials, role });
     window.location.href = '/call.html?' + params.toString();
   }
