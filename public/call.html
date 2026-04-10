@@ -390,7 +390,7 @@
         document.getElementById('btnMain').style.opacity = '1';
       });
 
-      await vapi.start(assistantId);
+      await vapi.start(assistantId, { maxDurationSeconds: 900 }); // 15 min cap
     } catch(err) {
       document.getElementById('statusText').textContent = 'Failed to connect';
       document.getElementById('statusText').className = 'status-text error';
