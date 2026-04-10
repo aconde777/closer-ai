@@ -1506,7 +1506,7 @@
     _isOwner = profile?.is_team_owner || false;
 
     // Show Add Content button for owners
-    document.getElementById('btnAddContent').style.display = _isOwner ? 'block' : 'none';
+    document.getElementById('btnAddContent').style.display = 'block';
 
     // Load content
     const { data: content } = await window._supabase
