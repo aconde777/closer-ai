@@ -210,18 +210,16 @@
   .footer-logo span { color: var(--blue); }
   .footer-copy { font-size: 13px; color: var(--muted); }
 
-  /* CHESS BOARD HERO BACKGROUND */
+  /* CHESS BOARD FULL PAGE BACKGROUND */
   .chess-hero-bg {
-    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
     background-image:
-      linear-gradient(45deg, rgba(56,189,248,0.04) 25%, transparent 25%),
-      linear-gradient(-45deg, rgba(56,189,248,0.04) 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, rgba(56,189,248,0.04) 75%),
-      linear-gradient(-45deg, transparent 75%, rgba(56,189,248,0.04) 75%);
-    background-size: 56px 56px;
-    background-position: 0 0, 0 28px, 28px -28px, -28px 0px;
-    mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, rgba(0,0,0,0.55) 0%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, rgba(0,0,0,0.55) 0%, transparent 75%);
+      linear-gradient(45deg, rgba(56,189,248,0.07) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(56,189,248,0.07) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(56,189,248,0.07) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(56,189,248,0.07) 75%);
+    background-size: 52px 52px;
+    background-position: 0 0, 0 26px, 26px -26px, -26px 0px;
   }
 
   /* RESPONSIVE */
