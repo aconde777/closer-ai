@@ -488,6 +488,97 @@ app.post('/api/upgrade-team', async (req, res) => {
 
 app.get('/join.html', serveWithSupabase('join.html'));
 
+// ─── STRIPE ────────────────────────────────────────────────────────────────
+const Stripe = require('stripe');
+const stripe = Stripe(process.env.STRIPE_SK);
+
+const PLANS = {
+  solo:         { name: 'Solo Pro',      price: 4900,  plan: 'solo' },
+  team_starter: { name: 'Team Starter',  price: 12900, plan: 'team_starter' },
+  team_pro:     { name: 'Team Pro',      price: 24900, plan: 'team_pro' },
+  team_elite:   { name: 'Team Elite',    price: 39900, plan: 'team_elite' },
+};
+
+// Create Stripe Checkout session
+app.post('/api/create-checkout', async (req, res) => {
+  const { plan_key, user_id, email } = req.body;
+  const plan = PLANS[plan_key];
+  if (!plan) return res.status(400).json({ error: 'Invalid plan' });
+
+  const appUrl = process.env.APP_URL || 'https://closer-ai-production-c51d.up.railway.app';
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      mode: 'subscription',
+      line_items: [{
+        price_data: {
+          currency: 'usd',
+          recurring: { interval: 'month' },
+          product_data: { name: plan.name },
+          unit_amount: plan.price,
+        },
+        quantity: 1,
+      }],
+      customer_email: email,
+      metadata: { user_id, plan_key },
+      success_url: `${appUrl}/?checkout=success&plan=${plan_key}`,
+      cancel_url: `${appUrl}/?checkout=cancel`,
+    });
+    res.json({ url: session.url });
+  } catch (err) {
+    console.error('Stripe error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Stripe webhook -- update user plan after successful payment
+app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  let event;
+  try {
+    event = webhookSecret
+      ? stripe.webhooks.constructEvent(req.body, sig, webhookSecret)
+      : JSON.parse(req.body);
+  } catch (err) {
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+    const { user_id, plan_key } = session.metadata || {};
+    if (user_id && plan_key) {
+      const isTeam = plan_key.startsWith('team');
+      await supabaseAdmin.from('user_profiles').update({
+        plan: plan_key,
+        is_pro: true,
+        stripe_customer_id: session.customer,
+        stripe_subscription_id: session.subscription,
+      }).eq('id', user_id);
+
+      if (isTeam) {
+        // Create team if doesn't exist
+        const { data: profile } = await supabaseAdmin
+          .from('user_profiles').select('team_id').eq('id', user_id).single();
+        if (!profile?.team_id) {
+          const seats = { team_starter: 5, team_pro: 10, team_elite: 15 };
+          const { data: team } = await supabaseAdmin.from('teams').insert({
+            owner_id: user_id, plan: plan_key, max_seats: seats[plan_key] || 5
+          }).select().single();
+          if (team) {
+            await supabaseAdmin.from('user_profiles')
+              .update({ team_id: team.id, is_team_owner: true }).eq('id', user_id);
+          }
+        }
+      }
+    }
+  }
+
+  res.json({ received: true });
+});
+
 app.listen(PORT, () => {
   console.log(`Closer AI running on port ${PORT}`);
 });

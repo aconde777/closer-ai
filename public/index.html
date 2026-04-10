@@ -1225,6 +1225,18 @@
         }
       }
     } catch(e) {}
+
+    // Handle Stripe redirect back
+    const params = new URLSearchParams(window.location.search);
+    const checkout = params.get('checkout');
+    if (checkout === 'success') {
+      showPage('billing');
+      setTimeout(() => alert('Payment successful! Your plan has been upgraded.'), 500);
+      window.history.replaceState({}, '', '/');
+    } else if (checkout === 'cancel') {
+      showPage('billing');
+      window.history.replaceState({}, '', '/');
+    }
   });
 
   async function signOut() {
@@ -2162,9 +2174,25 @@
   }
 
   async function selectPlan(plan) {
-    // Stripe not live yet -- show contact message
-    const planLabels = { solo: 'Solo Pro', team_starter: 'Team Starter', team_pro: 'Team Pro', team_elite: 'Team Elite' };
-    alert(`To upgrade to ${planLabels[plan]}, contact us at support@theelitecloser.ai and we'll get you set up.`);
+    const { data: { session } } = await window._supabase.auth.getSession();
+    if (!session) { showPage('auth'); return; }
+
+    const btn = document.querySelector(`[onclick="selectPlan('${plan}')"]`);
+    if (btn) { btn.disabled = true; btn.textContent = 'Loading...'; }
+
+    try {
+      const res = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+        body: JSON.stringify({ plan_key: plan, user_id: session.user.id, email: session.user.email })
+      });
+      const { url, error } = await res.json();
+      if (error) throw new Error(error);
+      window.location.href = url;
+    } catch (err) {
+      alert('Something went wrong. Please try again.');
+      if (btn) { btn.disabled = false; btn.textContent = 'Upgrade'; }
+    }
   }
 
   // TEAM MEMBERS
