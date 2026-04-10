@@ -241,7 +241,7 @@
   const { createClient } = supabase;
   const sb = createClient('__SUPABASE_URL__', '__SUPABASE_ANON_KEY__');
 
-  const _redirect = new URLSearchParams(window.location.search).get('redirect') || '/';
+  const _redirect = new URLSearchParams(window.location.search).get('redirect') || '/app';
 
   sb.auth.getSession().then(({ data }) => {
     if (data.session) window.location.href = _redirect;
