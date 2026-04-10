@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Elite Closer — Pre-Call Warmup</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23030712'/><text x='50' y='68' font-size='58' font-family='Helvetica Neue,Arial,sans-serif' font-weight='900' fill='%2338bdf8' text-anchor='middle'>E</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='9' fill='%23040c1e'/><rect x='3' y='14' width='2.5' height='8' rx='1.25' fill='%2338bdf8' opacity='.28'/><rect x='7' y='10' width='2.5' height='16' rx='1.25' fill='%2338bdf8' opacity='.52'/><rect x='12' y='6' width='3.5' height='24' rx='1.75' fill='%2338bdf8'/><rect x='12' y='6' width='13' height='3.5' rx='1.75' fill='%2338bdf8'/><rect x='12' y='16.25' width='10' height='3.5' rx='1.75' fill='%2338bdf8'/><rect x='12' y='26.5' width='13' height='3.5' rx='1.75' fill='%2338bdf8'/><rect x='27' y='10' width='2.5' height='16' rx='1.25' fill='%2338bdf8' opacity='.52'/><rect x='31.5' y='14' width='2.5' height='8' rx='1.25' fill='%2338bdf8' opacity='.28'/></svg>">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   (async () => {
@@ -28,7 +28,7 @@
   /* NAV */
   nav { background: rgba(2,11,24,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 28px; height: 56px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; z-index: 10; position: relative; }
   .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); }
-  .logo-mark { width: 28px; height: 28px; background: linear-gradient(135deg, #0ea5e9, #38bdf8); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 13px; color: #fff; box-shadow: 0 0 12px rgba(56,189,248,0.35); }
+  .logo-mark { flex-shrink: 0; filter: drop-shadow(0 0 7px rgba(56,189,248,0.45)); }
   .logo-name { font-size: 14px; font-weight: 800; }
   .logo-name span { color: var(--blue); }
   .btn-back { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 6px 14px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
@@ -118,7 +118,7 @@
 
 <nav>
   <a class="nav-logo" href="/">
-    <div class="logo-mark">E</div>
+    <div class="logo-mark"><svg width="28" height="28" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="9" fill="#040c1e"/><defs><linearGradient id="elg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7dd3fc"/><stop offset="100%" stop-color="#0ea5e9"/></linearGradient></defs><rect x="3" y="14" width="2.5" height="8" rx="1.25" fill="url(#elg)" opacity="0.28"/><rect x="7" y="10" width="2.5" height="16" rx="1.25" fill="url(#elg)" opacity="0.52"/><rect x="12" y="6" width="3.5" height="24" rx="1.75" fill="url(#elg)"/><rect x="12" y="6" width="13" height="3.5" rx="1.75" fill="url(#elg)"/><rect x="12" y="16.25" width="10" height="3.5" rx="1.75" fill="url(#elg)"/><rect x="12" y="26.5" width="13" height="3.5" rx="1.75" fill="url(#elg)"/><rect x="27" y="10" width="2.5" height="16" rx="1.25" fill="url(#elg)" opacity="0.52"/><rect x="31.5" y="14" width="2.5" height="8" rx="1.25" fill="url(#elg)" opacity="0.28"/></svg></div>
     <div class="logo-name">The <span>Elite</span> Closer</div>
   </a>
   <button class="btn-back" onclick="window.location.href='/'">← Back</button>
