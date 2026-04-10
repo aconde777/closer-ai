@@ -252,6 +252,38 @@
   .lb-stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
   .lb-empty { text-align: center; padding: 80px 32px; color: var(--muted); font-size: 14px; }
 
+  /* OVERVIEW & METRICS */
+  .ov-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 16px; }
+  .ov-stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .ov-stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+  .ov-stat-val { font-size: 28px; font-weight: 900; line-height: 1; }
+  .ov-stat-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .ov-row { display: flex; gap: 16px; }
+  .ov-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+  .ov-card-title { font-size: 13px; font-weight: 700; margin-bottom: 20px; }
+  .cat-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .cat-bar-label { font-size: 12px; color: var(--muted); width: 140px; flex-shrink: 0; }
+  .cat-bar-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .cat-bar-fill { height: 100%; background: var(--red); border-radius: 3px; transition: width 0.5s ease; }
+  .cat-bar-val { font-size: 13px; font-weight: 700; width: 32px; text-align: right; }
+  .strength-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .strength-item:last-child { border-bottom: none; }
+  .strength-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .strength-label { font-size: 12px; color: var(--muted); }
+  .strength-val { font-size: 14px; font-weight: 700; margin-left: auto; }
+  .ov-recent-row { display: grid; grid-template-columns: 1fr 80px 80px 80px 80px; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); align-items: center; }
+  .ov-recent-row:last-child { border-bottom: none; }
+  .chart-area { min-height: 160px; display: flex; align-items: flex-end; gap: 8px; padding-top: 8px; }
+  .chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .chart-bar { width: 100%; background: var(--red); border-radius: 4px 4px 0 0; transition: height 0.4s ease; min-height: 2px; opacity: 0.85; }
+  .chart-bar:hover { opacity: 1; }
+  .chart-label { font-size: 9px; color: var(--muted); text-align: center; }
+  .chart-val { font-size: 10px; color: var(--muted); }
+  .met-cat-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .met-cat-row:last-child { border-bottom: none; }
+  .met-cat-name { font-size: 13px; }
+  .met-cat-score { font-size: 16px; font-weight: 900; }
+
   /* BILLING */
   .plan-toggle { background: none; border: none; color: var(--muted); font-size: 13px; font-weight: 600; padding: 8px 20px; border-radius: 7px; cursor: pointer; transition: all 0.12s; }
   .plan-toggle.active { background: var(--card2); color: var(--text); border: 1px solid var(--border); }
@@ -311,11 +343,11 @@
       <div class="nav-section-label">Analytics</div>
       <button class="nav-item" onclick="showPage('overview')">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        Overview <span class="nav-badge soon">Soon</span>
+        Overview
       </button>
       <button class="nav-item" onclick="showPage('metrics')">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Metrics <span class="nav-badge soon">Soon</span>
+        Metrics
       </button>
       <button class="nav-item" id="nav-call-history" onclick="showPage('call-history')">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -466,18 +498,63 @@
   </div>
 
   <!-- COMING SOON PAGES -->
-  <div class="page-content coming-soon" id="page-overview" style="display:none;">
-    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
-    <div class="coming-soon-badge">Coming Soon</div>
-    <h2>Analytics Overview</h2>
-    <p>See your total calls, average score, improvement over time, and your strongest and weakest categories.</p>
+  <!-- OVERVIEW -->
+  <div class="page-content" id="page-overview" style="display:none;">
+    <div class="ov-grid" id="ovGrid">
+      <div class="ov-stat-card"><div class="ov-stat-label">Total Sessions</div><div class="ov-stat-val" id="ovTotalSessions">--</div></div>
+      <div class="ov-stat-card"><div class="ov-stat-label">Avg Score</div><div class="ov-stat-val" id="ovAvgScore">--</div></div>
+      <div class="ov-stat-card"><div class="ov-stat-label">Best Score</div><div class="ov-stat-val" id="ovBestScore">--</div></div>
+      <div class="ov-stat-card"><div class="ov-stat-label">Current Streak</div><div class="ov-stat-val" id="ovStreak">--</div><div class="ov-stat-sub">days</div></div>
+      <div class="ov-stat-card"><div class="ov-stat-label">This Week</div><div class="ov-stat-val" id="ovThisWeek">--</div><div class="ov-stat-sub">sessions</div></div>
+      <div class="ov-stat-card"><div class="ov-stat-label">Total Training</div><div class="ov-stat-val" id="ovTotalTime">--</div><div class="ov-stat-sub">minutes</div></div>
+    </div>
+
+    <div class="ov-row">
+      <div class="ov-card" style="flex:1;">
+        <div class="ov-card-title">Score by Category</div>
+        <div id="ovCategories">
+          <div class="cat-bar-row" id="catObjRow"><div class="cat-bar-label">Objection Handling</div><div class="cat-bar-track"><div class="cat-bar-fill" id="catObjFill"></div></div><div class="cat-bar-val" id="catObjVal">--</div></div>
+          <div class="cat-bar-row" id="catTonRow"><div class="cat-bar-label">Tonality</div><div class="cat-bar-track"><div class="cat-bar-fill" id="catTonFill"></div></div><div class="cat-bar-val" id="catTonVal">--</div></div>
+          <div class="cat-bar-row" id="catCloRow"><div class="cat-bar-label">Closing Attempt</div><div class="cat-bar-track"><div class="cat-bar-fill" id="catCloFill"></div></div><div class="cat-bar-val" id="catCloVal">--</div></div>
+          <div class="cat-bar-row" id="catRapRow"><div class="cat-bar-label">Rapport</div><div class="cat-bar-track"><div class="cat-bar-fill" id="catRapFill"></div></div><div class="cat-bar-val" id="catRapVal">--</div></div>
+        </div>
+      </div>
+      <div class="ov-card" style="width:280px;flex-shrink:0;">
+        <div class="ov-card-title">Strengths & Gaps</div>
+        <div id="ovStrengths"><div style="color:var(--muted);font-size:13px;">Complete a call to see your breakdown.</div></div>
+      </div>
+    </div>
+
+    <div class="ov-card" style="margin-top:16px;">
+      <div class="ov-card-title">Recent Sessions</div>
+      <div id="ovRecentList"><div style="color:var(--muted);font-size:13px;padding:16px 0;">No sessions yet.</div></div>
+    </div>
   </div>
 
-  <div class="page-content coming-soon" id="page-metrics" style="display:none;">
-    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-    <div class="coming-soon-badge">Coming Soon</div>
-    <h2>Performance Metrics</h2>
-    <p>Deep dive into your scores over time. Track objection handling, tonality, closing rate, and rapport week by week.</p>
+  <!-- METRICS -->
+  <div class="page-content" id="page-metrics" style="display:none;">
+    <div class="ov-grid" id="metGrid">
+      <div class="ov-stat-card"><div class="ov-stat-label">Calls Logged</div><div class="ov-stat-val" id="metCallsLogged">--</div></div>
+      <div class="ov-stat-card"><div class="ov-stat-label">Closes</div><div class="ov-stat-val" id="metCloses">--</div></div>
+      <div class="ov-stat-card"><div class="ov-stat-label">Close Rate</div><div class="ov-stat-val" id="metCloseRate">--</div></div>
+      <div class="ov-stat-card"><div class="ov-stat-label">Revenue Logged</div><div class="ov-stat-val" id="metRevenue">--</div></div>
+    </div>
+
+    <div class="ov-row" style="margin-top:16px;">
+      <div class="ov-card" style="flex:1;">
+        <div class="ov-card-title">Score Trend -- Last 10 Sessions</div>
+        <div class="chart-area" id="scoreTrendChart"></div>
+      </div>
+      <div class="ov-card" style="width:280px;flex-shrink:0;">
+        <div class="ov-card-title">Category Averages</div>
+        <div id="metCatAverages"></div>
+      </div>
+    </div>
+
+    <div class="ov-card" style="margin-top:16px;">
+      <div class="ov-card-title">Sales Activity -- Last 30 Days</div>
+      <div class="chart-area" id="salesActivityChart"></div>
+    </div>
   </div>
 
   <div class="page-content" id="page-call-history" style="display:none;">
@@ -889,13 +966,15 @@
     document.getElementById('nav-' + currentPage)?.classList.remove('active');
     currentPage = page;
     const pageEl = document.getElementById('page-' + page);
-    const blockPages = ['roleplay', 'call-history', 'sales', 'leaderboard', 'members', 'billing'];
+    const blockPages = ['roleplay', 'call-history', 'sales', 'leaderboard', 'members', 'billing', 'overview', 'metrics'];
     if (pageEl) pageEl.style.display = blockPages.includes(page) ? 'block' : 'flex';
     if (page === 'call-history') loadCallHistory();
     if (page === 'sales') loadSalesTracker();
     if (page === 'leaderboard') loadLeaderboard();
     if (page === 'members') loadMembers();
     if (page === 'billing') loadBilling();
+    if (page === 'overview') loadOverview();
+    if (page === 'metrics') loadMetrics();
     document.getElementById('nav-' + page)?.classList.add('active');
 
     const titles = {
@@ -1245,6 +1324,166 @@
     }, 2000);
 
     loadSalesTracker();
+  }
+
+  // OVERVIEW
+  async function loadOverview() {
+    const uid = window._session.user.id;
+
+    const { data: calls } = await window._supabase
+      .from('call_history').select('*').eq('user_id', uid).order('created_at', { ascending: false });
+
+    const { data: profile } = await window._supabase
+      .from('user_profiles').select('streak_days').eq('id', uid).single();
+
+    const total = calls?.length || 0;
+    const avgScore = total ? Math.round(calls.reduce((a, b) => a + (b.overall_score || 0), 0) / total) : 0;
+    const bestScore = total ? Math.max(...calls.map(c => c.overall_score || 0)) : 0;
+    const totalSecs = calls?.reduce((a, b) => a + (b.duration_seconds || 0), 0) || 0;
+
+    const now = new Date();
+    const dayOfWeek = now.getDay() || 7;
+    const monday = new Date(now); monday.setDate(now.getDate() - dayOfWeek + 1);
+    const mondayStr = monday.toISOString().split('T')[0];
+    const thisWeek = calls?.filter(c => c.created_at >= mondayStr).length || 0;
+
+    document.getElementById('ovTotalSessions').textContent = total;
+    document.getElementById('ovAvgScore').textContent = total ? avgScore : '--';
+    document.getElementById('ovBestScore').textContent = total ? bestScore : '--';
+    document.getElementById('ovStreak').textContent = profile?.streak_days || 0;
+    document.getElementById('ovThisWeek').textContent = thisWeek;
+    document.getElementById('ovTotalTime').textContent = Math.round(totalSecs / 60);
+
+    if (total > 0) {
+      const avg = key => Math.round(calls.reduce((a, b) => a + (b[key] || 0), 0) / total);
+      const cats = [
+        { label: 'Objection Handling', val: avg('objection_score'), fillId: 'catObjFill', valId: 'catObjVal' },
+        { label: 'Tonality',           val: avg('tonality_score'),  fillId: 'catTonFill', valId: 'catTonVal' },
+        { label: 'Closing Attempt',    val: avg('closing_score'),   fillId: 'catCloFill', valId: 'catCloVal' },
+        { label: 'Rapport',            val: avg('rapport_score'),   fillId: 'catRapFill', valId: 'catRapVal' }
+      ];
+      cats.forEach(c => {
+        document.getElementById(c.fillId).style.width = (c.val || 0) + '%';
+        document.getElementById(c.valId).textContent = c.val || '--';
+      });
+
+      const sorted = [...cats].sort((a, b) => b.val - a.val);
+      const colors = { 0: '#4ade80', 1: '#86efac', 2: '#fbbf24', 3: '#e94560' };
+      document.getElementById('ovStrengths').innerHTML = sorted.map((c, i) => `
+        <div class="strength-item">
+          <div class="strength-dot" style="background:${colors[i]}"></div>
+          <div class="strength-label">${c.label}</div>
+          <div class="strength-val" style="color:${colors[i]}">${c.val}</div>
+        </div>`).join('');
+    }
+
+    const recent = (calls || []).slice(0, 8);
+    if (recent.length === 0) return;
+    document.getElementById('ovRecentList').innerHTML = `
+      <div class="ov-recent-row" style="opacity:0.4;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;">Prospect</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;">Overall</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;">Objection</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;">Tonality</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;">Rapport</div>
+      </div>` +
+      recent.map(c => {
+        const score = c.overall_score || 0;
+        const color = score >= 75 ? '#4ade80' : score >= 50 ? '#fbbf24' : '#e94560';
+        return `<div class="ov-recent-row">
+          <div>
+            <div style="font-size:13px;font-weight:600;">${c.prospect_name || 'Prospect'}</div>
+            <div style="font-size:11px;color:var(--muted);">${new Date(c.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
+          </div>
+          <div style="font-size:16px;font-weight:900;color:${color}">${score}</div>
+          <div style="font-size:14px;font-weight:700;">${c.objection_score || '--'}</div>
+          <div style="font-size:14px;font-weight:700;">${c.tonality_score || '--'}</div>
+          <div style="font-size:14px;font-weight:700;">${c.rapport_score || '--'}</div>
+        </div>`;
+      }).join('');
+  }
+
+  // METRICS
+  async function loadMetrics() {
+    const uid = window._session.user.id;
+
+    const [{ data: calls }, { data: logs }] = await Promise.all([
+      window._supabase.from('call_history').select('*').eq('user_id', uid).order('created_at', { ascending: true }),
+      window._supabase.from('sales_logs').select('*').eq('user_id', uid).order('log_date', { ascending: true })
+    ]);
+
+    // Sales stats
+    const totalCalls = logs?.reduce((a, b) => a + (b.calls_made || 0), 0) || 0;
+    const totalCloses = logs?.reduce((a, b) => a + (b.closes || 0), 0) || 0;
+    const totalRevenue = logs?.reduce((a, b) => a + (b.revenue || 0), 0) || 0;
+    const closeRate = totalCalls > 0 ? ((totalCloses / totalCalls) * 100).toFixed(1) + '%' : '--';
+
+    document.getElementById('metCallsLogged').textContent = totalCalls;
+    document.getElementById('metCloses').textContent = totalCloses;
+    document.getElementById('metCloseRate').textContent = closeRate;
+    document.getElementById('metRevenue').textContent = '$' + totalRevenue.toLocaleString();
+
+    // Category averages
+    const catAvgEl = document.getElementById('metCatAverages');
+    if (calls && calls.length > 0) {
+      const avg = key => Math.round(calls.reduce((a, b) => a + (b[key] || 0), 0) / calls.length);
+      const cats = [
+        { name: 'Objection Handling', val: avg('objection_score') },
+        { name: 'Tonality', val: avg('tonality_score') },
+        { name: 'Closing Attempt', val: avg('closing_score') },
+        { name: 'Rapport', val: avg('rapport_score') }
+      ];
+      catAvgEl.innerHTML = cats.map(c => {
+        const color = c.val >= 75 ? '#4ade80' : c.val >= 50 ? '#fbbf24' : '#e94560';
+        return `<div class="met-cat-row">
+          <div class="met-cat-name">${c.name}</div>
+          <div class="met-cat-score" style="color:${color}">${c.val}</div>
+        </div>`;
+      }).join('');
+    } else {
+      catAvgEl.innerHTML = '<div style="color:var(--muted);font-size:13px;">No calls yet.</div>';
+    }
+
+    // Score trend chart -- last 10 sessions
+    const trendEl = document.getElementById('scoreTrendChart');
+    const last10 = (calls || []).slice(-10);
+    if (last10.length > 0) {
+      const maxScore = 100;
+      trendEl.innerHTML = last10.map((c, i) => {
+        const score = c.overall_score || 0;
+        const heightPct = (score / maxScore) * 140;
+        const color = score >= 75 ? '#4ade80' : score >= 50 ? '#fbbf24' : '#e94560';
+        const date = new Date(c.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        return `<div class="chart-bar-wrap">
+          <div class="chart-val">${score}</div>
+          <div class="chart-bar" style="height:${heightPct}px;background:${color};" title="${c.prospect_name}: ${score}"></div>
+          <div class="chart-label">${date}</div>
+        </div>`;
+      }).join('');
+    } else {
+      trendEl.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:40px 0;">No sessions yet.</div>';
+    }
+
+    // Sales activity chart -- last 30 days
+    const salesEl = document.getElementById('salesActivityChart');
+    const last30 = (logs || []).slice(-30);
+    if (last30.length > 0) {
+      const maxCalls = Math.max(...last30.map(l => l.calls_made || 0)) || 1;
+      salesEl.innerHTML = last30.map(l => {
+        const calls_made = l.calls_made || 0;
+        const heightPct = (calls_made / maxCalls) * 140;
+        const date = new Date(l.log_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        const hasClose = (l.closes || 0) > 0;
+        return `<div class="chart-bar-wrap">
+          <div class="chart-val">${calls_made}</div>
+          <div class="chart-bar" style="height:${Math.max(heightPct, 2)}px;background:${hasClose ? '#4ade80' : 'var(--red)'};" title="${date}: ${calls_made} calls, ${l.closes || 0} closes"></div>
+          <div class="chart-label">${date}</div>
+        </div>`;
+      }).join('');
+      salesEl.insertAdjacentHTML('afterend', '<div style="font-size:11px;color:var(--muted);margin-top:8px;"><span style="display:inline-block;width:8px;height:8px;background:#4ade80;border-radius:2px;margin-right:4px;"></span>Green = day with a close</div>');
+    } else {
+      salesEl.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:40px 0;">No sales logged yet.</div>';
+    }
   }
 
   // LEADERBOARD
