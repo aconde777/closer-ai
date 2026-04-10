@@ -193,6 +193,55 @@
   .replay-line-speaker.prospect { color: var(--red); }
   .replay-line-text { font-size: 13px; line-height: 1.6; color: var(--text); background: var(--card2); border-radius: 8px; padding: 10px 14px; }
 
+  /* SALES TRACKER */
+  .sales-header { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .sales-stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .sales-stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+  .sales-stat-value { font-size: 28px; font-weight: 900; letter-spacing: -1px; }
+  .sales-stat-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  .sales-log-section { display: grid; grid-template-columns: 340px 1fr; gap: 20px; }
+  .log-form-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+  .log-form-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .log-form-date { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+  .log-field { margin-bottom: 16px; }
+  .log-field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 7px; }
+  .log-field input, .log-field textarea { width: 100%; background: var(--card2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 13px; font-size: 14px; color: var(--text); font-family: inherit; transition: border-color 0.15s; }
+  .log-field input:focus, .log-field textarea:focus { outline: none; border-color: var(--red); }
+  .log-field textarea { resize: none; height: 72px; }
+  .btn-log { width: 100%; background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; margin-top: 4px; }
+  .btn-log:hover { background: #c73652; }
+
+  .log-history-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .log-history-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .log-history-title { font-size: 14px; font-weight: 700; }
+  .log-history-list { overflow-y: auto; max-height: 520px; }
+  .log-row { display: grid; grid-template-columns: 100px 1fr 1fr 1fr; gap: 16px; padding: 14px 24px; border-bottom: 1px solid var(--border); align-items: center; }
+  .log-row:last-child { border-bottom: none; }
+  .log-row-date { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .log-row-val { font-size: 14px; font-weight: 700; }
+  .log-row-val.green { color: #4ade80; }
+  .log-row-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+  .log-empty { padding: 48px 24px; text-align: center; color: var(--muted); font-size: 13px; }
+
+  /* LEADERBOARD */
+  .leaderboard-list { display: flex; flex-direction: column; gap: 12px; }
+  .lb-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 24px; display: grid; grid-template-columns: 40px 1fr repeat(3, 100px); align-items: center; gap: 16px; transition: all 0.15s; }
+  .lb-row:hover { border-color: #333; }
+  .lb-row.top { border-color: rgba(245,166,35,0.3); background: rgba(245,166,35,0.04); }
+  .lb-rank { font-size: 18px; font-weight: 900; color: var(--muted); }
+  .lb-rank.gold { color: #f5a623; }
+  .lb-rank.silver { color: #aaa; }
+  .lb-rank.bronze { color: #cd7f32; }
+  .lb-user { display: flex; align-items: center; gap: 12px; }
+  .lb-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--card2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--muted); flex-shrink: 0; }
+  .lb-name { font-size: 14px; font-weight: 700; }
+  .lb-badge { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .lb-stat { text-align: center; }
+  .lb-stat-val { font-size: 15px; font-weight: 900; }
+  .lb-stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+  .lb-empty { text-align: center; padding: 80px 32px; color: var(--muted); font-size: 14px; }
+
   /* SAVING */
   .saving-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; align-items: center; justify-content: center; }
   .saving-overlay.open { display: flex; }
@@ -252,16 +301,25 @@
       </button>
     </div>
 
+    <!-- SALES -->
+    <div class="nav-section">
+      <div class="nav-section-label">Sales</div>
+      <button class="nav-item" id="nav-sales" onclick="showPage('sales')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Sales Tracker
+      </button>
+      <button class="nav-item" id="nav-leaderboard" onclick="showPage('leaderboard')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg>
+        Leaderboard
+      </button>
+    </div>
+
     <!-- TEAM -->
     <div class="nav-section">
       <div class="nav-section-label">Team</div>
       <button class="nav-item" onclick="showPage('members')">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Members <span class="nav-badge soon">Soon</span>
-      </button>
-      <button class="nav-item" onclick="showPage('leaderboard')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg>
-        Leaderboard <span class="nav-badge soon">Soon</span>
       </button>
     </div>
 
@@ -403,11 +461,80 @@
     <p>Add your reps, track their individual progress, and see who's putting in the work and who needs coaching.</p>
   </div>
 
-  <div class="page-content coming-soon" id="page-leaderboard" style="display:none;">
-    <div class="coming-soon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg></div>
-    <div class="coming-soon-badge">Enterprise</div>
-    <h2>Leaderboard</h2>
-    <p>Rank your reps by score, sessions completed, and improvement rate. Create a culture of competition and accountability.</p>
+  <!-- SALES TRACKER -->
+  <div class="page-content" id="page-sales" style="display:none;">
+    <div class="sales-header">
+      <div class="sales-stat">
+        <div class="sales-stat-label">Closes This Week</div>
+        <div class="sales-stat-value" id="statClosesWeek">0</div>
+        <div class="sales-stat-sub">vs last week</div>
+      </div>
+      <div class="sales-stat">
+        <div class="sales-stat-label">Revenue This Week</div>
+        <div class="sales-stat-value" id="statRevenueWeek">$0</div>
+        <div class="sales-stat-sub">personal commissions</div>
+      </div>
+      <div class="sales-stat">
+        <div class="sales-stat-label">Closes This Month</div>
+        <div class="sales-stat-value" id="statClosesMonth">0</div>
+        <div class="sales-stat-sub">month to date</div>
+      </div>
+      <div class="sales-stat">
+        <div class="sales-stat-label">Revenue This Month</div>
+        <div class="sales-stat-value" id="statRevenueMonth">$0</div>
+        <div class="sales-stat-sub">month to date</div>
+      </div>
+    </div>
+
+    <div class="sales-log-section">
+      <div class="log-form-card">
+        <div class="log-form-title">Log Today</div>
+        <div class="log-form-date" id="logFormDate"></div>
+        <div class="log-field">
+          <label>Calls Made</label>
+          <input type="number" id="logCalls" min="0" placeholder="0">
+        </div>
+        <div class="log-field">
+          <label>Closes</label>
+          <input type="number" id="logCloses" min="0" placeholder="0">
+        </div>
+        <div class="log-field">
+          <label>Revenue ($)</label>
+          <input type="number" id="logRevenue" min="0" placeholder="0">
+        </div>
+        <div class="log-field">
+          <label>Notes (optional)</label>
+          <textarea id="logNotes" placeholder="What worked today? What to improve?"></textarea>
+        </div>
+        <button class="btn-log" onclick="saveLog()">Save Today's Log</button>
+      </div>
+
+      <div class="log-history-card">
+        <div class="log-history-header">
+          <div class="log-history-title">History</div>
+        </div>
+        <div class="log-row" style="background:var(--card2);border-bottom:1px solid var(--border);">
+          <div class="log-row-date" style="font-size:10px;text-transform:uppercase;letter-spacing:1px;">Date</div>
+          <div class="log-row-label" style="font-size:10px;text-transform:uppercase;letter-spacing:1px;">Calls</div>
+          <div class="log-row-label" style="font-size:10px;text-transform:uppercase;letter-spacing:1px;">Closes</div>
+          <div class="log-row-label" style="font-size:10px;text-transform:uppercase;letter-spacing:1px;">Revenue</div>
+        </div>
+        <div class="log-history-list" id="logHistoryList">
+          <div class="log-empty">No logs yet. Start tracking today.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div class="page-content" id="page-leaderboard" style="display:none;">
+    <div style="margin-bottom:24px;">
+      <div style="font-size:22px;font-weight:900;letter-spacing:-0.5px;margin-bottom:6px;">Rep of the <span style="color:var(--red)">Week</span></div>
+      <div style="font-size:13px;color:var(--muted);">Ranked by total training time this week. Revenue stays private -- compete on work ethic.</div>
+    </div>
+    <div class="leaderboard-list" id="leaderboardList">
+      <div class="lb-empty">Loading leaderboard...</div>
+    </div>
   </div>
 
   <div class="page-content coming-soon" id="page-billing" style="display:none;">
@@ -580,8 +707,11 @@
     document.getElementById('nav-' + currentPage)?.classList.remove('active');
     currentPage = page;
     const pageEl = document.getElementById('page-' + page);
-    if (pageEl) pageEl.style.display = page === 'roleplay' || page === 'call-history' ? 'block' : 'flex';
+    const blockPages = ['roleplay', 'call-history', 'sales', 'leaderboard'];
+    if (pageEl) pageEl.style.display = blockPages.includes(page) ? 'block' : 'flex';
     if (page === 'call-history') loadCallHistory();
+    if (page === 'sales') loadSalesTracker();
+    if (page === 'leaderboard') loadLeaderboard();
     document.getElementById('nav-' + page)?.classList.add('active');
 
     const titles = {
@@ -592,6 +722,7 @@
       'training-paths': 'Training <span style="color:var(--red)">Paths</span>',
       scorecards: '<span style="color:var(--red)">Scorecards</span>',
       members: 'Team <span style="color:var(--red)">Members</span>',
+      sales: 'Sales <span style="color:var(--red)">Tracker</span>',
       leaderboard: '<span style="color:var(--red)">Leaderboard</span>',
       billing: 'Billing & <span style="color:var(--red)">Plan</span>'
     };
@@ -783,6 +914,153 @@
 
   function closeReplay() {
     document.getElementById('replayModal').classList.remove('open');
+  }
+
+  // SALES TRACKER
+  async function loadSalesTracker() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('logFormDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+    const { data: logs } = await window._supabase
+      .from('sales_logs')
+      .select('*')
+      .order('log_date', { ascending: false });
+
+    if (!logs) return;
+
+    // Pre-fill today if exists
+    const todayLog = logs.find(l => l.log_date === today);
+    if (todayLog) {
+      document.getElementById('logCalls').value = todayLog.calls_made || '';
+      document.getElementById('logCloses').value = todayLog.closes || '';
+      document.getElementById('logRevenue').value = todayLog.revenue || '';
+      document.getElementById('logNotes').value = todayLog.notes || '';
+    }
+
+    // Weekly stats (Mon-Sun)
+    const now = new Date();
+    const dayOfWeek = now.getDay() || 7;
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - dayOfWeek + 1);
+    const mondayStr = monday.toISOString().split('T')[0];
+
+    const weekLogs = logs.filter(l => l.log_date >= mondayStr);
+    const monthStr = today.slice(0, 7);
+    const monthLogs = logs.filter(l => l.log_date.startsWith(monthStr));
+
+    const sum = (arr, key) => arr.reduce((a, b) => a + (Number(b[key]) || 0), 0);
+    document.getElementById('statClosesWeek').textContent = sum(weekLogs, 'closes');
+    document.getElementById('statRevenueWeek').textContent = '$' + sum(weekLogs, 'revenue').toLocaleString();
+    document.getElementById('statClosesMonth').textContent = sum(monthLogs, 'closes');
+    document.getElementById('statRevenueMonth').textContent = '$' + sum(monthLogs, 'revenue').toLocaleString();
+
+    // History list
+    const list = document.getElementById('logHistoryList');
+    if (logs.length === 0) {
+      list.innerHTML = '<div class="log-empty">No logs yet. Start tracking today.</div>';
+      return;
+    }
+    list.innerHTML = logs.map(l => `
+      <div class="log-row">
+        <div class="log-row-date">${new Date(l.log_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
+        <div><div class="log-row-val">${l.calls_made || 0}</div><div class="log-row-label">Calls</div></div>
+        <div><div class="log-row-val green">${l.closes || 0}</div><div class="log-row-label">Closes</div></div>
+        <div><div class="log-row-val">$${Number(l.revenue || 0).toLocaleString()}</div><div class="log-row-label">Revenue</div></div>
+      </div>
+    `).join('');
+  }
+
+  async function saveLog() {
+    const today = new Date().toISOString().split('T')[0];
+    const calls = parseInt(document.getElementById('logCalls').value) || 0;
+    const closes = parseInt(document.getElementById('logCloses').value) || 0;
+    const revenue = parseFloat(document.getElementById('logRevenue').value) || 0;
+    const notes = document.getElementById('logNotes').value.trim();
+
+    const { error } = await window._supabase.from('sales_logs').upsert({
+      user_id: window._session.user.id,
+      log_date: today,
+      calls_made: calls,
+      closes,
+      revenue,
+      notes,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id,log_date' });
+
+    if (error) { alert('Error saving log: ' + error.message); return; }
+    loadSalesTracker();
+  }
+
+  // LEADERBOARD
+  async function loadLeaderboard() {
+    const list = document.getElementById('leaderboardList');
+    list.innerHTML = '<div class="lb-empty">Loading...</div>';
+
+    // Get all users call history for this week
+    const now = new Date();
+    const dayOfWeek = now.getDay() || 7;
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - dayOfWeek + 1);
+    const mondayStr = monday.toISOString().split('T')[0];
+
+    const { data: calls } = await window._supabase
+      .from('call_history')
+      .select('user_id, duration_seconds')
+      .gte('created_at', mondayStr);
+
+    if (!calls || calls.length === 0) {
+      list.innerHTML = '<div class="lb-empty">No training data this week yet. Be the first to get on the board.</div>';
+      return;
+    }
+
+    // Aggregate by user
+    const userMap = {};
+    calls.forEach(c => {
+      if (!userMap[c.user_id]) userMap[c.user_id] = { sessions: 0, seconds: 0 };
+      userMap[c.user_id].sessions++;
+      userMap[c.user_id].seconds += c.duration_seconds || 0;
+    });
+
+    // Get user profiles for names
+    const userIds = Object.keys(userMap);
+    const { data: profiles } = await window._supabase
+      .from('user_profiles')
+      .select('id, streak_days')
+      .in('id', userIds);
+
+    // Get auth users for names -- use current user's name from session
+    const currentId = window._session.user.id;
+    const currentName = window._session.user.user_metadata?.full_name || window._session.user.email;
+
+    const ranked = userIds.map(uid => ({
+      uid,
+      sessions: userMap[uid].sessions,
+      seconds: userMap[uid].seconds,
+      streak: profiles?.find(p => p.id === uid)?.streak_days || 0,
+      name: uid === currentId ? currentName : 'Rep'
+    })).sort((a, b) => b.seconds - a.seconds);
+
+    const rankColors = ['gold', 'silver', 'bronze'];
+    list.innerHTML = ranked.map((rep, i) => {
+      const mins = Math.floor(rep.seconds / 60);
+      const rankClass = rankColors[i] || '';
+      const isMe = rep.uid === currentId;
+      const initials = rep.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+      return `
+        <div class="lb-row ${i === 0 ? 'top' : ''}">
+          <div class="lb-rank ${rankClass}">${i === 0 ? '👑' : '#' + (i+1)}</div>
+          <div class="lb-user">
+            <div class="lb-avatar">${initials}</div>
+            <div>
+              <div class="lb-name">${rep.name}${isMe ? ' (You)' : ''}</div>
+              <div class="lb-badge">${rep.streak} day streak</div>
+            </div>
+          </div>
+          <div class="lb-stat"><div class="lb-stat-val">${mins}m</div><div class="lb-stat-label">Trained</div></div>
+          <div class="lb-stat"><div class="lb-stat-val">${rep.sessions}</div><div class="lb-stat-label">Sessions</div></div>
+          <div class="lb-stat"><div class="lb-stat-val">${rep.streak}</div><div class="lb-stat-label">Streak</div></div>
+        </div>`;
+    }).join('');
   }
 </script>
 </body>
