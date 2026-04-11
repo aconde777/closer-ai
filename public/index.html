@@ -2173,9 +2173,9 @@
     const { data: { session } } = await window._supabase.auth.getSession();
     const res = await fetch('/api/me', { headers: { 'Authorization': `Bearer ${session.access_token}` } });
     const { profile } = await res.json();
-    _lmsIsOwner = profile?.is_pro || profile?.is_team_owner || false;
+    _lmsIsOwner = true; // all users can create folders and upload content
 
-    document.getElementById('btnNewFolder').style.display = _lmsIsOwner ? 'inline-flex' : 'none';
+    document.getElementById('btnNewFolder').style.display = 'inline-flex';
     document.getElementById('btnAddContent').style.display = 'none';
 
     // Load completed content IDs
