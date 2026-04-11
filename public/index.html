@@ -2160,17 +2160,13 @@
     loadSalesTracker();
   }
 
-  // LMS
-  let _lmsContent = [];
-  let _lmsCompleted = new Set();
-  let _lmsViewingId = null;
   // ─── TRAINING PATHS / LMS ──────────────────────────────────────────────────
   let _lmsIsOwner = false;
   let _lmsFolders = [];
   let _lmsContent = [];
   let _lmsCompleted = new Set();
   let _lmsViewingId = null;
-  let _lmsCurrentFolder = null; // { id, name }
+  let _lmsCurrentFolder = null;
   let _lmsSelectedFile = null;
 
   async function loadLms() {
