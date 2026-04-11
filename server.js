@@ -713,8 +713,8 @@ app.post('/api/create-checkout', async (req, res) => {
       }],
       customer_email: email,
       metadata: { user_id, plan_key },
-      success_url: `${appUrl}/?checkout=success&plan=${plan_key}`,
-      cancel_url: `${appUrl}/?checkout=cancel`,
+      success_url: `${appUrl}/app?checkout=success&plan=${plan_key}`,
+      cancel_url: `${appUrl}/app?checkout=cancel`,
     });
     res.json({ url: session.url });
   } catch (err) {
