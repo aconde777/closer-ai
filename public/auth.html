@@ -317,9 +317,16 @@
       return;
     }
 
-    msg.textContent = 'Account created! Check your email to confirm, then sign in.';
+    msg.textContent = 'Account created! Taking you in...';
     msg.className = 'auth-message success';
     btn.textContent = 'Account Created';
+
+    // Fire welcome email (non-blocking)
+    fetch('/api/welcome-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name })
+    }).catch(() => {});
 
     if (data.session) {
       setTimeout(() => window.location.href = _redirect, 1000);

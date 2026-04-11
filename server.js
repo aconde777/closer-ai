@@ -555,6 +555,113 @@ app.post('/api/upgrade-team', async (req, res) => {
 });
 
 app.get('/join.html', serveWithSupabase('join.html'));
+
+// ─── WELCOME EMAIL ──────────────────────────────────────────────────────────
+app.post('/api/welcome-email', async (req, res) => {
+  const { email, name } = req.body;
+  if (!email) return res.status(400).json({ error: 'Missing email' });
+
+  const RESEND_KEY = process.env.RESEND_API_KEY;
+  if (!RESEND_KEY) return res.json({ ok: false, reason: 'No Resend key' });
+
+  const firstName = (name || 'there').split(' ')[0];
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#030712;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#030712;padding:40px 0;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#080f1e;border:1px solid #0f2040;border-radius:16px;overflow:hidden;max-width:560px;">
+
+        <!-- Header -->
+        <tr><td style="background:linear-gradient(135deg,#040c1e,#081626);padding:36px 40px;border-bottom:1px solid #0f2040;">
+          <table cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="padding-right:12px;">
+                <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="36" height="36" rx="9" fill="#040c1e"/>
+                  <rect x="16" y="2" width="4" height="9" rx="1.5" fill="#38bdf8"/>
+                  <rect x="11.5" y="5" width="13" height="4" rx="1.5" fill="#38bdf8"/>
+                  <rect x="13" y="11" width="10" height="3" rx="1" fill="#38bdf8"/>
+                  <polygon points="13,14 23,14 26,27 10,27" fill="#38bdf8"/>
+                  <rect x="5" y="27" width="26" height="5" rx="1.5" fill="#38bdf8"/>
+                </svg>
+              </td>
+              <td style="font-size:16px;font-weight:800;color:#e2eaf8;letter-spacing:-0.3px;">The Elite <span style="color:#38bdf8;">Closer</span></td>
+            </tr>
+          </table>
+        </td></tr>
+
+        <!-- Body -->
+        <tr><td style="padding:40px;">
+          <p style="margin:0 0 8px;font-size:22px;font-weight:900;color:#e2eaf8;letter-spacing:-0.5px;">Welcome, ${firstName}.</p>
+          <p style="margin:0 0 28px;font-size:14px;color:#4a6080;line-height:1.6;">Your account is live. Here's how to get the most out of it.</p>
+
+          <table cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:28px;">
+            <tr>
+              <td style="padding:16px;background:#0d1628;border:1px solid #0f2040;border-radius:10px;margin-bottom:12px;display:block;">
+                <p style="margin:0 0 4px;font-size:13px;font-weight:800;color:#e2eaf8;">1. Pick a prospect</p>
+                <p style="margin:0;font-size:12px;color:#4a6080;line-height:1.6;">Choose Sandra J., Ray T., or build your own. Match the exact buyer you face on your calls.</p>
+              </td>
+            </tr>
+            <tr><td style="height:10px;"></td></tr>
+            <tr>
+              <td style="padding:16px;background:#0d1628;border:1px solid #0f2040;border-radius:10px;">
+                <p style="margin:0 0 4px;font-size:13px;font-weight:800;color:#e2eaf8;">2. Run the call</p>
+                <p style="margin:0;font-size:12px;color:#4a6080;line-height:1.6;">Click Start and talk. The AI pushes back in real time with real objections. Handle them or lose the deal.</p>
+              </td>
+            </tr>
+            <tr><td style="height:10px;"></td></tr>
+            <tr>
+              <td style="padding:16px;background:#0d1628;border:1px solid #0f2040;border-radius:10px;">
+                <p style="margin:0 0 4px;font-size:13px;font-weight:800;color:#e2eaf8;">3. Get scored</p>
+                <p style="margin:0;font-size:12px;color:#4a6080;line-height:1.6;">An AI coach scores you on objection handling, tonality, closing, and rapport. Real feedback, no fluff.</p>
+              </td>
+            </tr>
+          </table>
+
+          <p style="margin:0 0 24px;font-size:13px;color:#4a6080;line-height:1.6;">You have <strong style="color:#e2eaf8;">3 free sessions</strong> to start. No credit card needed until you're ready to go Pro.</p>
+
+          <table cellpadding="0" cellspacing="0" style="width:100%;">
+            <tr><td align="center">
+              <a href="https://theelitecloser.io/app" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#fff;font-size:15px;font-weight:800;text-decoration:none;padding:16px 48px;border-radius:10px;letter-spacing:-0.2px;">Start Training &rarr;</a>
+            </td></tr>
+          </table>
+        </td></tr>
+
+        <!-- Footer -->
+        <tr><td style="padding:24px 40px;border-top:1px solid #0f2040;">
+          <p style="margin:0;font-size:12px;color:#4a6080;line-height:1.6;">You're receiving this because you signed up at theelitecloser.io.<br>Questions? Reply to this email.</p>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${RESEND_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: 'The Elite Closer <hello@theelitecloser.io>',
+        to: [email],
+        subject: `Welcome to The Elite Closer, ${firstName}.`,
+        html
+      })
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.message || 'Resend error');
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('Welcome email error:', err.message);
+    res.json({ ok: false, error: err.message });
+  }
+});
+
 app.get('/settings', serveWithSupabase('settings.html'));
 app.get('/settings.html', serveWithSupabase('settings.html'));
 app.get('/drill', serveWithSupabase('drill.html'));
