@@ -213,6 +213,21 @@
   .testi-name { font-size: 14px; font-weight: 700; }
   .testi-role { font-size: 12px; color: var(--muted); margin-top: 1px; }
 
+  /* FEATURES -- DRILL + DASHBOARD */
+  .features-split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; }
+  .feature-block { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 40px; }
+  .feature-block-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); margin-bottom: 20px; }
+  .feature-block-title { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 14px; line-height: 1.2; }
+  .feature-block-desc { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 28px; }
+  .feature-list { display: flex; flex-direction: column; gap: 14px; }
+  .feature-item { display: flex; align-items: flex-start; gap: 12px; font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .feature-item-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); flex-shrink: 0; margin-top: 6px; }
+  .feature-item strong { color: var(--text); }
+  .feature-block-stat { display: flex; gap: 24px; margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .fbs-item { }
+  .fbs-number { font-size: 28px; font-weight: 900; color: var(--blue); letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
+  .fbs-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
   /* FINAL CTA */
   .final-cta { text-align: center; }
   .final-cta .section-inner { max-width: 680px; }
@@ -681,6 +696,81 @@
           <div><div class="testi-name">Chris V.</div><div class="testi-role">Life Insurance Closer, IUL Specialist</div></div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE DRILL + SALES DASHBOARD -->
+<section style="background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-inner">
+    <div class="section-label" style="text-align:center;">Built-In Tools</div>
+    <h2 class="section-title" style="text-align:center;">Train sharper. Track what matters.</h2>
+    <p class="section-sub" style="text-align:center; margin: 0 auto;">Two features built specifically for closers who take their numbers seriously.</p>
+
+    <div class="features-split">
+
+      <!-- THE DRILL -->
+      <div class="feature-block">
+        <div class="feature-block-label">The Drill</div>
+        <div class="feature-block-title">Warm up before every call. Just like a pro athlete.</div>
+        <div class="feature-block-desc">You wouldn't walk into a game cold. The Drill is your pre-call warmup -- quick, focused objection handling reps to get your head in the game before you dial live prospects.</div>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-item-dot"></div>
+            <div><strong>5-minute objection sprints</strong> -- fast reps on your weakest stalls before you go live</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-dot"></div>
+            <div><strong>Lock in muscle memory</strong> -- your best responses become automatic, not improvised</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-dot"></div>
+            <div><strong>Mental sharpness on demand</strong> -- flip the switch from cold to confident in minutes</div>
+          </div>
+        </div>
+        <div class="feature-block-stat">
+          <div class="fbs-item">
+            <div class="fbs-number">5 min</div>
+            <div class="fbs-label">Avg warmup time</div>
+          </div>
+          <div class="fbs-item">
+            <div class="fbs-number">10x</div>
+            <div class="fbs-label">Faster than team roleplay</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SALES DASHBOARD -->
+      <div class="feature-block">
+        <div class="feature-block-label">Sales Dashboard</div>
+        <div class="feature-block-title">Track your calls, closes, and momentum in one place.</div>
+        <div class="feature-block-desc">Reps who track their numbers improve faster. The Sales Dashboard gives you a clear view of your training volume, close rate trends, and daily streak -- all without spreadsheets.</div>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-item-dot"></div>
+            <div><strong>Sessions and close rate</strong> -- see exactly how your numbers move over time</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-dot"></div>
+            <div><strong>Daily streak tracker</strong> -- accountability built in, no manager required</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-dot"></div>
+            <div><strong>Spot your weak spots</strong> -- identify which objections are costing you the most closes</div>
+          </div>
+        </div>
+        <div class="feature-block-stat">
+          <div class="fbs-item">
+            <div class="fbs-number">Real-time</div>
+            <div class="fbs-label">Stats after every call</div>
+          </div>
+          <div class="fbs-item">
+            <div class="fbs-number">Zero</div>
+            <div class="fbs-label">Spreadsheets needed</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>

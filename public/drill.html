@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Drill — The Elite Closer</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='9' fill='%23040c1e'/><rect x='16' y='2' width='4' height='9' rx='1.5' fill='%2338bdf8'/><rect x='11.5' y='5' width='13' height='4' rx='1.5' fill='%2338bdf8'/><rect x='13' y='11' width='10' height='3' rx='1' fill='%2338bdf8'/><polygon points='13,14 23,14 26,27 10,27' fill='%2338bdf8'/><rect x='5' y='27' width='26' height='5' rx='1.5' fill='%2338bdf8'/></svg>">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  (async () => {
+    const { createClient } = supabase;
+    const sb = createClient('__SUPABASE_URL__', '__SUPABASE_ANON_KEY__');
+    const { data } = await sb.auth.getSession();
+    if (!data.session) window.location.href = '/auth.html';
+    window._sb = sb;
+    window._session = data.session;
+  })();
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #030712; --card: #080f1e; --card2: #0d1628;
+    --blue: #38bdf8; --text: #e2eaf8; --muted: #4a6080; --border: #0f2040;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; }
+  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(56,189,248,0.06) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+
+  /* NAV */
+  nav {
+    background: rgba(3,7,18,0.95); border-bottom: 1px solid var(--border);
+    padding: 0 32px; height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 10;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+  .logo-name { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
+  .logo-name span { color: var(--blue); }
+  .btn-back {
+    display: flex; align-items: center; gap: 6px;
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 8px; padding: 7px 14px; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; font-family: inherit; text-decoration: none;
+  }
+  .btn-back:hover { border-color: rgba(56,189,248,0.3); color: var(--text); }
+
+  /* MAIN */
+  .main { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 40px 24px 80px; min-height: calc(100vh - 60px); }
+
+  /* SCREENS */
+  .drill-view { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 0; min-height: 60vh; }
+  .drill-view.hidden { display: none !important; }
+
+  /* SELECT SCREEN */
+  .select-title { font-size: clamp(28px,5vw,48px); font-weight: 900; letter-spacing: -1.5px; text-align: center; margin-bottom: 12px; }
+  .select-title span { color: var(--blue); text-shadow: 0 0 20px rgba(56,189,248,0.4); }
+  .select-sub { font-size: 16px; color: var(--muted); text-align: center; max-width: 480px; line-height: 1.6; margin-bottom: 48px; }
+  .difficulty-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 600px; margin-bottom: 32px; }
+  .diff-btn {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 16px; cursor: pointer; transition: all 0.15s; font-family: inherit;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .diff-btn:hover { border-color: rgba(56,189,248,0.25); }
+  .diff-btn.selected { background: rgba(56,189,248,0.06); border-color: rgba(56,189,248,0.35); }
+  .diff-label { font-size: 14px; font-weight: 800; color: var(--text); }
+  .diff-sub { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.5; }
+  .duration-row { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+  .duration-label { font-size: 13px; color: var(--muted); }
+  .duration-btn {
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 20px; font-size: 13px; font-weight: 700; color: var(--muted);
+    cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .duration-btn.selected { background: rgba(56,189,248,0.08); border-color: rgba(56,189,248,0.4); color: var(--blue); }
+  .btn-start-drill {
+    background: linear-gradient(135deg,#0ea5e9,#38bdf8); color: #fff; border: none;
+    border-radius: 12px; padding: 16px 48px; font-size: 16px; font-weight: 800;
+    cursor: pointer; transition: all 0.15s; box-shadow: 0 0 24px rgba(56,189,248,0.3);
+    font-family: inherit;
+  }
+  .btn-start-drill:hover { box-shadow: 0 0 36px rgba(56,189,248,0.45); transform: scale(1.02); }
+
+  /* COUNTDOWN SCREEN */
+  .countdown-number {
+    font-size: clamp(100px,25vw,180px); font-weight: 900; color: var(--blue);
+    letter-spacing: -8px; line-height: 1; animation: countPulse 1s ease-in-out;
+    text-shadow: 0 0 60px rgba(56,189,248,0.5);
+  }
+  @keyframes countPulse { 0% { transform: scale(1.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  .countdown-label { font-size: 16px; color: var(--muted); margin-top: 16px; letter-spacing: 3px; text-transform: uppercase; }
+
+  /* DRILL SCREEN */
+  .drill-top { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 800px; margin-bottom: 32px; }
+  .drill-progress { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .drill-timer { font-size: 32px; font-weight: 900; font-variant-numeric: tabular-nums; color: var(--text); transition: color 0.3s; }
+  .drill-timer.warning { color: #f5a623; }
+  .drill-timer.danger { color: var(--blue); animation: timerPulse 0.5s ease-in-out infinite alternate; }
+  @keyframes timerPulse { from { opacity: 1; } to { opacity: 0.4; } }
+  .timer-bar-wrap { width: 100%; max-width: 800px; height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 48px; }
+  .timer-bar { height: 100%; width: 100%; background: var(--blue); border-radius: 2px; transition: width 1s linear, background 0.3s; box-shadow: 0 0 8px rgba(56,189,248,0.4); }
+  .objection-text {
+    font-size: clamp(22px,4vw,36px); font-weight: 900; letter-spacing: -0.5px;
+    color: var(--text); text-align: center; max-width: 800px; line-height: 1.3;
+    margin-bottom: 16px; animation: objectionIn 0.25s ease-out;
+  }
+  @keyframes objectionIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .objection-context { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 48px; }
+  .drill-tip {
+    background: rgba(56,189,248,0.05); border: 1px solid rgba(56,189,248,0.15);
+    border-radius: 10px; padding: 14px 20px; max-width: 800px; width: 100%;
+    margin-bottom: 40px; display: none;
+  }
+  .drill-tip.visible { display: block; animation: objectionIn 0.2s ease-out; }
+  .drill-tip-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); margin-bottom: 6px; }
+  .drill-tip-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .drill-controls { display: flex; align-items: center; gap: 16px; }
+  .btn-hint {
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 10px; padding: 12px 24px; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .btn-hint:hover { border-color: rgba(56,189,248,0.3); color: var(--blue); }
+  .btn-next-drill {
+    background: linear-gradient(135deg,#0ea5e9,#38bdf8); color: #fff; border: none;
+    border-radius: 10px; padding: 14px 40px; font-size: 15px; font-weight: 800;
+    cursor: pointer; transition: all 0.15s; box-shadow: 0 0 16px rgba(56,189,248,0.25);
+    font-family: inherit;
+  }
+  .btn-next-drill:hover { box-shadow: 0 0 28px rgba(56,189,248,0.4); transform: scale(1.02); }
+
+  /* RESULTS SCREEN */
+  .results-circle {
+    width: 140px; height: 140px; border-radius: 50%;
+    border: 2px solid rgba(56,189,248,0.4);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    margin: 0 auto 28px; box-shadow: 0 0 40px rgba(56,189,248,0.15);
+  }
+  .results-number { font-size: 44px; font-weight: 900; color: var(--blue); line-height: 1; }
+  .results-unit { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+  .results-title { font-size: clamp(20px,3vw,28px); font-weight: 900; text-align: center; margin-bottom: 16px; }
+  .results-stats { display: flex; gap: 32px; margin-bottom: 40px; }
+  .results-stat { text-align: center; }
+  .results-stat-num { font-size: 24px; font-weight: 900; color: var(--blue); }
+  .results-stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+  .results-actions { display: flex; gap: 12px; }
+  .btn-again {
+    background: linear-gradient(135deg,#0ea5e9,#38bdf8); color: #fff; border: none;
+    border-radius: 10px; padding: 14px 32px; font-size: 14px; font-weight: 700;
+    cursor: pointer; box-shadow: 0 0 16px rgba(56,189,248,0.25); font-family: inherit;
+    transition: all 0.15s;
+  }
+  .btn-again:hover { box-shadow: 0 0 28px rgba(56,189,248,0.4); transform: scale(1.02); }
+  .btn-drill-done {
+    background: transparent; color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 32px; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .btn-drill-done:hover { border-color: rgba(56,189,248,0.25); color: var(--blue); }
+
+  @media (max-width: 600px) {
+    .difficulty-grid { grid-template-columns: 1fr; }
+    .results-stats { gap: 20px; }
+    .drill-controls { flex-direction: column; width: 100%; max-width: 360px; }
+    .btn-hint, .btn-next-drill { width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/app" class="nav-logo">
+    <svg class="logo-mark" width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="36" height="36" rx="9" fill="#040c1e"/>
+      <rect x="16" y="2" width="4" height="9" rx="1.5" fill="#38bdf8"/>
+      <rect x="11.5" y="5" width="13" height="4" rx="1.5" fill="#38bdf8"/>
+      <rect x="13" y="11" width="10" height="3" rx="1" fill="#38bdf8"/>
+      <polygon points="13,14 23,14 26,27 10,27" fill="#38bdf8"/>
+      <rect x="5" y="27" width="26" height="5" rx="1.5" fill="#38bdf8"/>
+    </svg>
+    <span class="logo-name">The Elite <span>Closer</span></span>
+  </a>
+  <a href="/app" class="btn-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to App
+  </a>
+</nav>
+
+<div class="main">
+
+  <!-- SELECT -->
+  <div class="drill-view" id="drillScreenSelect">
+    <div class="select-title">The <span>Drill.</span></div>
+    <div class="select-sub">60 seconds. Real objections. No excuses. Get sharp before you get on the phone.</div>
+
+    <div class="difficulty-grid">
+      <button class="diff-btn selected" id="diff-beginner" onclick="selectDiff('beginner')">
+        <span class="diff-label">Beginner</span>
+        <span class="diff-sub">Common stalls. Build the foundation.</span>
+      </button>
+      <button class="diff-btn" id="diff-intermediate" onclick="selectDiff('intermediate')">
+        <span class="diff-label">Intermediate</span>
+        <span class="diff-sub">Emotional objections. Spouse, money, fear.</span>
+      </button>
+      <button class="diff-btn" id="diff-advanced" onclick="selectDiff('advanced')">
+        <span class="diff-label">Advanced</span>
+        <span class="diff-sub">Analytical buyers. Logic-based resistance.</span>
+      </button>
+    </div>
+
+    <div class="duration-row">
+      <span class="duration-label">Duration:</span>
+      <button class="duration-btn selected" id="dur-60" onclick="selectDur(60)">1 min</button>
+      <button class="duration-btn" id="dur-90" onclick="selectDur(90)">90 sec</button>
+      <button class="duration-btn" id="dur-120" onclick="selectDur(120)">2 min</button>
+    </div>
+    <button class="btn-start-drill" onclick="drillStartCountdown()">Start The Drill</button>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="drill-view hidden" id="drillScreenCountdown">
+    <div class="countdown-number" id="countdownNum">3</div>
+    <div class="countdown-label">Get Ready</div>
+  </div>
+
+  <!-- DRILL -->
+  <div class="drill-view hidden" id="drillScreenDrill">
+    <div class="drill-top">
+      <div class="drill-progress" id="drillProgress">Objection 1</div>
+      <div class="drill-timer" id="drillTimer">60</div>
+    </div>
+    <div class="timer-bar-wrap">
+      <div class="timer-bar" id="timerBar"></div>
+    </div>
+    <div style="width:100%;max-width:800px;text-align:center;">
+      <div class="objection-text" id="objectionText"></div>
+      <div class="objection-context" id="objectionContext"></div>
+    </div>
+    <div class="drill-tip" id="drillTip">
+      <div class="drill-tip-label">Coaching Tip</div>
+      <div class="drill-tip-text" id="drillTipText"></div>
+    </div>
+    <div class="drill-controls">
+      <button class="btn-hint" onclick="showHint()">Show Tip</button>
+      <button class="btn-next-drill" onclick="nextObjection()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="drill-view hidden" id="drillScreenResults">
+    <div class="results-circle">
+      <div class="results-number" id="resultsCount">0</div>
+      <div class="results-unit">drilled</div>
+    </div>
+    <div class="results-title" id="resultsTitle">Warm. Now go close.</div>
+    <div class="results-stats">
+      <div class="results-stat">
+        <div class="results-stat-num" id="statObjections">0</div>
+        <div class="results-stat-label">Objections</div>
+      </div>
+      <div class="results-stat">
+        <div class="results-stat-num" id="statDuration">60s</div>
+        <div class="results-stat-label">Duration</div>
+      </div>
+      <div class="results-stat">
+        <div class="results-stat-num" id="statDiff">Beginner</div>
+        <div class="results-stat-label">Difficulty</div>
+      </div>
+    </div>
+    <div class="results-actions">
+      <a href="/app" class="btn-drill-done">Back to Training</a>
+      <button class="btn-again" onclick="resetDrill()">Drill Again</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const DRILL_OBJECTIONS = {
+    beginner: [
+      { text: '"I don\'t have my wallet on me right now."', context: 'Classic delay tactic. They\'re interested but stalling.', tip: 'Don\'t ask them to get their wallet. Ask: "If you had it, is this something you\'d want to move forward with today?"' },
+      { text: '"Can you just send me some information?"', context: 'They want to get off the phone without saying no.', tip: 'Info doesn\'t close deals. Say: "I could, but honestly the information is what we just covered. What would help you feel more confident right now?"' },
+      { text: '"I\'m just not ready yet."', context: 'Vague objection hiding a real concern.', tip: 'Dig in: "What would need to be different for you to feel ready? Let\'s see if we can get you there today."' },
+      { text: '"I need to think about it."', context: 'The most common stall in high-ticket sales.', tip: 'Ask: "Of course -- what specifically do you need to think about? I want to make sure I\'ve answered everything."' },
+      { text: '"Call me back next week."', context: 'Delay without commitment. Weak follow-up territory.', tip: 'Get a specific time and surface the real concern: "I\'ll absolutely follow up. What\'s going to be different next week?"' },
+      { text: '"I\'m not sure this is the right time."', context: 'Timing objection -- usually fear dressed up as logistics.', tip: '"When would be the right time? And what would change between now and then?" Make them say it out loud.' },
+      { text: '"I\'ve tried things like this before and it didn\'t work."', context: 'Past failure making them gun-shy.', tip: 'Acknowledge it: "That makes sense. What happened? I want to make sure we\'re not repeating that."' },
+      { text: '"This is too expensive."', context: 'Price objection -- most common, often not the real issue.', tip: 'Reframe value: "Compared to what? If this gets you the result, what\'s that result worth to you?"' },
+    ],
+    intermediate: [
+      { text: '"I need to talk to my spouse first."', context: 'Decision delegation. Often a shield, not a real blocker.', tip: '"That makes sense -- is your spouse supportive of you investing in yourself? What do you think they\'d say?"' },
+      { text: '"My partner would never go for this."', context: 'Using someone else as the reason to say no.', tip: '"What do you think is holding them back? And what do YOU want to do?"' },
+      { text: '"We\'re in a tough spot financially right now."', context: 'Money objection with emotional weight.', tip: '"I hear that. Is this a cash flow issue or a priority issue? Because if results matter, we usually find a way."' },
+      { text: '"I don\'t want to put anything on a card."', context: 'Specific financial resistance.', tip: '"What\'s behind that? Is it the debt, or not being sure it\'s worth it?" Get to the real fear.' },
+      { text: '"I\'m already working with someone else."', context: 'Competitor objection.', tip: '"How\'s that going? What are the results so far?" Let them talk. Gap usually reveals itself.' },
+      { text: '"I\'ve been burned before."', context: 'Trust issue from a past bad experience.', tip: 'Validate first: "That\'s fair. What happened?" Then differentiate -- don\'t dismiss their pain.' },
+      { text: '"I just don\'t have the bandwidth right now."', context: 'Capacity objection -- busy as a defense.', tip: '"If you had the bandwidth, is this where you\'d put it? Let\'s figure out what bandwidth actually looks like."' },
+      { text: '"What if I don\'t get results?"', context: 'Risk objection -- fear of wasting money.', tip: '"What results are you expecting? Let\'s define what success looks like and I\'ll tell you exactly how we get there."' },
+    ],
+    advanced: [
+      { text: '"Let me check with my accountant first."', context: 'Third-party authority -- sophisticated delay.', tip: '"Absolutely -- what\'s your accountant going to evaluate? The ROI? Let\'s look at the numbers together right now."' },
+      { text: '"I want to see case studies and proof before I commit."', context: 'Analytical buyer demanding evidence.', tip: '"What would the case study need to show for you to feel confident? Let\'s get specific."' },
+      { text: '"I can find this information online for free."', context: 'Commodity objection -- they don\'t see unique value.', tip: '"You\'re right, you can. So what would make working with us worth it over figuring it out yourself?"' },
+      { text: '"I\'m going to wait until after Q1."', context: 'Logical-sounding delay with fake urgency.', tip: '"What changes in Q2 that makes this a better decision? I want to understand the logic."' },
+      { text: '"Your competitor is offering the same thing for less."', context: 'Price plus competition combined.', tip: '"Are they? What exactly are they offering? Let\'s compare apples to apples."' },
+      { text: '"I\'m not convinced this will work for my specific situation."', context: 'Unique snowflake objection -- they think they\'re different.', tip: '"Tell me what\'s different about your situation. I want to be honest about whether this fits or not."' },
+      { text: '"I need to see an ROI guarantee before I move forward."', context: 'Demanding certainty where none exists.', tip: '"No one can guarantee results -- but let\'s talk about what\'s guaranteed on our end and what depends on you."' },
+      { text: '"We\'re going through some internal changes right now."', context: 'Corporate-speak for stalling.', tip: '"How long do changes like this usually take? And does that mean this is off the table or just delayed?"' },
+    ]
+  };
+
+  let drillDiff = 'beginner';
+  let drillDur = 60;
+  let drillObjections = [];
+  let drillIndex = 0;
+  let drillTimerInterval = null;
+  let drillTimeLeft = 60;
+  let drillCompleted = 0;
+  let drillHintShown = false;
+
+  function selectDiff(diff) {
+    drillDiff = diff;
+    ['beginner','intermediate','advanced'].forEach(d => {
+      document.getElementById('diff-' + d).classList.toggle('selected', d === diff);
+    });
+  }
+
+  function selectDur(dur) {
+    drillDur = dur;
+    [60, 90, 120].forEach(d => {
+      document.getElementById('dur-' + d).classList.toggle('selected', d === dur);
+    });
+  }
+
+  function drillShowView(id) {
+    ['drillScreenSelect','drillScreenCountdown','drillScreenDrill','drillScreenResults'].forEach(s => {
+      document.getElementById(s).classList.toggle('hidden', s !== id);
+    });
+  }
+
+  function drillStartCountdown() {
+    drillShowView('drillScreenCountdown');
+    let count = 3;
+    document.getElementById('countdownNum').textContent = count;
+    const interval = setInterval(() => {
+      count--;
+      if (count <= 0) {
+        clearInterval(interval);
+        document.getElementById('countdownNum').textContent = 'GO';
+        setTimeout(drillStart, 600);
+      } else {
+        document.getElementById('countdownNum').textContent = count;
+      }
+    }, 1000);
+  }
+
+  function drillStart() {
+    drillShowView('drillScreenDrill');
+    drillObjections = [...DRILL_OBJECTIONS[drillDiff]].sort(() => Math.random() - 0.5);
+    drillIndex = 0; drillCompleted = 0; drillTimeLeft = drillDur; drillHintShown = false;
+    document.getElementById('drillTimer').className = 'drill-timer';
+    document.getElementById('timerBar').style.width = '100%';
+    document.getElementById('timerBar').style.background = 'var(--blue)';
+    document.getElementById('timerBar').style.boxShadow = '0 0 8px rgba(56,189,248,0.4)';
+    drillShowObjection();
+    drillStartTimer();
+  }
+
+  function drillShowObjection() {
+    const obj = drillObjections[drillIndex % drillObjections.length];
+    document.getElementById('objectionText').textContent = obj.text;
+    document.getElementById('objectionContext').textContent = obj.context;
+    document.getElementById('drillProgress').textContent = 'Objection ' + (drillIndex + 1);
+    document.getElementById('drillTip').classList.remove('visible');
+    drillHintShown = false;
+  }
+
+  function nextObjection() {
+    drillIndex++; drillCompleted++;
+    if (drillIndex >= drillObjections.length) {
+      drillObjections = [...DRILL_OBJECTIONS[drillDiff]].sort(() => Math.random() - 0.5);
+      drillIndex = 0;
+    }
+    drillShowObjection();
+  }
+
+  function showHint() {
+    if (drillHintShown) return;
+    drillHintShown = true;
+    const obj = drillObjections[drillIndex % drillObjections.length];
+    document.getElementById('drillTipText').textContent = obj.tip;
+    document.getElementById('drillTip').classList.add('visible');
+  }
+
+  function drillStartTimer() {
+    clearInterval(drillTimerInterval);
+    const total = drillDur;
+    const timerEl = document.getElementById('drillTimer');
+    const barEl = document.getElementById('timerBar');
+    drillTimerInterval = setInterval(() => {
+      drillTimeLeft--;
+      timerEl.textContent = drillTimeLeft;
+      barEl.style.width = (drillTimeLeft / total * 100) + '%';
+      if (drillTimeLeft <= 10) { timerEl.className = 'drill-timer danger'; barEl.style.background = '#38bdf8'; }
+      else if (drillTimeLeft <= 20) { timerEl.className = 'drill-timer warning'; barEl.style.background = '#f5a623'; }
+      if (drillTimeLeft <= 0) { clearInterval(drillTimerInterval); drillShowResults(); }
+    }, 1000);
+  }
+
+  function drillShowResults() {
+    drillShowView('drillScreenResults');
+    const total = drillCompleted + 1;
+    document.getElementById('resultsCount').textContent = total;
+    document.getElementById('statObjections').textContent = total;
+    document.getElementById('statDuration').textContent = drillDur + 's';
+    document.getElementById('statDiff').textContent = drillDiff.charAt(0).toUpperCase() + drillDiff.slice(1);
+    const titles = {
+      beginner: total >= 6 ? 'Locked in. Now go close.' : 'Good start. Do it again.',
+      intermediate: total >= 5 ? 'Sharp. Go handle it live.' : 'More reps. That\'s how it sticks.',
+      advanced: total >= 4 ? 'Elite mindset. Go execute.' : 'The reps add up. Stay consistent.'
+    };
+    document.getElementById('resultsTitle').textContent = titles[drillDiff] || 'Warm. Now go close.';
+  }
+
+  function resetDrill() {
+    clearInterval(drillTimerInterval);
+    drillTimeLeft = drillDur;
+    drillShowView('drillScreenSelect');
+  }
+</script>
+</body>
+</html>

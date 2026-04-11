@@ -518,6 +518,8 @@ app.post('/api/upgrade-team', async (req, res) => {
 app.get('/join.html', serveWithSupabase('join.html'));
 app.get('/settings', serveWithSupabase('settings.html'));
 app.get('/settings.html', serveWithSupabase('settings.html'));
+app.get('/drill', serveWithSupabase('drill.html'));
+app.get('/drill.html', serveWithSupabase('drill.html'));
 
 // ─── STRIPE ────────────────────────────────────────────────────────────────
 const Stripe = require('stripe');
