@@ -89,6 +89,13 @@ app.post('/api/session-start', async (req, res) => {
     profile = newProfile;
   }
 
+  // GOD MODE -- admin accounts bypass all limits
+  const ADMIN_EMAILS = ['alex.spartandesk@gmail.com'];
+  if (ADMIN_EMAILS.includes(user.email)) {
+    await updateStreak(userId, profile);
+    return res.json({ allowed: true, sessionsUsed: profile.session_count, isPro: true, minutesBalance: 99999 });
+  }
+
   // Check minutes balance for all users
   const balance = profile.minutes_balance ?? (profile.is_pro ? 120 : 45);
   if (balance <= 0) {
