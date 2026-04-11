@@ -2877,6 +2877,20 @@
   // Checkout success modal
   (function() {
     const params = new URLSearchParams(window.location.search);
+    if (params.get('checkout') === 'minutes') {
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;display:flex;align-items:center;justify-content:center;';
+      overlay.innerHTML = `
+        <div style="background:#0f2444;border:1px solid #1e40af;border-radius:16px;padding:48px 40px;max-width:440px;width:90%;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.5);">
+          <div style="font-size:48px;margin-bottom:16px;">&#9813;</div>
+          <h2 style="color:#fff;font-size:24px;font-weight:700;margin:0 0 8px;">Minutes Added.</h2>
+          <p style="color:#93c5fd;font-size:15px;margin:0 0 24px;">Your session minutes have been added to your account. Get back in the rep.</p>
+          <button onclick="this.closest('[style*=fixed]').remove(); window.history.replaceState({}, '', '/app');" style="background:#2563eb;color:#fff;border:none;border-radius:8px;padding:14px 32px;font-size:15px;font-weight:600;cursor:pointer;width:100%;">Start Training</button>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+    }
+
     if (params.get('checkout') === 'success') {
       const plan = params.get('plan') || 'pro';
       const planLabels = { solo: 'Solo Pro', team_starter: 'Team Starter', team_pro: 'Team Pro', team_elite: 'Team Elite' };

@@ -775,7 +775,7 @@ app.post('/api/buy-minutes', async (req, res) => {
         quantity: 1,
       }],
       metadata: { user_id: user.id, plan_key: pack_key },
-      success_url: `${appUrl}/app?minutes=added`,
+      success_url: `${appUrl}/app?checkout=minutes`,
       cancel_url: `${appUrl}/app`,
     });
     res.json({ url: session.url });
