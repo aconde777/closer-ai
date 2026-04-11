@@ -174,6 +174,8 @@
   .btn-upgrade:hover { box-shadow: 0 0 20px rgba(56,189,248,0.4); }
   .btn-dismiss { width: 100%; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 10px; padding: 13px; font-size: 14px; cursor: pointer; font-family: inherit; }
   .btn-dismiss:hover { color: var(--text); border-color: var(--muted); }
+  .btn-pack { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 10px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+  .btn-pack:hover { border-color: rgba(56,189,248,0.4); background: rgba(56,189,248,0.05); }
 
   .scoring-spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -261,17 +263,48 @@
   </div>
 </div>
 
-<!-- PAYWALL -->
+<!-- PAYWALL: Free trial used up -->
 <div class="overlay" id="paywallOverlay">
   <div class="overlay-card">
     <div class="overlay-icon">
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
     </div>
     <div class="overlay-title">Free Trial Complete</div>
-    <div class="overlay-sub">You've used your 3 free sessions. Upgrade to Pro to keep training with unlimited sessions and AI scoring.</div>
+    <div class="overlay-sub">You've used your 3 free sessions. Upgrade to Pro to keep training.</div>
     <div class="overlay-price"><span>$</span>49</div>
-    <div class="overlay-period">per month -- unlimited sessions, cancel anytime</div>
-    <button class="btn-upgrade" onclick="window.location.href='/?billing=1'">Upgrade to Pro</button>
+    <div class="overlay-period">per month -- 120 min/mo + AI scoring</div>
+    <button class="btn-upgrade" onclick="window.location.href='/app?billing=1'">Upgrade to Pro</button>
+    <button class="btn-dismiss" onclick="goBack()">Back to Prospects</button>
+  </div>
+</div>
+
+<!-- PAYWALL: Out of minutes -->
+<div class="overlay" id="minutesOverlay">
+  <div class="overlay-card" style="max-width:480px;">
+    <div class="overlay-icon" style="color:#f59e0b;">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <div class="overlay-title">You're Out of Minutes</div>
+    <div class="overlay-sub">Top up your balance and keep training. Minutes never expire.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0;">
+      <button class="btn-pack" onclick="buyMinutes('minutes_60')">
+        <div style="font-size:18px;font-weight:900;color:#38bdf8;">$25</div>
+        <div style="font-size:12px;color:#4a6080;margin-top:2px;">60 min</div>
+      </button>
+      <button class="btn-pack" onclick="buyMinutes('minutes_120')">
+        <div style="font-size:18px;font-weight:900;color:#38bdf8;">$59</div>
+        <div style="font-size:12px;color:#4a6080;margin-top:2px;">120 min</div>
+      </button>
+      <button class="btn-pack" onclick="buyMinutes('minutes_200')">
+        <div style="font-size:18px;font-weight:900;color:#38bdf8;">$89</div>
+        <div style="font-size:12px;color:#4a6080;margin-top:2px;">200 min</div>
+      </button>
+      <button class="btn-pack" onclick="buyMinutes('minutes_400')">
+        <div style="font-size:18px;font-weight:900;color:#38bdf8;">$169</div>
+        <div style="font-size:12px;color:#4a6080;margin-top:2px;">400 min</div>
+      </button>
+    </div>
+    <div style="font-size:11px;color:#4a6080;text-align:center;margin-bottom:14px;">Best value on the 400 min pack</div>
     <button class="btn-dismiss" onclick="goBack()">Back to Prospects</button>
   </div>
 </div>
@@ -300,7 +333,29 @@
   let vapi = null, callActive = false, callStarted = false, muted = false;
   let timerInterval = null, seconds = 0, transcript = [];
 
-  function showPaywall() { document.getElementById('paywallOverlay').classList.add('open'); }
+  function showPaywall(reason) {
+    if (reason === 'no_minutes') {
+      document.getElementById('minutesOverlay').classList.add('open');
+    } else {
+      document.getElementById('paywallOverlay').classList.add('open');
+    }
+  }
+
+  async function buyMinutes(packKey) {
+    const session = window._session;
+    if (!session) return;
+    try {
+      const r = await fetch('/api/buy-minutes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+        body: JSON.stringify({ pack_key: packKey })
+      });
+      const data = await r.json();
+      if (data.url) window.location.href = data.url;
+    } catch(err) {
+      console.error('Buy minutes error:', err);
+    }
+  }
 
   function goBack() {
     if (callActive) endCall();
@@ -345,7 +400,7 @@
         const result = await check.json();
         if (!result.allowed) {
           document.getElementById('btnMain').style.opacity = '1';
-          showPaywall(); return;
+          showPaywall(result.reason); return;
         }
       }
 

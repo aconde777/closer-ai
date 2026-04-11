@@ -75,7 +75,7 @@ app.post('/api/session-start', async (req, res) => {
   // Get or create user profile
   let { data: profile } = await supabaseAdmin
     .from('user_profiles')
-    .select('session_count, is_pro')
+    .select('session_count, is_pro, streak_days, last_session_date, minutes_balance, minutes_used')
     .eq('id', userId)
     .single();
 
@@ -83,21 +83,27 @@ app.post('/api/session-start', async (req, res) => {
     // First time -- create profile
     const { data: newProfile } = await supabaseAdmin
       .from('user_profiles')
-      .insert({ id: userId, session_count: 0, is_pro: false })
+      .insert({ id: userId, session_count: 0, is_pro: false, minutes_balance: 45, minutes_used: 0 })
       .select()
       .single();
     profile = newProfile;
   }
 
-  // Pro users have unlimited sessions
+  // Check minutes balance for all users
+  const balance = profile.minutes_balance ?? (profile.is_pro ? 120 : 45);
+  if (balance <= 0) {
+    return res.json({ allowed: false, reason: 'no_minutes', minutesBalance: 0, isPro: profile.is_pro });
+  }
+
+  // Pro users -- skip session count limit, just check minutes
   if (profile.is_pro) {
     await updateStreak(userId, profile);
-    return res.json({ allowed: true, sessionsUsed: profile.session_count, isPro: true });
+    return res.json({ allowed: true, sessionsUsed: profile.session_count, isPro: true, minutesBalance: balance });
   }
 
   // Free trial limit
   if (profile.session_count >= 3) {
-    return res.json({ allowed: false, sessionsUsed: profile.session_count, isPro: false });
+    return res.json({ allowed: false, reason: 'no_sessions', sessionsUsed: profile.session_count, isPro: false });
   }
 
   // Increment session count and update streak
@@ -176,6 +182,7 @@ app.post('/api/save-call', async (req, res) => {
   const { prospectName, prospectRole, durationSeconds, scores, transcript } = req.body;
 
   try {
+    // Save call history
     await supabaseAdmin.from('call_history').insert({
       user_id: user.id,
       prospect_name: prospectName,
@@ -189,6 +196,20 @@ app.post('/api/save-call', async (req, res) => {
       coach_notes: scores?.notes,
       transcript
     });
+
+    // Deduct minutes used
+    const minutesUsed = Math.ceil((durationSeconds || 0) / 60);
+    if (minutesUsed > 0) {
+      const { data: profile } = await supabaseAdmin
+        .from('user_profiles').select('minutes_balance, minutes_used').eq('id', user.id).single();
+      const currentBalance = profile?.minutes_balance ?? 0;
+      const currentUsed = profile?.minutes_used ?? 0;
+      await supabaseAdmin.from('user_profiles').update({
+        minutes_balance: Math.max(0, currentBalance - minutesUsed),
+        minutes_used: currentUsed + minutesUsed
+      }).eq('id', user.id);
+    }
+
     res.json({ ok: true });
   } catch (err) {
     console.error('Save call error:', err.message);
@@ -500,6 +521,15 @@ const PLANS = {
   team_elite:   { name: 'Team Elite',    price: 39900, plan: 'team_elite' },
 };
 
+// Minute packs -- one-time purchases
+// Vapi cost ~$0.25/min. Priced for ~40%+ margin.
+const MINUTE_PACKS = {
+  minutes_60:  { name: '1 Hour Pack',   price: 2500,  minutes: 60  },  // $25 -- $10 profit
+  minutes_120: { name: '3 Hour Pack',   price: 5900,  minutes: 120 },  // $59 -- $29 profit
+  minutes_200: { name: '5 Hour Pack',   price: 8900,  minutes: 200 },  // $89 -- $39 profit
+  minutes_400: { name: '10 Hour Pack',  price: 16900, minutes: 400 },  // $169 -- $69 profit
+};
+
 // Create Stripe Checkout session
 app.post('/api/create-checkout', async (req, res) => {
   const { plan_key, user_id, email } = req.body;
@@ -559,6 +589,42 @@ app.post('/api/billing-portal', async (req, res) => {
   }
 });
 
+// Buy minute pack -- one-time Stripe checkout
+app.post('/api/buy-minutes', async (req, res) => {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ error: 'Unauthorized' });
+
+  const { pack_key } = req.body;
+  const pack = MINUTE_PACKS[pack_key];
+  if (!pack) return res.status(400).json({ error: 'Invalid pack' });
+
+  try {
+    const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
+    if (error || !user) return res.status(401).json({ error: 'Unauthorized' });
+
+    const appUrl = process.env.APP_URL || 'https://theelitecloser.io';
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      mode: 'payment',
+      line_items: [{
+        price_data: {
+          currency: 'usd',
+          product_data: { name: `The Elite Closer -- ${pack.name}` },
+          unit_amount: pack.price,
+        },
+        quantity: 1,
+      }],
+      metadata: { user_id: user.id, plan_key: pack_key },
+      success_url: `${appUrl}/app?minutes=added`,
+      cancel_url: `${appUrl}/app`,
+    });
+    res.json({ url: session.url });
+  } catch (err) {
+    console.error('Buy minutes error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Stripe webhook -- update user plan after successful payment
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
@@ -576,13 +642,25 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
     const { user_id, plan_key } = session.metadata || {};
-    if (user_id && plan_key) {
+
+    // Minute pack one-time purchase
+    if (user_id && plan_key && MINUTE_PACKS[plan_key]) {
+      const { data: p } = await supabaseAdmin.from('user_profiles').select('minutes_balance').eq('id', user_id).single();
+      const addMinutes = MINUTE_PACKS[plan_key].minutes;
+      await supabaseAdmin.from('user_profiles').update({
+        minutes_balance: (p?.minutes_balance || 0) + addMinutes
+      }).eq('id', user_id);
+    }
+
+    if (user_id && plan_key && !plan_key.startsWith('minutes_')) {
       const isTeam = plan_key.startsWith('team');
+      const planMinutes = { solo: 120, team_starter: 400, team_pro: 800, team_elite: 1200 };
       await supabaseAdmin.from('user_profiles').update({
         plan: plan_key,
         is_pro: true,
         stripe_customer_id: session.customer,
         stripe_subscription_id: session.subscription,
+        minutes_balance: planMinutes[plan_key] || 120,
       }).eq('id', user_id);
 
       if (isTeam) {

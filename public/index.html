@@ -81,6 +81,16 @@
   .session-counter-text { font-size: 11px; color: var(--muted); }
   .session-counter-text strong { color: var(--text); }
 
+  .minutes-block { background: rgba(56,189,248,0.05); border: 1px solid rgba(56,189,248,0.12); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
+  .minutes-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .minutes-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .minutes-buy { font-size: 10px; font-weight: 700; color: var(--blue); cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
+  .minutes-buy:hover { text-decoration: underline; }
+  .minutes-bar { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 6px; }
+  .minutes-fill { height: 100%; background: linear-gradient(90deg,#0ea5e9,#38bdf8); border-radius: 2px; transition: width 0.4s; box-shadow: 0 0 6px rgba(56,189,248,0.3); }
+  .minutes-count { font-size: 11px; color: var(--muted); }
+  .minutes-count strong { color: var(--text); }
+
   .user-block { display: flex; align-items: center; gap: 10px; }
   .user-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--card2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--muted); flex-shrink: 0; }
   .user-info { flex: 1; min-width: 0; }
@@ -374,6 +384,21 @@
   .met-cat-score { font-size: 16px; font-weight: 900; }
 
   /* BILLING */
+  .billing-section { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .billing-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); padding: 16px 20px 0; }
+  .billing-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); gap: 12px; }
+  .billing-row-label { font-size: 14px; color: var(--text); }
+  .billing-row-value { font-size: 14px; color: var(--muted); }
+  .billing-plan-badge { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 12px; border-radius: 100px; background: rgba(56,189,248,0.1); color: var(--blue); border: 1px solid rgba(56,189,248,0.2); }
+  .billing-manage-btn { font-size: 12px; font-weight: 700; color: var(--blue); background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; }
+  .billing-manage-btn:hover { text-decoration: underline; }
+  .credits-pack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .credit-pack { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; cursor: pointer; transition: all 0.15s; text-align: center; position: relative; }
+  .credit-pack:hover { border-color: rgba(56,189,248,0.3); }
+  .credit-pack.selected { border-color: var(--blue); background: rgba(56,189,248,0.07); box-shadow: 0 0 0 1px rgba(56,189,248,0.3); }
+  .credit-pack-hours { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+  .credit-pack-price { font-size: 13px; color: var(--muted); }
+  .credit-pack-tag { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: #4ade80; color: #000; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 100px; white-space: nowrap; }
   .plan-toggle { background: none; border: none; color: var(--muted); font-size: 13px; font-weight: 600; padding: 8px 20px; border-radius: 7px; cursor: pointer; transition: all 0.12s; }
   .plan-toggle.active { background: var(--card2); color: var(--text); border: 1px solid var(--border); }
   .plan-grid { display: grid; gap: 16px; }
@@ -550,6 +575,9 @@
 
     .prospect-grid,
     .history-grid { grid-template-columns: 1fr !important; }
+
+    .credits-pack-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .team-grid { grid-template-columns: 1fr !important; }
   }
 </style>
 </head>
@@ -635,9 +663,9 @@
     <!-- ACCOUNT -->
     <div class="nav-section">
       <div class="nav-section-label">Account</div>
-      <button class="nav-item" onclick="showPage('billing')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        Upgrade
+      <button class="nav-item" id="nav-billing" onclick="showPage('billing')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        Billing
       </button>
       <button class="nav-item" id="nav-settings" onclick="showPage('settings')">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -662,6 +690,17 @@
         <div class="session-counter-fill" id="sessionFill" style="width:0%"></div>
       </div>
       <div class="session-counter-text" id="sessionText"></div>
+    </div>
+    <!-- MINUTES BALANCE -->
+    <div class="minutes-block" id="minutesBlock" style="display:none;">
+      <div class="minutes-top">
+        <span class="minutes-label">Minutes Left</span>
+        <span class="minutes-buy" onclick="showPage('billing')">Buy More</span>
+      </div>
+      <div class="minutes-bar">
+        <div class="minutes-fill" id="minutesFill" style="width:0%"></div>
+      </div>
+      <div class="minutes-count" id="minutesCount">-- min</div>
     </div>
     <div class="user-block">
       <div class="user-avatar" id="userAvatar">?</div>
@@ -1138,57 +1177,88 @@
   <!-- BILLING -->
   <div class="page-content" id="page-billing" style="display:none;">
     <div style="margin-bottom:28px;">
-      <div style="font-size:22px;font-weight:900;letter-spacing:-0.5px;">Upgrade Your <span style="color:var(--blue)">Plan</span></div>
-      <div style="font-size:13px;color:var(--muted);margin-top:6px;">Current plan: <strong id="currentPlanLabel" style="color:var(--text);">Loading...</strong></div>
+      <div style="font-size:22px;font-weight:900;letter-spacing:-0.5px;">Billing</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px;">Manage your plan and training credits.</div>
     </div>
 
-    <!-- Plan toggle -->
-    <div style="display:flex;align-items:center;gap:0;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:4px;width:fit-content;margin-bottom:28px;">
-      <button class="plan-toggle active" id="toggleSolo" onclick="switchPlanView('solo')">Solo</button>
-      <button class="plan-toggle" id="toggleTeam" onclick="switchPlanView('team')">Team</button>
-    </div>
-
-    <!-- Solo plans -->
-    <div id="soloPlans">
-      <div class="plan-grid solo-grid">
-        <div class="plan-card" id="planFree">
-          <div class="plan-name">Free Trial</div>
-          <div class="plan-price">$0</div>
-          <div class="plan-period">3 sessions included</div>
-          <ul class="plan-features">
-            <li>3 AI roleplay sessions</li>
-            <li>Call scoring</li>
-            <li>Basic prospect library</li>
-          </ul>
-          <button class="plan-btn" disabled id="btnFree">Current Plan</button>
+    <!-- PLAN SECTION -->
+    <div class="billing-section">
+      <div class="billing-section-title">Plan</div>
+      <div class="billing-row">
+        <span class="billing-row-label">Current Plan</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="billing-plan-badge" id="currentPlanBadge">Free Trial</span>
+          <button class="billing-manage-btn" id="btnManageStripe" onclick="openBillingPortal()" style="display:none;">Manage in Stripe</button>
         </div>
-        <div class="plan-card featured" id="planSolo">
-          <div class="plan-badge">Most Popular</div>
-          <div class="plan-name">Solo Pro</div>
-          <div class="plan-price">$49<span>/mo</span></div>
-          <div class="plan-period">Unlimited sessions</div>
-          <ul class="plan-features">
-            <li>Unlimited AI roleplay</li>
-            <li>Full call scoring & replay</li>
-            <li>Sales Tracker</li>
-            <li>All prospect types</li>
-            <li>Daily streak tracking</li>
-          </ul>
-          <button class="plan-btn btn-primary" id="btnSolo" onclick="selectPlan('solo')">Upgrade to Solo Pro</button>
+      </div>
+      <div class="billing-row" id="rowNextInvoice" style="display:none;">
+        <span class="billing-row-label">Next Invoice</span>
+        <span class="billing-row-value" id="nextInvoiceLabel">--</span>
+      </div>
+      <div class="billing-row" style="border:none;">
+        <span class="billing-row-label">To cancel your plan</span>
+        <span class="billing-row-value" style="font-size:12px;">Email <a href="mailto:support@theelitecloser.io" style="color:var(--blue);text-decoration:none;">support@theelitecloser.io</a></span>
+      </div>
+    </div>
+
+    <!-- UPGRADE PROMPT (free users) -->
+    <div id="upgradePrompt" style="display:none;">
+      <div class="billing-section" style="border-color:rgba(56,189,248,0.2);background:rgba(56,189,248,0.03);">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+          <div>
+            <div style="font-size:15px;font-weight:800;margin-bottom:4px;">Upgrade to Solo Pro</div>
+            <div style="font-size:13px;color:var(--muted);">$49/mo &mdash; 120 min/mo included + full scoring</div>
+          </div>
+          <button class="btn-primary" style="padding:11px 22px;font-size:14px;font-weight:700;border-radius:9px;" onclick="selectPlan('solo')">Upgrade Now</button>
         </div>
       </div>
     </div>
 
-    <!-- Team plans -->
-    <div id="teamPlans" style="display:none;">
+    <!-- CREDITS SECTION -->
+    <div class="billing-section" style="margin-top:24px;">
+      <div class="billing-section-title">Credits</div>
+      <div class="billing-row">
+        <span class="billing-row-label">Balance</span>
+        <span class="billing-row-value" id="creditsBalanceLabel" style="font-weight:800;font-size:15px;">-- minutes</span>
+      </div>
+      <div style="padding:20px 0 8px;">
+        <div style="font-size:13px;font-weight:700;margin-bottom:14px;">Add credits <span style="font-size:11px;font-weight:400;color:var(--muted);margin-left:4px;">Minutes never expire. Stack on top of your plan.</span></div>
+        <div class="credits-pack-grid" id="creditPackGrid">
+          <div class="credit-pack" data-pack="minutes_60" data-label="60 min — $25" onclick="selectCreditPack(this,'minutes_60','60 minutes','$25')">
+            <div class="credit-pack-hours">60 min</div>
+            <div class="credit-pack-price">$25</div>
+          </div>
+          <div class="credit-pack selected" data-pack="minutes_120" data-label="120 min — $59" onclick="selectCreditPack(this,'minutes_120','120 minutes','$59')">
+            <div class="credit-pack-hours">120 min</div>
+            <div class="credit-pack-price">$59</div>
+          </div>
+          <div class="credit-pack" data-pack="minutes_200" data-label="200 min — $89" onclick="selectCreditPack(this,'minutes_200','200 minutes','$89')">
+            <div class="credit-pack-hours">200 min</div>
+            <div class="credit-pack-price">$89</div>
+          </div>
+          <div class="credit-pack" data-pack="minutes_400" data-label="400 min — $169" onclick="selectCreditPack(this,'minutes_400','400 minutes','$169')">
+            <div class="credit-pack-hours">400 min</div>
+            <div class="credit-pack-price">$169</div>
+            <div class="credit-pack-tag">Best Value</div>
+          </div>
+        </div>
+        <button class="btn-primary" id="btnPurchaseCredits" style="width:100%;padding:14px;font-size:15px;font-weight:800;border-radius:10px;margin-top:14px;" onclick="purchaseSelectedPack()">
+          Purchase 120 minutes &mdash; $59
+        </button>
+      </div>
+    </div>
+
+    <!-- TEAM PLANS (shown if on team plan or want to upgrade) -->
+    <div style="margin-top:24px;">
+      <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:14px;text-transform:uppercase;letter-spacing:0.8px;">Team Plans</div>
       <div class="plan-grid team-grid">
         <div class="plan-card" id="planTeamStarter">
           <div class="plan-name">Team Starter</div>
           <div class="plan-price">$129<span>/mo</span></div>
-          <div class="plan-period">Up to 5 seats</div>
+          <div class="plan-period">Up to 5 seats &mdash; 400 min/mo</div>
           <ul class="plan-features">
             <li>5 rep seats</li>
-            <li>Unlimited sessions</li>
+            <li>400 min/mo included</li>
             <li>Team leaderboard</li>
             <li>Member management</li>
             <li>Everything in Solo Pro</li>
@@ -1199,10 +1269,10 @@
           <div class="plan-badge">Best Value</div>
           <div class="plan-name">Team Pro</div>
           <div class="plan-price">$249<span>/mo</span></div>
-          <div class="plan-period">Up to 10 seats</div>
+          <div class="plan-period">Up to 10 seats &mdash; 800 min/mo</div>
           <ul class="plan-features">
             <li>10 rep seats</li>
-            <li>Unlimited sessions</li>
+            <li>800 min/mo included</li>
             <li>Team leaderboard</li>
             <li>Member management</li>
             <li>Everything in Solo Pro</li>
@@ -1212,10 +1282,10 @@
         <div class="plan-card" id="planTeamElite">
           <div class="plan-name">Team Elite</div>
           <div class="plan-price">$399<span>/mo</span></div>
-          <div class="plan-period">Up to 15 seats</div>
+          <div class="plan-period">Up to 15 seats &mdash; 1,200 min/mo</div>
           <ul class="plan-features">
             <li>15 rep seats</li>
-            <li>Unlimited sessions</li>
+            <li>1,200 min/mo included</li>
             <li>Team leaderboard</li>
             <li>Member management</li>
             <li>Priority support</li>
@@ -1551,7 +1621,7 @@
     try {
       const { data: profile } = await window._supabase
         .from('user_profiles')
-        .select('session_count, is_pro')
+        .select('session_count, is_pro, streak_days, minutes_balance, minutes_used')
         .eq('id', user.id)
         .single();
 
@@ -1564,7 +1634,22 @@
           document.getElementById('streakNumber').textContent = profile.streak_days;
         }
 
-        // Session counter (free users only)
+        // Minutes balance
+        const balance = profile.minutes_balance ?? (profile.is_pro ? 120 : 45);
+        const totalAllocated = profile.is_pro
+          ? ({ solo:120, team_starter:400, team_pro:800, team_elite:1200 }[profile.plan] || 120)
+          : 45;
+        const maxForBar = Math.max(totalAllocated, balance); // handles top-ups above plan alloc
+        const pctMin = Math.min((balance / maxForBar) * 100, 100);
+        const lowMin = balance <= 10;
+        document.getElementById('minutesBlock').style.display = 'block';
+        document.getElementById('minutesFill').style.width = pctMin + '%';
+        document.getElementById('minutesFill').style.background = lowMin ? '#f87171' : 'linear-gradient(90deg,#0ea5e9,#38bdf8)';
+        document.getElementById('minutesCount').innerHTML = lowMin
+          ? `<strong style="color:#f87171;">${balance} min left</strong> — running low`
+          : `<strong>${balance}</strong> min remaining`;
+
+        // Session counter (free users only -- hide once they have minutes from top-up)
         if (!profile.is_pro) {
           const used = profile.session_count;
           const pct = Math.min((used / 3) * 100, 100);
@@ -1582,13 +1667,17 @@
     // Handle Stripe redirect back
     const params = new URLSearchParams(window.location.search);
     const checkout = params.get('checkout');
+    const minutes = params.get('minutes');
     if (checkout === 'success') {
       showPage('billing');
       setTimeout(() => alert('Payment successful! Your plan has been upgraded.'), 500);
-      window.history.replaceState({}, '', '/');
+      window.history.replaceState({}, '', '/app');
     } else if (checkout === 'cancel') {
       showPage('billing');
-      window.history.replaceState({}, '', '/');
+      window.history.replaceState({}, '', '/app');
+    } else if (minutes === 'added') {
+      setTimeout(() => alert('Minutes added! Your balance has been updated.'), 500);
+      window.history.replaceState({}, '', '/app');
     }
   });
 
@@ -1861,7 +1950,7 @@
       members: 'Team <span style="color:var(--blue)">Members</span>',
       sales: 'Sales <span style="color:var(--blue)">Tracker</span>',
       leaderboard: '<span style="color:var(--blue)">Leaderboard</span>',
-      billing: 'Upgrade Your <span style="color:var(--blue)">Plan</span>',
+      billing: '<span style="color:var(--blue)">Billing</span>',
       settings: 'Account <span style="color:var(--blue)">Settings</span>',
       drill: 'The <span style="color:var(--blue)">Drill</span>'
     };
@@ -2751,12 +2840,17 @@
 
   // BILLING
   let _userPlan = 'free';
+  let _selectedPackKey = 'minutes_120';
 
-  function switchPlanView(view) {
-    document.getElementById('soloPlans').style.display = view === 'solo' ? 'block' : 'none';
-    document.getElementById('teamPlans').style.display = view === 'team' ? 'block' : 'none';
-    document.getElementById('toggleSolo').classList.toggle('active', view === 'solo');
-    document.getElementById('toggleTeam').classList.toggle('active', view === 'team');
+  function selectCreditPack(el, packKey, label, price) {
+    document.querySelectorAll('.credit-pack').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+    _selectedPackKey = packKey;
+    document.getElementById('btnPurchaseCredits').textContent = `Purchase ${label} \u2014 ${price}`;
+  }
+
+  async function purchaseSelectedPack() {
+    await buyMinutesPack(_selectedPackKey);
   }
 
   async function loadBilling() {
@@ -2766,14 +2860,31 @@
     _userPlan = profile?.plan || 'free';
 
     const planLabels = {
-      free: 'Free Trial', solo: 'Solo Pro ($49/mo)',
-      team_starter: 'Team Starter ($129/mo)', team_pro: 'Team Pro ($249/mo)', team_elite: 'Team Elite ($399/mo)'
+      free: 'Free Trial', solo: 'Solo Pro',
+      team_starter: 'Team Starter', team_pro: 'Team Pro', team_elite: 'Team Elite'
     };
-    document.getElementById('currentPlanLabel').textContent = planLabels[_userPlan] || _userPlan;
 
-    // Mark current plan button
-    const planBtnMap = { free: 'btnFree', solo: 'btnSolo', team_starter: 'btnTeamStarter', team_pro: 'btnTeamPro', team_elite: 'btnTeamElite' };
-    Object.entries(planBtnMap).forEach(([plan, btnId]) => {
+    // Plan badge
+    document.getElementById('currentPlanBadge').textContent = planLabels[_userPlan] || _userPlan;
+
+    // Show Stripe manage button for paid users
+    if (_userPlan !== 'free') {
+      document.getElementById('btnManageStripe').style.display = 'inline';
+      document.getElementById('rowNextInvoice').style.display = 'flex';
+    }
+
+    // Show upgrade prompt for free users
+    if (_userPlan === 'free') {
+      document.getElementById('upgradePrompt').style.display = 'block';
+    }
+
+    // Credits balance
+    const balance = profile?.minutes_balance ?? (_userPlan === 'free' ? 45 : 120);
+    document.getElementById('creditsBalanceLabel').textContent = `${balance} minutes`;
+
+    // Mark current team plan button
+    const teamBtnMap = { team_starter: 'btnTeamStarter', team_pro: 'btnTeamPro', team_elite: 'btnTeamElite' };
+    Object.entries(teamBtnMap).forEach(([plan, btnId]) => {
       const btn = document.getElementById(btnId);
       if (!btn) return;
       if (plan === _userPlan) {
@@ -2782,9 +2893,6 @@
         btn.disabled = true;
       }
     });
-
-    // Default to team toggle if already on a team plan
-    if (_userPlan.startsWith('team_')) switchPlanView('team');
   }
 
   async function selectPlan(plan) {
@@ -2806,6 +2914,28 @@
     } catch (err) {
       alert('Something went wrong. Please try again.');
       if (btn) { btn.disabled = false; btn.textContent = 'Upgrade'; }
+    }
+  }
+
+  async function buyMinutesPack(packKey) {
+    const { data: { session } } = await window._supabase.auth.getSession();
+    if (!session) { showPage('auth'); return; }
+
+    const btn = document.querySelector(`[onclick="buyMinutesPack('${packKey}')"]`);
+    if (btn) { btn.disabled = true; btn.textContent = 'Loading...'; }
+
+    try {
+      const res = await fetch('/api/buy-minutes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+        body: JSON.stringify({ pack_key: packKey })
+      });
+      const { url, error } = await res.json();
+      if (error) throw new Error(error);
+      window.location.href = url;
+    } catch (err) {
+      alert('Something went wrong. Please try again.');
+      if (btn) { btn.disabled = false; btn.textContent = 'Buy Now'; }
     }
   }
 
