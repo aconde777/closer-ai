@@ -6,7 +6,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.json());
+app.use((req, res, next) => {
+  if (req.path === '/api/stripe-webhook') return next();
+  express.json()(req, res, next);
+});
 
 // Inject Supabase credentials into HTML pages
 const fs = require('fs');
