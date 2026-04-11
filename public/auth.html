@@ -268,6 +268,14 @@
     }
   });
 
+  // When user confirms email on another device, detect it and auto-redirect
+  sb.auth.onAuthStateChange((event, session) => {
+    if ((event === 'SIGNED_IN' || event === 'USER_UPDATED') && session) {
+      document.getElementById('autoRedirect').style.display = 'flex';
+      setTimeout(() => window.location.href = _redirect, 1200);
+    }
+  });
+
   // Auto-switch to login tab if ?tab=login
   if (new URLSearchParams(window.location.search).get('tab') === 'login') {
     switchTab('login');
