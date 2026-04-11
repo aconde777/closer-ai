@@ -650,7 +650,7 @@ app.post('/api/welcome-email', async (req, res) => {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${RESEND_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: 'The Elite Closer <hello@theelitecloser.io>',
+        from: 'The Elite Closer <support@theelitecloser.io>',
         to: [email],
         subject: `Welcome to The Elite Closer, ${firstName}.`,
         html
