@@ -163,6 +163,26 @@
 <div class="chess-bg"></div>
 <div class="top-glow"></div>
 
+<!-- AUTO REDIRECT SCREEN -->
+<div id="autoRedirect" style="display:none;position:fixed;inset:0;background:#030712;z-index:100;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
+  <svg width="40" height="40" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+    <rect width="36" height="36" rx="9" fill="#040c1e"/>
+    <defs><linearGradient id="rg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#0ea5e9"/></linearGradient></defs>
+    <rect x="16" y="2" width="4" height="9" rx="1.5" fill="url(#rg)"/>
+    <rect x="11.5" y="5" width="13" height="4" rx="1.5" fill="url(#rg)"/>
+    <rect x="13" y="11" width="10" height="3" rx="1" fill="url(#rg)"/>
+    <polygon points="13,14 23,14 26,27 10,27" fill="url(#rg)"/>
+    <rect x="5" y="27" width="26" height="5" rx="1.5" fill="url(#rg)"/>
+  </svg>
+  <div style="font-size:15px;font-weight:700;color:#e2eaf8;">Welcome back — taking you in...</div>
+  <div style="width:160px;height:3px;background:#0f2040;border-radius:2px;overflow:hidden;">
+    <div style="height:100%;background:linear-gradient(90deg,#0ea5e9,#38bdf8);border-radius:2px;animation:loadbar 1.1s ease forwards;"></div>
+  </div>
+</div>
+<style>
+  @keyframes loadbar { from { width: 0%; } to { width: 100%; } }
+</style>
+
 <a class="logo" href="/landing.html">
   <div class="logo-mark">
     <svg width="38" height="38" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
@@ -242,7 +262,10 @@
   const _redirect = new URLSearchParams(window.location.search).get('redirect') || '/app';
 
   sb.auth.getSession().then(({ data }) => {
-    if (data.session) window.location.href = _redirect;
+    if (data.session) {
+      document.getElementById('autoRedirect').style.display = 'flex';
+      setTimeout(() => window.location.href = _redirect, 1200);
+    }
   });
 
   // Auto-switch to login tab if ?tab=login
