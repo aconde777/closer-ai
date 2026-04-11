@@ -815,13 +815,14 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
     if (user_id && plan_key && !plan_key.startsWith('minutes_')) {
       const isTeam = plan_key.startsWith('team');
       const planMinutes = { solo: 120, team_starter: 400, team_pro: 800, team_elite: 1200 };
-      await supabaseAdmin.from('user_profiles').update({
+      await supabaseAdmin.from('user_profiles').upsert({
+        id: user_id,
         plan: plan_key,
         is_pro: true,
         stripe_customer_id: session.customer,
         stripe_subscription_id: session.subscription,
         minutes_balance: planMinutes[plan_key] || 120,
-      }).eq('id', user_id);
+      }, { onConflict: 'id' });
 
       if (isTeam) {
         // Create team if doesn't exist
