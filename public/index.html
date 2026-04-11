@@ -1198,6 +1198,7 @@
 
   <!-- BILLING -->
   <div class="page-content" id="page-billing" style="display:none;">
+    <div style="max-width:720px;">
     <div style="margin-bottom:28px;">
       <div style="font-size:22px;font-weight:900;letter-spacing:-0.5px;">Billing</div>
       <div style="font-size:13px;color:var(--muted);margin-top:4px;">Manage your plan and training credits.</div>
@@ -1226,7 +1227,7 @@
     <!-- UPGRADE PROMPT (free users) -->
     <div id="upgradePrompt" style="display:none;">
       <div class="billing-section" style="border-color:rgba(56,189,248,0.2);background:rgba(56,189,248,0.03);">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:20px;">
           <div>
             <div style="font-size:15px;font-weight:800;margin-bottom:4px;">Upgrade to Solo Pro</div>
             <div style="font-size:13px;color:var(--muted);">$49/mo &mdash; 120 min/mo included + full scoring</div>
@@ -1243,7 +1244,7 @@
         <span class="billing-row-label">Balance</span>
         <span class="billing-row-value" id="creditsBalanceLabel" style="font-weight:800;font-size:15px;">-- minutes</span>
       </div>
-      <div style="padding:20px 0 8px;">
+      <div style="padding:16px 20px 20px;">
         <div style="font-size:13px;font-weight:700;margin-bottom:14px;">Add credits <span style="font-size:11px;font-weight:400;color:var(--muted);margin-left:4px;">Minutes never expire. Stack on top of your plan.</span></div>
         <div class="credits-pack-grid" id="creditPackGrid">
           <div class="credit-pack" data-pack="minutes_60" data-label="60 min — $25" onclick="selectCreditPack(this,'minutes_60','60 minutes','$25')">
@@ -1316,6 +1317,7 @@
         </div>
       </div>
     </div>
+    </div><!-- /max-width wrapper -->
   </div>
 
 </div>
