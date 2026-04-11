@@ -123,8 +123,34 @@ app.post('/api/session-start', async (req, res) => {
   res.json({ allowed: true, sessionsUsed: profile.session_count + 1, isPro: false, streak: streakData.streak_days });
 });
 
+// Load saved custom prospects for current user
+app.get('/api/my-prospects', async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ error: 'Unauthorized' });
+  const token = authHeader.replace('Bearer ', '');
+  const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
+  if (error || !user) return res.status(401).json({ error: 'Unauthorized' });
+
+  const { data, error: dbErr } = await supabaseAdmin
+    .from('custom_prospects')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  if (dbErr) return res.status(500).json({ error: dbErr.message });
+  res.json({ prospects: data || [] });
+});
+
 // Create Vapi assistant from prospect form
 app.post('/api/create-prospect', async (req, res) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader ? authHeader.replace('Bearer ', '') : null;
+  let userId = null;
+  if (token) {
+    const { data: { user } } = await supabaseAdmin.auth.getUser(token);
+    if (user) userId = user.id;
+  }
+
   const { type, name, age, description, occupation, income, objections } = req.body;
 
   const systemPrompt = `You are ${name}, a ${age}-year-old ${type === 'b2b' ? 'business' : 'consumer'} prospect on a sales call.
@@ -170,6 +196,19 @@ Personality guidelines:
 
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || 'Vapi error');
+
+    // Save to Supabase so it persists across sessions
+    if (userId) {
+      await supabaseAdmin.from('custom_prospects').insert({
+        user_id: userId,
+        assistant_id: data.id,
+        name,
+        role: occupation,
+        objections,
+        type,
+      });
+    }
+
     res.json({ assistantId: data.id, name });
   } catch (err) {
     console.error('Create prospect error:', err.message);

@@ -1732,7 +1732,7 @@
     try {
       const res = await fetch('/api/create-prospect', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + window._session.access_token },
         body: JSON.stringify({ type: selectedType, name, age, description: desc, occupation, income, objections })
       });
       const data = await res.json();
@@ -2770,6 +2770,29 @@
     navigator.clipboard.writeText(link);
     alert('Invite link copied to clipboard.');
   }
+
+  async function loadCustomProspects() {
+    try {
+      const res = await fetch('/api/my-prospects', {
+        headers: { 'Authorization': 'Bearer ' + window._session.access_token }
+      });
+      const { prospects } = await res.json();
+      if (!prospects || prospects.length === 0) return;
+      prospects.forEach(p => {
+        addProspectCard(p.assistant_id, p.name, p.role, p.objections, p.type);
+      });
+    } catch(e) {}
+  }
+
+  // Load saved custom prospects on page ready
+  (function() {
+    const check = setInterval(() => {
+      if (window._session) {
+        clearInterval(check);
+        loadCustomProspects();
+      }
+    }, 200);
+  })();
 </script>
 </body>
 </html>
