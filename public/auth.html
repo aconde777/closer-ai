@@ -306,7 +306,10 @@
     const { data, error } = await sb.auth.signUp({
       email,
       password,
-      options: { data: { full_name: name } }
+      options: {
+        data: { full_name: name },
+        emailRedirectTo: 'https://theelitecloser.io/app'
+      }
     });
 
     if (error) {
