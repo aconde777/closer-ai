@@ -342,28 +342,48 @@
   .lb-stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
   .lb-empty { text-align: center; padding: 80px 32px; color: var(--muted); font-size: 14px; }
 
-  /* LMS */
-  .lms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .lms-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 10px; transition: border-color 0.15s; }
-  .lms-card:hover { border-color: rgba(56,189,248,0.25); box-shadow: 0 0 16px rgba(56,189,248,0.06); }
-  .lms-card.completed { border-color: rgba(74,222,128,0.25); background: rgba(74,222,128,0.03); }
-  .lms-card-top { display: flex; align-items: center; justify-content: space-between; }
-  .lms-type-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 8px; border-radius: 100px; }
-  .lms-type-badge.video { background: rgba(56,189,248,0.1); color: var(--blue); }
-  .lms-type-badge.script { background: rgba(245,166,35,0.12); color: #f5a623; }
-  .lms-type-badge.link { background: rgba(99,102,241,0.12); color: #818cf8; }
-  .lms-complete-check { width: 20px; height: 20px; border-radius: 50%; background: rgba(74,222,128,0.15); border: 1px solid rgba(74,222,128,0.3); display: flex; align-items: center; justify-content: center; }
-  .lms-cat { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
-  .lms-title { font-size: 14px; font-weight: 700; line-height: 1.4; }
-  .lms-desc { font-size: 12px; color: var(--muted); line-height: 1.5; flex: 1; }
-  .lms-btn { background: var(--card2); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 9px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.12s; text-align: center; }
-  .lms-btn:hover { border-color: rgba(56,189,248,0.4); color: var(--blue); box-shadow: 0 0 10px rgba(56,189,248,0.1); }
-  .lms-progress-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .lms-member-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
-  .lms-member-name { font-size: 13px; font-weight: 700; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .lms-member-bar-track { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 6px; }
-  .lms-member-bar-fill { height: 100%; background: #4ade80; border-radius: 2px; }
-  .lms-member-pct { font-size: 11px; color: var(--muted); }
+  /* LMS -- FOLDERS */
+  .lms-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+  .lms-breadcrumb { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:700; }
+  .lms-breadcrumb-home { color:var(--muted); cursor:pointer; transition:color 0.15s; }
+  .lms-breadcrumb-home:hover { color:var(--text); }
+  .lms-breadcrumb-sep { color:var(--muted); font-size:12px; }
+  .lms-breadcrumb-current { color:var(--text); }
+  .lms-actions { display:flex; gap:10px; }
+
+  .lms-folder-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; margin-bottom:28px; }
+  .lms-folder { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; cursor:pointer; transition:all 0.15s; display:flex; flex-direction:column; gap:10px; }
+  .lms-folder:hover { border-color:rgba(56,189,248,0.3); transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,0.3); }
+  .lms-folder-icon { font-size:28px; line-height:1; }
+  .lms-folder-name { font-size:13px; font-weight:800; line-height:1.3; }
+  .lms-folder-meta { font-size:11px; color:var(--muted); }
+
+  .lms-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; }
+  .lms-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; display:flex; flex-direction:column; gap:10px; transition:border-color 0.15s; }
+  .lms-card:hover { border-color:rgba(56,189,248,0.25); box-shadow:0 0 16px rgba(56,189,248,0.06); }
+  .lms-card.completed { border-color:rgba(74,222,128,0.25); background:rgba(74,222,128,0.03); }
+  .lms-card-top { display:flex; align-items:center; justify-content:space-between; }
+  .lms-type-badge { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:3px 8px; border-radius:100px; }
+  .lms-type-badge.video { background:rgba(56,189,248,0.1); color:var(--blue); }
+  .lms-type-badge.script { background:rgba(245,166,35,0.12); color:#f5a623; }
+  .lms-type-badge.link { background:rgba(99,102,241,0.12); color:#818cf8; }
+  .lms-type-badge.pdf { background:rgba(239,68,68,0.12); color:#f87171; }
+  .lms-complete-check { width:20px; height:20px; border-radius:50%; background:rgba(74,222,128,0.15); border:1px solid rgba(74,222,128,0.3); display:flex; align-items:center; justify-content:center; }
+  .lms-title { font-size:14px; font-weight:700; line-height:1.4; }
+  .lms-desc { font-size:12px; color:var(--muted); line-height:1.5; flex:1; }
+  .lms-btn { background:var(--card2); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:9px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.12s; text-align:center; }
+  .lms-btn:hover { border-color:rgba(56,189,248,0.4); color:var(--blue); box-shadow:0 0 10px rgba(56,189,248,0.1); }
+  .lms-empty { color:var(--muted); font-size:13px; padding:64px 0; text-align:center; grid-column:1/-1; }
+
+  .lms-progress-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .lms-member-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; }
+  .lms-member-name { font-size:13px; font-weight:700; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .lms-member-bar-track { height:4px; background:var(--border); border-radius:2px; margin-bottom:6px; }
+  .lms-member-bar-fill { height:100%; background:#4ade80; border-radius:2px; }
+  .lms-member-pct { font-size:11px; color:var(--muted); }
+  .lms-upload-area { border:2px dashed var(--border); border-radius:10px; padding:28px; text-align:center; cursor:pointer; transition:border-color 0.15s; }
+  .lms-upload-area:hover { border-color:rgba(56,189,248,0.4); }
+  .lms-upload-label { font-size:13px; color:var(--muted); margin-top:8px; }
 
   /* OVERVIEW & METRICS */
   .ov-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 16px; }
@@ -869,46 +889,58 @@
 
   <!-- LMS / TRAINING PATHS -->
   <div class="page-content" id="page-training-paths" style="display:none;">
-
-    <!-- Team Progress (owner only) -->
-    <div id="lmsTeamProgress" style="display:none;margin-bottom:24px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="font-size:16px;font-weight:800;">Team Progress</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px;">Member completion across all content</div>
-        </div>
+    <!-- Top bar -->
+    <div class="lms-topbar">
+      <div class="lms-breadcrumb">
+        <span class="lms-breadcrumb-home" id="lmsBreadHome" onclick="lmsGoHome()">Training Paths</span>
+        <span class="lms-breadcrumb-sep" id="lmsBreadSep" style="display:none;">›</span>
+        <span class="lms-breadcrumb-current" id="lmsBreadFolder" style="display:none;"></span>
       </div>
-      <div class="lms-progress-grid" id="lmsProgressGrid">
-        <div style="color:var(--muted);font-size:13px;">Loading...</div>
-      </div>
-    </div>
-
-    <!-- Content header -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-      <div>
-        <div style="font-size:16px;font-weight:800;">Content Library</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Watch content and track your progress</div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <select id="lmsCategoryFilter" onchange="filterLmsContent()" style="background:var(--card);border:1px solid var(--border);color:var(--text);font-size:12px;padding:7px 12px;border-radius:8px;outline:none;">
-          <option value="">All Categories</option>
-          <option>Product Knowledge</option>
-          <option>Objection Handling</option>
-          <option>Closing Scripts</option>
-          <option>Onboarding</option>
-          <option>Live Call Examples</option>
-          <option>General</option>
-        </select>
+      <div class="lms-actions">
+        <button class="btn-primary" id="btnNewFolder" onclick="openFolderModal()" style="display:none;">+ New Folder</button>
         <button class="btn-primary" id="btnAddContent" onclick="openLmsModal()" style="display:none;">+ Add Content</button>
       </div>
     </div>
 
-    <div id="lmsContentGrid" class="lms-grid">
-      <div style="color:var(--muted);font-size:13px;padding:48px 0;text-align:center;grid-column:1/-1;">Loading content...</div>
+    <!-- Folder view -->
+    <div id="lmsFolderView">
+      <div class="lms-folder-grid" id="lmsFolderGrid">
+        <div class="lms-empty" style="grid-column:1/-1;">Loading...</div>
+      </div>
+    </div>
+
+    <!-- Content view (inside a folder) -->
+    <div id="lmsContentView" style="display:none;">
+      <div class="lms-grid" id="lmsContentGrid">
+        <div class="lms-empty">Loading...</div>
+      </div>
     </div>
   </div>
 
-  <!-- LMS Add Content Modal -->
+  <!-- New Folder Modal -->
+  <div class="modal-overlay" id="lmsFolderModal">
+    <div class="modal" style="max-width:440px;">
+      <div class="modal-header">
+        <div class="modal-title">New Folder</div>
+        <button class="modal-close" onclick="closeFolderModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" style="display:flex;flex-direction:column;gap:16px;">
+        <div class="log-field">
+          <label>Folder Name</label>
+          <input type="text" id="folderName" placeholder="e.g. Week 1 Onboarding">
+        </div>
+        <div class="log-field">
+          <label>Description (optional)</label>
+          <input type="text" id="folderDesc" placeholder="What's in this folder?">
+        </div>
+        <button class="btn-primary" onclick="saveFolder()" style="width:100%;padding:13px;">Create Folder</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Content Modal -->
   <div class="modal-overlay" id="lmsModal">
     <div class="modal" style="max-width:520px;">
       <div class="modal-header">
@@ -922,47 +954,42 @@
           <label>Title</label>
           <input type="text" id="lmsTitle" placeholder="e.g. How to Handle the Price Objection">
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div class="log-field">
-            <label>Category</label>
-            <select id="lmsCategory" style="background:var(--card2);border:1px solid var(--border);color:var(--text);font-size:13px;padding:10px 12px;border-radius:8px;outline:none;width:100%;">
-              <option>Objection Handling</option>
-              <option>Closing Scripts</option>
-              <option>Product Knowledge</option>
-              <option>Onboarding</option>
-              <option>Live Call Examples</option>
-              <option>General</option>
-            </select>
-          </div>
-          <div class="log-field">
-            <label>Type</label>
-            <select id="lmsType" onchange="toggleLmsType()" style="background:var(--card2);border:1px solid var(--border);color:var(--text);font-size:13px;padding:10px 12px;border-radius:8px;outline:none;width:100%;">
-              <option value="video">Video (YouTube/Loom)</option>
-              <option value="script">Script / Text</option>
-              <option value="link">External Link</option>
-            </select>
-          </div>
+        <div class="log-field">
+          <label>Type</label>
+          <select id="lmsType" onchange="toggleLmsType()" style="background:var(--card2);border:1px solid var(--border);color:var(--text);font-size:13px;padding:10px 12px;border-radius:8px;outline:none;width:100%;">
+            <option value="video">Video (YouTube / Loom)</option>
+            <option value="pdf">PDF / Document</option>
+            <option value="script">Script / Text</option>
+            <option value="link">External Link</option>
+          </select>
         </div>
         <div class="log-field">
-          <label>Description</label>
-          <input type="text" id="lmsDescription" placeholder="Brief description of what this covers">
+          <label>Description (optional)</label>
+          <input type="text" id="lmsDescription" placeholder="Brief description">
         </div>
         <div class="log-field" id="lmsUrlField">
           <label>URL</label>
           <input type="url" id="lmsUrl" placeholder="https://youtube.com/watch?v=...">
         </div>
+        <div id="lmsPdfField" style="display:none;">
+          <div class="lms-upload-area" onclick="document.getElementById('lmsFileInput').click()">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <div class="lms-upload-label" id="lmsFileLabel">Click to upload PDF or document</div>
+          </div>
+          <input type="file" id="lmsFileInput" accept=".pdf,.doc,.docx,.txt,.pptx" style="display:none;" onchange="onFileSelected()">
+        </div>
         <div class="log-field" id="lmsBodyField" style="display:none;">
           <label>Content</label>
           <textarea id="lmsBody" placeholder="Paste your script, rebuttal, or training text here..." style="height:140px;"></textarea>
         </div>
-        <button class="btn-primary" onclick="saveLmsContent()" style="width:100%;padding:13px;">Save Content</button>
+        <button class="btn-primary" id="btnSaveLms" onclick="saveLmsContent()" style="width:100%;padding:13px;">Save Content</button>
       </div>
     </div>
   </div>
 
-  <!-- LMS View Content Modal -->
+  <!-- View Content Modal -->
   <div class="modal-overlay" id="lmsViewModal">
-    <div class="modal" style="max-width:640px;">
+    <div class="modal" style="max-width:700px;">
       <div class="modal-header">
         <div>
           <div class="modal-title" id="lmsViewTitle"></div>
@@ -2137,83 +2164,120 @@
   let _lmsContent = [];
   let _lmsCompleted = new Set();
   let _lmsViewingId = null;
-  let _isOwner = false;
+  // ─── TRAINING PATHS / LMS ──────────────────────────────────────────────────
+  let _lmsIsOwner = false;
+  let _lmsFolders = [];
+  let _lmsContent = [];
+  let _lmsCompleted = new Set();
+  let _lmsViewingId = null;
+  let _lmsCurrentFolder = null; // { id, name }
+  let _lmsSelectedFile = null;
 
   async function loadLms() {
     const { data: { session } } = await window._supabase.auth.getSession();
     const res = await fetch('/api/me', { headers: { 'Authorization': `Bearer ${session.access_token}` } });
     const { profile } = await res.json();
-    _isOwner = profile?.is_team_owner || false;
+    _lmsIsOwner = profile?.is_pro || profile?.is_team_owner || false;
 
-    // Show Add Content button for owners
-    document.getElementById('btnAddContent').style.display = 'block';
+    document.getElementById('btnNewFolder').style.display = _lmsIsOwner ? 'inline-flex' : 'none';
+    document.getElementById('btnAddContent').style.display = 'none';
 
-    // Load content
-    const { data: content } = await window._supabase
-      .from('training_content')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    _lmsContent = content || [];
-
-    // Load completed
+    // Load completed content IDs
     const { data: progress } = await window._supabase
-      .from('content_progress')
-      .select('content_id')
-      .eq('user_id', window._session.user.id);
-
+      .from('content_progress').select('content_id').eq('user_id', window._session.user.id);
     _lmsCompleted = new Set((progress || []).map(p => p.content_id));
 
-    renderLmsGrid(_lmsContent);
-
-    // Team progress for owners
-    if (_isOwner && profile?.team_id) {
-      await loadTeamProgress(profile.team_id, session.access_token);
-    }
+    await lmsGoHome();
   }
 
-  function renderLmsGrid(items) {
-    const grid = document.getElementById('lmsContentGrid');
-    const filter = document.getElementById('lmsCategoryFilter').value;
-    const filtered = filter ? items.filter(i => i.category === filter) : items;
+  async function lmsGoHome() {
+    _lmsCurrentFolder = null;
+    document.getElementById('lmsBreadSep').style.display = 'none';
+    document.getElementById('lmsBreadFolder').style.display = 'none';
+    document.getElementById('lmsFolderView').style.display = 'block';
+    document.getElementById('lmsContentView').style.display = 'none';
+    document.getElementById('btnAddContent').style.display = 'none';
+    document.getElementById('btnNewFolder').style.display = _lmsIsOwner ? 'inline-flex' : 'none';
 
-    if (filtered.length === 0) {
-      grid.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:64px 0;text-align:center;grid-column:1/-1;">
-        ${_isOwner ? 'No content yet. Click <strong style="color:var(--text)">+ Add Content</strong> to get started.' : 'No content available yet. Check back soon.'}
+    const uid = window._session.user.id;
+    const { data: folders } = await window._supabase
+      .from('training_folders')
+      .select('*')
+      .order('created_at', { ascending: true });
+
+    _lmsFolders = folders || [];
+    renderFolderGrid();
+  }
+
+  function renderFolderGrid() {
+    const grid = document.getElementById('lmsFolderGrid');
+    if (_lmsFolders.length === 0) {
+      grid.innerHTML = `<div class="lms-empty" style="grid-column:1/-1;">
+        ${_lmsIsOwner ? 'No folders yet. Click <strong style="color:var(--text)">+ New Folder</strong> to create one.' : 'No training content yet. Check back soon.'}
       </div>`;
       return;
     }
+    const icons = ['📁','📂','📋','📄','🎯','📊','🎬','💡','🔑','⚡'];
+    grid.innerHTML = _lmsFolders.map((f, i) => `
+      <div class="lms-folder" onclick="openFolder('${f.id}', ${JSON.stringify(f.name).replace(/"/g,'&quot;')})">
+        <div class="lms-folder-icon">${icons[i % icons.length]}</div>
+        <div class="lms-folder-name">${f.name}</div>
+        <div class="lms-folder-meta">${f.description || 'Click to open'}</div>
+      </div>`).join('');
+  }
 
-    grid.innerHTML = filtered.map(item => {
+  async function openFolder(folderId, folderName) {
+    _lmsCurrentFolder = { id: folderId, name: folderName };
+    document.getElementById('lmsBreadSep').style.display = 'inline';
+    document.getElementById('lmsBreadFolder').style.display = 'inline';
+    document.getElementById('lmsBreadFolder').textContent = folderName;
+    document.getElementById('lmsFolderView').style.display = 'none';
+    document.getElementById('lmsContentView').style.display = 'block';
+    document.getElementById('btnAddContent').style.display = _lmsIsOwner ? 'inline-flex' : 'none';
+    document.getElementById('btnNewFolder').style.display = 'none';
+
+    const { data: content } = await window._supabase
+      .from('training_content')
+      .select('*')
+      .eq('folder_id', folderId)
+      .order('created_at', { ascending: true });
+
+    _lmsContent = content || [];
+    renderLmsGrid();
+  }
+
+  function renderLmsGrid() {
+    const grid = document.getElementById('lmsContentGrid');
+    if (_lmsContent.length === 0) {
+      grid.innerHTML = `<div class="lms-empty">
+        ${_lmsIsOwner ? 'Empty folder. Click <strong style="color:var(--text)">+ Add Content</strong> to upload.' : 'No content in this folder yet.'}
+      </div>`;
+      return;
+    }
+    const typeIcon = { video:'🎬', pdf:'📄', script:'📝', link:'🔗' };
+    grid.innerHTML = _lmsContent.map(item => {
       const done = _lmsCompleted.has(item.id);
       return `<div class="lms-card ${done ? 'completed' : ''}">
         <div class="lms-card-top">
-          <span class="lms-type-badge ${item.type}">${item.type}</span>
+          <span class="lms-type-badge ${item.type}">${typeIcon[item.type] || ''} ${item.type}</span>
           ${done ? `<div class="lms-complete-check"><svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg></div>` : ''}
         </div>
-        <div class="lms-cat">${item.category}</div>
         <div class="lms-title">${item.title}</div>
         <div class="lms-desc">${item.description || ''}</div>
-        <button class="lms-btn" onclick="viewContent('${item.id}')">${done ? 'Review' : 'View'}</button>
+        <button class="lms-btn" onclick="viewContent('${item.id}')">${done ? 'Review' : 'Open'}</button>
       </div>`;
     }).join('');
-  }
-
-  function filterLmsContent() {
-    renderLmsGrid(_lmsContent);
   }
 
   function viewContent(id) {
     const item = _lmsContent.find(i => i.id === id);
     if (!item) return;
     _lmsViewingId = id;
-
     document.getElementById('lmsViewTitle').textContent = item.title;
-    document.getElementById('lmsViewMeta').textContent = `${item.category} • ${item.type}`;
-
+    document.getElementById('lmsViewMeta').textContent = item.type;
     const bodyEl = document.getElementById('lmsViewBody');
+
     if (item.type === 'video' && item.url) {
-      // Convert YouTube URL to embed
       let embedUrl = item.url;
       const ytMatch = item.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
       if (ytMatch) embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}`;
@@ -2221,6 +2285,14 @@
       if (loomMatch) embedUrl = `https://www.loom.com/embed/${loomMatch[1]}`;
       bodyEl.innerHTML = `<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:8px;overflow:hidden;">
         <iframe src="${embedUrl}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen></iframe>
+      </div>`;
+    } else if (item.type === 'pdf' && item.url) {
+      bodyEl.innerHTML = `<div style="text-align:center;padding:24px;">
+        <a href="${item.url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);color:var(--blue);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Open File &rarr;
+        </a>
+        <div style="font-size:12px;color:var(--muted);margin-top:12px;">Opens in a new tab</div>
       </div>`;
     } else if (item.type === 'link' && item.url) {
       bodyEl.innerHTML = `<div style="text-align:center;padding:32px;">
@@ -2235,61 +2307,100 @@
     btn.textContent = done ? 'Completed' : 'Mark as Complete';
     btn.disabled = done;
     btn.style.background = done ? '#16a34a' : '';
-
     document.getElementById('lmsViewModal').classList.add('open');
   }
 
   async function markComplete() {
     if (!_lmsViewingId) return;
     const btn = document.getElementById('btnMarkComplete');
-    btn.disabled = true;
-    btn.textContent = 'Saving...';
-
-    await window._supabase.from('content_progress').upsert({
-      user_id: window._session.user.id,
-      content_id: _lmsViewingId
-    }, { onConflict: 'user_id,content_id' });
-
+    btn.disabled = true; btn.textContent = 'Saving...';
+    await window._supabase.from('content_progress').upsert(
+      { user_id: window._session.user.id, content_id: _lmsViewingId },
+      { onConflict: 'user_id,content_id' }
+    );
     _lmsCompleted.add(_lmsViewingId);
-    btn.textContent = 'Completed';
-    btn.style.background = '#16a34a';
-    renderLmsGrid(_lmsContent);
+    btn.textContent = 'Completed'; btn.style.background = '#16a34a';
+    renderLmsGrid();
   }
 
-  function closeLmsView() {
-    document.getElementById('lmsViewModal').classList.remove('open');
-    _lmsViewingId = null;
+  function closeLmsView() { document.getElementById('lmsViewModal').classList.remove('open'); _lmsViewingId = null; }
+
+  // Folder modal
+  function openFolderModal() { document.getElementById('lmsFolderModal').classList.add('open'); }
+  function closeFolderModal() { document.getElementById('lmsFolderModal').classList.remove('open'); }
+
+  async function saveFolder() {
+    const name = document.getElementById('folderName').value.trim();
+    const desc = document.getElementById('folderDesc').value.trim();
+    if (!name) { alert('Folder name is required.'); return; }
+    const uid = window._session.user.id;
+    const { data: profile } = await window._supabase.from('user_profiles').select('team_id').eq('id', uid).single();
+    const { error } = await window._supabase.from('training_folders').insert({
+      user_id: uid, team_id: profile?.team_id || null, name, description: desc || null
+    });
+    if (error) { alert('Error: ' + error.message); return; }
+    document.getElementById('folderName').value = '';
+    document.getElementById('folderDesc').value = '';
+    closeFolderModal();
+    lmsGoHome();
   }
 
-  function openLmsModal() { document.getElementById('lmsModal').classList.add('open'); }
-  function closeLmsModal() { document.getElementById('lmsModal').classList.remove('open'); }
+  // Content modal
+  function openLmsModal() { document.getElementById('lmsModal').classList.add('open'); toggleLmsType(); }
+  function closeLmsModal() { document.getElementById('lmsModal').classList.remove('open'); _lmsSelectedFile = null; document.getElementById('lmsFileLabel').textContent = 'Click to upload PDF or document'; }
 
   function toggleLmsType() {
     const type = document.getElementById('lmsType').value;
-    document.getElementById('lmsUrlField').style.display = type === 'script' ? 'none' : 'block';
+    document.getElementById('lmsUrlField').style.display = (type === 'script' || type === 'pdf') ? 'none' : 'block';
     document.getElementById('lmsBodyField').style.display = type === 'script' ? 'block' : 'none';
+    document.getElementById('lmsPdfField').style.display = type === 'pdf' ? 'block' : 'none';
+  }
+
+  function onFileSelected() {
+    const file = document.getElementById('lmsFileInput').files[0];
+    if (!file) return;
+    _lmsSelectedFile = file;
+    document.getElementById('lmsFileLabel').textContent = file.name;
   }
 
   async function saveLmsContent() {
     const title = document.getElementById('lmsTitle').value.trim();
-    const category = document.getElementById('lmsCategory').value;
     const type = document.getElementById('lmsType').value;
     const description = document.getElementById('lmsDescription').value.trim();
     const url = document.getElementById('lmsUrl').value.trim();
     const body = document.getElementById('lmsBody').value.trim();
-
     if (!title) { alert('Title is required.'); return; }
+    if (!_lmsCurrentFolder) { alert('Please open a folder first.'); return; }
 
-    const { data: profile } = await window._supabase
-      .from('user_profiles').select('team_id').eq('id', window._session.user.id).single();
+    const btn = document.getElementById('btnSaveLms');
+    btn.disabled = true; btn.textContent = 'Saving...';
+
+    let fileUrl = url || null;
+
+    // Upload file to Supabase Storage if PDF
+    if (type === 'pdf' && _lmsSelectedFile) {
+      const ext = _lmsSelectedFile.name.split('.').pop();
+      const path = `${window._session.user.id}/${Date.now()}.${ext}`;
+      const { data: uploadData, error: uploadErr } = await window._supabase.storage
+        .from('training-files').upload(path, _lmsSelectedFile, { upsert: false });
+      if (uploadErr) { alert('Upload error: ' + uploadErr.message); btn.disabled = false; btn.textContent = 'Save Content'; return; }
+      const { data: { publicUrl } } = window._supabase.storage.from('training-files').getPublicUrl(path);
+      fileUrl = publicUrl;
+    }
+
+    const uid = window._session.user.id;
+    const { data: profile } = await window._supabase.from('user_profiles').select('team_id').eq('id', uid).single();
 
     const { error } = await window._supabase.from('training_content').insert({
-      title, category, type, description,
-      url: url || null, body: body || null,
+      title, type, description: description || null,
+      url: fileUrl, body: body || null,
+      folder_id: _lmsCurrentFolder.id,
       team_id: profile?.team_id || null,
-      created_by: window._session.user.id
+      created_by: uid,
+      category: 'General'
     });
 
+    btn.disabled = false; btn.textContent = 'Save Content';
     if (error) { alert('Error saving: ' + error.message); return; }
 
     closeLmsModal();
@@ -2297,35 +2408,8 @@
     document.getElementById('lmsDescription').value = '';
     document.getElementById('lmsUrl').value = '';
     document.getElementById('lmsBody').value = '';
-    loadLms();
-  }
-
-  async function loadTeamProgress(teamId, token) {
-    const res = await fetch('/api/team-members', { headers: { 'Authorization': `Bearer ${token}` } });
-    const { members } = await res.json();
-    if (!members || members.length === 0) return;
-
-    const totalContent = _lmsContent.length;
-    if (totalContent === 0) return;
-
-    document.getElementById('lmsTeamProgress').style.display = 'block';
-
-    const progressResults = await Promise.all(members.map(async m => {
-      const { count } = await window._supabase
-        .from('content_progress').select('id', { count: 'exact', head: true })
-        .eq('user_id', m.id);
-      return { email: m.email, completed: count || 0, total: totalContent };
-    }));
-
-    document.getElementById('lmsProgressGrid').innerHTML = progressResults.map(m => {
-      const pct = totalContent > 0 ? Math.round((m.completed / m.total) * 100) : 0;
-      const name = m.email.split('@')[0];
-      return `<div class="lms-member-card">
-        <div class="lms-member-name">${name}</div>
-        <div class="lms-member-bar-track"><div class="lms-member-bar-fill" style="width:${pct}%"></div></div>
-        <div class="lms-member-pct">${m.completed} of ${m.total} completed (${pct}%)</div>
-      </div>`;
-    }).join('');
+    _lmsSelectedFile = null;
+    openFolder(_lmsCurrentFolder.id, _lmsCurrentFolder.name);
   }
 
   // OVERVIEW
