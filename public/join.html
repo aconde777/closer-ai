@@ -7,37 +7,47 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0a0a0a; color: #f0f0f0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-  .card { background: #141414; border: 1px solid #1e1e1e; border-radius: 16px; padding: 48px 40px; width: 100%; max-width: 420px; text-align: center; }
-  .logo { width: 48px; height: 48px; background: #e94560; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 22px; color: #fff; margin: 0 auto 24px; }
-  h1 { font-size: 22px; font-weight: 900; margin-bottom: 8px; }
-  h1 span { color: #e94560; }
-  .sub { font-size: 14px; color: #555; margin-bottom: 32px; line-height: 1.5; }
-  .btn { width: 100%; background: #e94560; color: #fff; border: none; border-radius: 8px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.15s; margin-bottom: 12px; }
-  .btn:hover { background: #c73652; }
-  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn-outline { background: transparent; border: 1px solid #1e1e1e; color: #f0f0f0; }
-  .btn-outline:hover { background: rgba(255,255,255,0.04); }
-  .status { font-size: 13px; color: #555; margin-top: 16px; }
-  .status.error { color: #e94560; }
+  :root { --bg:#030712; --card:#080f1e; --blue:#38bdf8; --text:#e2eaf8; --muted:#4a6080; --border:#0f2040; }
+  body { background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 48px 40px; width: 100%; max-width: 440px; text-align: center; box-shadow: 0 0 60px rgba(56,189,248,0.08); }
+  .logo { margin: 0 auto 24px; }
+  h1 { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 8px; }
+  h1 span { color: var(--blue); }
+  .sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; line-height: 1.6; }
+  .btn { width: 100%; background: linear-gradient(135deg,#0ea5e9,#38bdf8); color: #fff; border: none; border-radius: 10px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; margin-bottom: 12px; box-shadow: 0 0 20px rgba(56,189,248,0.25); }
+  .btn:hover { box-shadow: 0 0 32px rgba(56,189,248,0.45); transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); box-shadow: none; }
+  .btn-outline:hover { border-color: rgba(56,189,248,0.3); color: var(--blue); box-shadow: none; transform: none; }
+  .status { font-size: 13px; color: var(--muted); margin-top: 16px; }
+  .status.error { color: #f87171; }
   .status.success { color: #4ade80; }
-  .divider { border: none; border-top: 1px solid #1e1e1e; margin: 24px 0; }
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="logo">E</div>
+  <div class="logo">
+    <svg width="44" height="44" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+      <rect width="36" height="36" rx="9" fill="#040c1e"/>
+      <defs><linearGradient id="join-kg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#0ea5e9"/></linearGradient></defs>
+      <rect x="16" y="2" width="4" height="9" rx="1.5" fill="url(#join-kg)"/>
+      <rect x="11.5" y="5" width="13" height="4" rx="1.5" fill="url(#join-kg)"/>
+      <rect x="13" y="11" width="10" height="3" rx="1" fill="url(#join-kg)"/>
+      <polygon points="13,14 23,14 26,27 10,27" fill="url(#join-kg)"/>
+      <rect x="5" y="27" width="26" height="5" rx="1.5" fill="url(#join-kg)"/>
+    </svg>
+  </div>
   <h1>You're invited to join a <span>team</span></h1>
   <p class="sub" id="subText">Loading invite details...</p>
 
   <div id="actionArea" style="display:none;">
-    <button class="btn" id="btnJoin" onclick="handleJoin()">Accept Invite & Join Team</button>
+    <button class="btn" id="btnJoin" onclick="handleJoin()">Accept Invite &amp; Join Team</button>
     <p class="status" id="statusMsg"></p>
   </div>
 
   <div id="authArea" style="display:none;">
-    <p class="sub" style="margin-bottom:20px;">Create an account or sign in first, then you'll be joined automatically.</p>
     <button class="btn" onclick="goAuth()">Create Account / Sign In</button>
+    <p class="status">You'll be joined automatically after signing in.</p>
   </div>
 </div>
 
@@ -54,7 +64,6 @@
       return;
     }
 
-    // Store token for after auth
     sessionStorage.setItem('joinToken', token);
 
     const { data: session } = await sb.auth.getSession();
@@ -65,8 +74,7 @@
       return;
     }
 
-    // Logged in -- show join button
-    document.getElementById('subText').textContent = 'You\'ve been invited to train with a team on The Elite Closer. Accept below to get started.';
+    document.getElementById('subText').textContent = 'Your team is ready. Accept below to get full access and start training.';
     document.getElementById('actionArea').style.display = 'block';
   }
 
@@ -93,9 +101,9 @@
     }
 
     sessionStorage.removeItem('joinToken');
-    status.textContent = 'You\'re in. Redirecting...';
+    status.textContent = 'You\'re in. Redirecting to the app...';
     status.className = 'status success';
-    setTimeout(() => window.location.href = '/', 1500);
+    setTimeout(() => window.location.href = '/app', 1500);
   }
 
   function goAuth() {

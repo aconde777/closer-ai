@@ -511,7 +511,46 @@ app.post('/api/invite-member', async (req, res) => {
   }
 
   const baseUrl = process.env.APP_URL || 'http://localhost:3000';
-  res.json({ inviteLink: `${baseUrl}/join.html?token=${invite.token}`, email });
+  const inviteLink = `${baseUrl}/join.html?token=${invite.token}`;
+
+  // Send invite email via Resend
+  const RESEND_KEY = process.env.RESEND_API_KEY;
+  if (RESEND_KEY) {
+    fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${RESEND_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: 'The Elite Closer <support@theelitecloser.io>',
+        to: [email],
+        subject: `You've been invited to train on The Elite Closer`,
+        html: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#030712;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#030712;padding:40px 0;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#080f1e;border:1px solid #0f2040;border-radius:16px;overflow:hidden;max-width:560px;">
+        <tr><td style="background:linear-gradient(135deg,#040c1e,#081626);padding:36px 40px;border-bottom:1px solid #0f2040;">
+          <span style="font-size:16px;font-weight:800;color:#e2eaf8;">The <span style="color:#38bdf8;">Elite</span> Closer</span>
+        </td></tr>
+        <tr><td style="padding:40px;">
+          <p style="margin:0 0 8px;font-size:22px;font-weight:900;color:#e2eaf8;">You're invited to train.</p>
+          <p style="margin:0 0 28px;font-size:14px;color:#4a6080;line-height:1.6;">Your team has added you to The Elite Closer -- an AI voice sales trainer that puts you on live calls with realistic prospects and scores your performance after every session.</p>
+          <p style="margin:0 0 20px;font-size:14px;color:#4a6080;line-height:1.6;">Click the button below to accept your invite and get access. If you don't have an account yet, you'll be able to create one first.</p>
+          <a href="${inviteLink}" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#fff;text-decoration:none;border-radius:10px;padding:14px 28px;font-size:15px;font-weight:700;">Accept Invite</a>
+          <p style="margin:24px 0 0;font-size:12px;color:#4a6080;">Or copy this link: <a href="${inviteLink}" style="color:#38bdf8;">${inviteLink}</a></p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
+      })
+    }).catch(err => console.error('Invite email error:', err.message));
+  }
+
+  res.json({ inviteLink, email });
 });
 
 // Get team members list (owner only)
