@@ -1325,7 +1325,7 @@
         </div>
         <div class="form-group">
           <label>Description</label>
-          <textarea id="prospectDesc" placeholder="e.g. Motivated entrepreneur, cautious with money, values results over promises."></textarea>
+          <textarea id="prospectDesc" placeholder="The more detail the better. e.g. Skeptical business owner in his late 40s. Has been burned by salespeople before. Values data and proof over promises. Polite but guarded. Will warm up if you demonstrate credibility early."></textarea>
         </div>
       </div>
       <div class="form-section">
@@ -1480,6 +1480,73 @@
     <div class="replay-transcript" id="replayTranscriptSection" style="display:none;">
       <div class="replay-transcript-label">Transcript</div>
       <div id="replayTranscriptLines"></div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT PROSPECT MODAL -->
+<div class="modal-overlay" id="editProspectModal" style="display:none;">
+  <div class="modal-box" style="max-width:580px;">
+    <div class="modal-header">
+      <h2 class="modal-title">Edit Prospect</h2>
+      <button class="modal-close" onclick="closeEditProspect()">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editAssistantId">
+      <input type="hidden" id="editCardRef">
+      <div class="form-section">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="editProspectName" placeholder="e.g. James Rodriguez">
+          </div>
+          <div class="form-group">
+            <label>Age Range</label>
+            <select id="editProspectAge">
+              <option value="25-34">25-34</option>
+              <option value="35-44">35-44</option>
+              <option value="45-54">45-54</option>
+              <option value="55+">55+</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="editProspectDesc" placeholder="The more detail the better. Personality, background, what drives their hesitation, how they respond under pressure."></textarea>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Occupation</label>
+            <input type="text" id="editProspectOccupation" placeholder="e.g. Business Owner">
+          </div>
+          <div class="form-group">
+            <label>Monthly Income</label>
+            <select id="editProspectIncome">
+              <option value="under $3,000/month">Under $3,000/month</option>
+              <option value="$3,000-$7,000/month">$3,000-$7,000/month</option>
+              <option value="$7,000-$15,000/month">$7,000-$15,000/month</option>
+              <option value="$15,000-$30,000/month">$15,000-$30,000/month</option>
+              <option value="$30,000+/month">$30,000+/month</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-section">
+          <div style="display:flex;gap:12px;margin-bottom:12px;">
+            <div class="type-option" id="editTypeB2B" onclick="selectEditType('b2b')"><h4>Business (B2B)</h4></div>
+            <div class="type-option selected" id="editTypeB2C" onclick="selectEditType('b2c')"><h4>Consumer (B2C)</h4></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Objection Themes</label>
+          <textarea id="editProspectObjections" placeholder="e.g. Needs to talk to spouse. Worried about ROI. Asks for time to think."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeEditProspect()">Cancel</button>
+      <button class="btn-primary" onclick="saveEditProspect()">Save Changes</button>
     </div>
   </div>
 </div>
@@ -1764,7 +1831,7 @@
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      addProspectCard(data.assistantId, name, occupation, objections, selectedType);
+      addProspectCard(data.assistantId, name, occupation, objections, selectedType, age, desc, income);
       document.getElementById('savingOverlay').classList.remove('open');
       document.getElementById('prospectName').value = '';
       document.getElementById('prospectDesc').value = '';
@@ -1776,11 +1843,98 @@
     }
   }
 
+  let _editSelectedType = 'b2c';
+  function selectEditType(t) {
+    _editSelectedType = t;
+    document.getElementById('editTypeB2B').classList.toggle('selected', t === 'b2b');
+    document.getElementById('editTypeB2C').classList.toggle('selected', t === 'b2c');
+  }
+
+  function openEditProspect(card) {
+    _editSelectedType = card.dataset.type || 'b2c';
+    document.getElementById('editAssistantId').value = card.dataset.assistantId;
+    document.getElementById('editProspectName').value = card.dataset.name ? card.querySelector('.rp-card-name').textContent : '';
+    document.getElementById('editProspectAge').value = card.dataset.age || '35-44';
+    document.getElementById('editProspectDesc').value = card.dataset.description || '';
+    document.getElementById('editProspectOccupation').value = card.dataset.role || '';
+    document.getElementById('editProspectIncome').value = card.dataset.income || '$7,000-$15,000/month';
+    document.getElementById('editProspectObjections').value = card.dataset.objections || '';
+    selectEditType(_editSelectedType);
+    document.getElementById('editProspectModal').style.display = 'flex';
+    document.getElementById('editProspectModal')._card = card;
+  }
+
+  function closeEditProspect() {
+    document.getElementById('editProspectModal').style.display = 'none';
+  }
+
+  async function saveEditProspect() {
+    const assistantId = document.getElementById('editAssistantId').value;
+    const name = document.getElementById('editProspectName').value.trim();
+    const age = document.getElementById('editProspectAge').value;
+    const description = document.getElementById('editProspectDesc').value.trim();
+    const occupation = document.getElementById('editProspectOccupation').value.trim();
+    const income = document.getElementById('editProspectIncome').value;
+    const objections = document.getElementById('editProspectObjections').value.trim();
+
+    if (!name || !occupation || !objections) {
+      alert('Please fill in Name, Occupation, and Objections.');
+      return;
+    }
+
+    const btn = document.querySelector('#editProspectModal .btn-primary');
+    btn.disabled = true; btn.textContent = 'Saving...';
+
+    try {
+      const res = await fetch(`/api/update-prospect/${assistantId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + window._session.access_token },
+        body: JSON.stringify({ type: _editSelectedType, name, age, description, occupation, income, objections })
+      });
+      if (!res.ok) throw new Error('Update failed');
+
+      // Update card in place
+      const card = document.getElementById('editProspectModal')._card;
+      card.dataset.name = name.toLowerCase();
+      card.dataset.type = _editSelectedType;
+      card.dataset.role = occupation;
+      card.dataset.objections = objections;
+      card.dataset.age = age;
+      card.dataset.description = description;
+      card.dataset.income = income;
+      card.querySelector('.rp-card-name').textContent = name;
+      card.querySelector('.rp-card-role').textContent = occupation;
+      const shortObj = objections.length > 70 ? objections.slice(0, 70) + '...' : objections;
+      card.querySelector('.rp-objection').textContent = `"${shortObj}"`;
+      card.querySelector('img').src = `https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(name)}&backgroundColor=0a1e3d&radius=50`;
+
+      closeEditProspect();
+    } catch (err) {
+      alert('Error saving: ' + err.message);
+    } finally {
+      btn.disabled = false; btn.textContent = 'Save Changes';
+    }
+  }
+
+  async function deleteProspect(assistantId, card) {
+    if (!confirm('Delete this prospect? This cannot be undone.')) return;
+    try {
+      await fetch(`/api/delete-prospect/${assistantId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + window._session.access_token }
+      });
+      card.remove();
+      filterProspects();
+    } catch (err) {
+      alert('Error deleting prospect.');
+    }
+  }
+
   function getInitials(name) {
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
 
-  function addProspectCard(assistantId, name, role, objections, type) {
+  function addProspectCard(assistantId, name, role, objections, type, age, description, income) {
     const grid = document.getElementById('prospectGrid');
     const initials = getInitials(name);
     const shortObj = objections.length > 70 ? objections.slice(0, 70) + '...' : objections;
@@ -1791,13 +1945,23 @@
     card.dataset.type = type;
     card.dataset.diff = 'custom';
     card.dataset.obj = objections.toLowerCase();
-    const shareIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`;
+    card.dataset.assistantId = assistantId;
+    card.dataset.role = role;
+    card.dataset.objections = objections;
+    card.dataset.age = age || '35-44';
+    card.dataset.description = description || '';
+    card.dataset.income = income || '$7,000-$15,000/month';
+
+    const editIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+    const deleteIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
+
     card.innerHTML = `
       <div class="rp-card-header">
         <div class="rp-card-top-row">
           <span class="rp-badge ${badgeClass}">${type.toUpperCase()}</span>
           <div class="rp-card-actions">
-            <button class="rp-action-btn" title="Share" onclick="copyProspectLink('${name}')">${shareIcon}</button>
+            <button class="rp-action-btn" title="Edit" onclick="openEditProspect(this.closest('.rp-card'))">${editIcon}</button>
+            <button class="rp-action-btn" title="Delete" style="color:#f87171;" onclick="deleteProspect('${assistantId}', this.closest('.rp-card'))">${deleteIcon}</button>
           </div>
         </div>
         <div class="rp-avatar-wrap"><div class="rp-avatar"><img src="https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(name)}&backgroundColor=0a1e3d&radius=50" alt="${name}"></div></div>
@@ -2859,7 +3023,7 @@
       const { prospects } = await res.json();
       if (!prospects || prospects.length === 0) return;
       prospects.forEach(p => {
-        addProspectCard(p.assistant_id, p.name, p.role, p.objections, p.type);
+        addProspectCard(p.assistant_id, p.name, p.role, p.objections, p.type, p.age, p.description, p.income);
       });
     } catch(e) {}
   }

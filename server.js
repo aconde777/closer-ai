@@ -209,12 +209,87 @@ Personality guidelines:
         role: occupation,
         objections,
         type,
+        age,
+        description,
+        income,
       });
     }
 
     res.json({ assistantId: data.id, name });
   } catch (err) {
     console.error('Create prospect error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Update custom prospect (Vapi assistant + Supabase)
+app.put('/api/update-prospect/:assistantId', async (req, res) => {
+  const user = await getUser(req, res);
+  if (!user) return;
+
+  const { assistantId } = req.params;
+  const { type, name, age, description, occupation, income, objections } = req.body;
+
+  const systemPrompt = `You are ${name}, a ${age}-year-old ${type === 'b2b' ? 'business' : 'consumer'} prospect on a sales call.
+
+Background: ${description}
+Occupation: ${occupation}
+Income range: ${income}
+
+Your objections to raise during the call:
+${objections}
+
+Personality guidelines:
+- Sound like a real human, not a robot
+- Keep responses short -- 1 to 3 sentences
+- You are genuinely interested but have real concerns
+- When the closer handles your objection well, soften and show more interest
+- When pushed without your concern being addressed, become more resistant
+- Start the call by answering naturally as if you picked up the phone
+- Never break character
+- Never say you are an AI`;
+
+  try {
+    await fetch(`https://api.vapi.ai/assistant/${assistantId}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${process.env.VAPI_PRIVATE_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        model: { provider: 'openai', model: 'gpt-4o', messages: [{ role: 'system', content: systemPrompt }] }
+      })
+    });
+
+    await supabaseAdmin.from('custom_prospects')
+      .update({ name, role: occupation, objections, type })
+      .eq('assistant_id', assistantId)
+      .eq('user_id', user.id);
+
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Delete custom prospect (Vapi assistant + Supabase)
+app.delete('/api/delete-prospect/:assistantId', async (req, res) => {
+  const user = await getUser(req, res);
+  if (!user) return;
+
+  const { assistantId } = req.params;
+
+  try {
+    await fetch(`https://api.vapi.ai/assistant/${assistantId}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${process.env.VAPI_PRIVATE_KEY}` }
+    });
+
+    await supabaseAdmin.from('custom_prospects')
+      .delete()
+      .eq('assistant_id', assistantId)
+      .eq('user_id', user.id);
+
+    res.json({ ok: true });
+  } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
