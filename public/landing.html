@@ -869,5 +869,20 @@
   <div class="footer-copy">Built for closers who want to be elite.</div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  (function() {
+    const sb = supabase.createClient('__SUPABASE_URL__', '__SUPABASE_ANON_KEY__');
+    sb.auth.getSession().then(({ data }) => {
+      if (data.session) {
+        // Already logged in -- swap nav buttons to "Go to App"
+        const signupBtn = document.querySelector('a.btn-nav[href="/auth.html"]');
+        if (signupBtn) { signupBtn.textContent = 'Go to App'; signupBtn.href = '/app'; }
+        const loginBtn = document.querySelector('a.btn-nav-ghost[href="/auth.html?tab=login"]');
+        if (loginBtn) { loginBtn.style.display = 'none'; }
+      }
+    });
+  })();
+</script>
 </body>
 </html>

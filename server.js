@@ -24,7 +24,8 @@ function serveWithSupabase(file) {
   };
 }
 
-app.get('/', (req, res) => res.redirect('/landing.html'));
+app.get('/', serveWithSupabase('landing.html'));
+app.get('/landing.html', serveWithSupabase('landing.html'));
 app.get('/app', serveWithSupabase('index.html'));
 app.get('/index.html', serveWithSupabase('index.html'));
 app.get('/auth.html', serveWithSupabase('auth.html'));
