@@ -420,7 +420,7 @@ app.get('/api/me', async (req, res) => {
 
   const { data: profile } = await supabaseAdmin
     .from('user_profiles')
-    .select('plan, team_id, is_team_owner, session_count, streak_days, is_pro')
+    .select('plan, team_id, is_team_owner, session_count, streak_days, is_pro, stripe_customer_id')
     .eq('id', user.id)
     .single();
 

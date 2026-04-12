@@ -151,7 +151,7 @@
           </div>
           <span class="settings-plan-badge" id="settingsPlanBadge">Free</span>
         </div>
-        <button class="settings-btn" onclick="window.location.href='/app?page=billing'" style="margin-top:16px;">Manage Plan</button>
+        <button class="settings-btn" id="settingsManagePlanBtn" onclick="managePlan()" style="margin-top:16px;">Manage Plan</button>
         <div class="settings-divider"></div>
         <div class="settings-section-title" style="font-size:13px;margin-bottom:8px;">Update Payment Method</div>
         <div class="settings-section-desc" style="margin-bottom:16px;">To update your card on file, click below. You'll be taken to a secure Stripe portal.</div>
@@ -224,7 +224,9 @@
         document.getElementById('settingsPlanName').textContent = planLabels[plan] || plan;
         document.getElementById('settingsPlanSub').textContent = planSubs[plan] || '';
         document.getElementById('settingsPlanBadge').textContent = profile.is_pro ? 'Pro' : 'Free';
-        if (profile.is_pro) document.getElementById('settingsBillingPortalBtn').style.display = 'block';
+        window._isPro = profile.is_pro || false;
+        window._hasStripe = !!profile.stripe_customer_id;
+        if (profile.stripe_customer_id) document.getElementById('settingsBillingPortalBtn').style.display = 'block';
       }
     } catch(e) {}
   }
@@ -249,6 +251,26 @@
     const { error } = await window._sb.auth.resetPasswordForEmail(email);
     if (error) { msg.textContent = error.message; msg.className = 'settings-msg error'; }
     else { msg.textContent = 'Reset link sent. Check your inbox.'; msg.className = 'settings-msg success'; }
+  }
+
+  async function managePlan() {
+    if (window._isPro) {
+      // Pro user -- open Stripe portal to manage subscription
+      const msg = document.getElementById('billingMsg');
+      msg.textContent = 'Opening...'; msg.className = 'settings-msg';
+      try {
+        const res = await fetch('/api/billing-portal', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + window._session.access_token }
+        });
+        const d = await res.json();
+        if (d.url) window.open(d.url, '_blank');
+        else { msg.textContent = 'Could not open billing portal.'; msg.className = 'settings-msg error'; }
+      } catch(e) { msg.textContent = 'Error. Try again.'; msg.className = 'settings-msg error'; }
+    } else {
+      // Free user -- go to in-app billing to upgrade
+      window.location.href = '/app?page=billing';
+    }
   }
 
   async function openBillingPortal() {
