@@ -139,9 +139,11 @@
   @keyframes barPulse { 0%,100% { transform:scaleY(0.4); } 50% { transform:scaleY(1); } }
   @keyframes callerPing { 0% { transform:scale(1); opacity:0.6; } 100% { transform:scale(2.2); opacity:0; } }
 
-  .rp-banner { background:linear-gradient(135deg,#040c20 0%,#071428 50%,#060e1e 100%); border:1px solid var(--border); border-radius:16px; padding:32px 40px; margin-bottom:24px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:space-between; gap:32px; }
-  .rp-banner::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(56,189,248,0.055) 1px,transparent 1px); background-size:28px 28px; pointer-events:none; }
-  .rp-banner::after { content:''; position:absolute; right:0; top:0; width:340px; height:100%; background:radial-gradient(ellipse at 100% 50%,rgba(56,189,248,0.14),transparent 70%); pointer-events:none; }
+  .rp-banner { background:linear-gradient(135deg,#040c20 0%,#071428 50%,#060e1e 100%); border:1px solid var(--border); border-radius:16px; padding:40px; margin-bottom:24px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:space-between; gap:40px; min-height:180px; }
+  .rp-banner::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(56,189,248,0.04) 1px,transparent 1px); background-size:28px 28px; pointer-events:none; }
+  .rp-banner::after { content:''; position:absolute; right:0; top:0; width:340px; height:100%; background:radial-gradient(ellipse at 100% 50%,rgba(56,189,248,0.10),transparent 70%); pointer-events:none; }
+  /* Perspective chessboard */
+  .rp-chessboard { position:absolute; bottom:-20px; right:280px; width:340px; height:180px; transform:perspective(300px) rotateX(55deg); transform-origin:bottom center; pointer-events:none; z-index:1; opacity:0.07; background-image:repeating-conic-gradient(#38bdf8 0% 25%, transparent 0% 50%); background-size:30px 30px; border-radius:4px; }
   .rp-scan { position:absolute; top:0; left:0; width:20%; height:100%; background:linear-gradient(90deg,transparent,rgba(56,189,248,0.07),transparent); animation:bannerScan 5s ease-in-out infinite; pointer-events:none; z-index:1; }
   .rp-banner-label { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:8px; position:relative; z-index:2; }
   .rp-banner-title { font-size:26px; font-weight:900; letter-spacing:-0.5px; margin-bottom:6px; position:relative; z-index:2; }
@@ -737,8 +739,9 @@
     <!-- Banner -->
     <div class="rp-banner">
       <div class="rp-scan"></div>
+      <div class="rp-chessboard"></div>
       <!-- Ghost chess king -->
-      <div style="position:absolute;right:280px;top:50%;transform:translateY(-50%);font-size:180px;line-height:1;opacity:0.04;color:#38bdf8;pointer-events:none;z-index:1;user-select:none;">♚</div>
+      <div style="position:absolute;right:310px;top:50%;transform:translateY(-55%);font-size:200px;line-height:1;opacity:0.05;color:#38bdf8;pointer-events:none;z-index:1;user-select:none;filter:blur(1px);">♚</div>
       <div style="position:relative;z-index:2;">
         <div class="rp-banner-label">Training</div>
         <div class="rp-banner-title">AI Roleplay</div>
