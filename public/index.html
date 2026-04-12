@@ -1815,8 +1815,15 @@
       }
     } catch(e) {}
 
-    // Handle Stripe redirect back
+    // Handle deep-link page param (e.g. /app?page=billing)
     const params = new URLSearchParams(window.location.search);
+    const deepPage = params.get('page');
+    if (deepPage) {
+      showPage(deepPage);
+      window.history.replaceState({}, '', '/app');
+    }
+
+    // Handle Stripe redirect back
     const checkout = params.get('checkout');
     const minutes = params.get('minutes');
     if (checkout === 'success') {
