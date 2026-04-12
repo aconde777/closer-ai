@@ -154,7 +154,7 @@ app.post('/api/create-prospect', async (req, res) => {
     if (user) userId = user.id;
   }
 
-  const { type, name, age, description, occupation, income, objections } = req.body;
+  const { type, name, age, description, occupation, income, objections, industry } = req.body;
 
   const systemPrompt = `You are ${name}, a ${age}-year-old ${type === 'b2b' ? 'business' : 'consumer'} prospect on a sales call.
 
@@ -212,6 +212,7 @@ Personality guidelines:
         age,
         description,
         income,
+        industry: industry || 'custom',
       });
     }
 

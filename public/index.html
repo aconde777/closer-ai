@@ -156,11 +156,17 @@
   .rp-count-row { margin-bottom:20px; }
   .rp-count-pill { display:inline-block; background:rgba(56,189,248,0.07); border:1px solid rgba(56,189,248,0.15); color:var(--muted); font-size:12px; font-weight:600; padding:4px 14px; border-radius:100px; }
 
-  .rp-group { margin-bottom:32px; }
-  .rp-group-header { display:flex; align-items:center; gap:10px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border); }
+  .rp-group { margin-bottom:8px; border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  .rp-group-header { display:flex; align-items:center; gap:10px; padding:14px 18px; cursor:pointer; user-select:none; background:var(--card); transition:background 0.15s; }
+  .rp-group-header:hover { background:var(--card2); }
   .rp-group-icon { width:16px; height:16px; color:var(--muted); flex-shrink:0; }
-  .rp-group-name { font-size:13px; font-weight:700; }
+  .rp-group-name { font-size:13px; font-weight:700; flex:1; }
   .rp-group-badge { font-size:11px; font-weight:700; background:var(--card2); border:1px solid var(--border); color:var(--muted); padding:2px 8px; border-radius:100px; }
+  .rp-group-chevron { width:16px; height:16px; color:var(--muted); transition:transform 0.2s; flex-shrink:0; }
+  .rp-group.collapsed .rp-group-chevron { transform:rotate(-90deg); }
+  .rp-group-body { padding:16px; background:var(--bg); }
+  .rp-group.collapsed .rp-group-body { display:none; }
+  .rp-group-empty { color:var(--muted); font-size:13px; padding:12px 0; text-align:center; }
   .rp-cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:16px; }
 
   /* PROSPECT CARD */
@@ -744,92 +750,167 @@
     </div>
     <div class="rp-count-row"><span class="rp-count-pill" id="rpCountPill">Showing 3 prospects</span></div>
 
-    <!-- Prospect Group -->
-    <div class="rp-group">
-      <div class="rp-group-header">
-        <svg class="rp-group-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-        <span class="rp-group-name">High-Ticket B2C</span>
-        <span class="rp-group-badge" id="rpGroupBadge">3</span>
+    <!-- DEFAULT GROUP -->
+    <div class="rp-group" id="group-default">
+      <div class="rp-group-header" onclick="toggleGroup('default')">
+        <span style="font-size:16px;">♟</span>
+        <span class="rp-group-name">Default Prospects</span>
+        <span class="rp-group-badge">3</span>
+        <svg class="rp-group-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-      <div class="rp-cards-grid" id="prospectGrid">
-
-        <!-- Mike D. -->
-        <div class="rp-card diff-beginner" data-name="mike d" data-type="b2c" data-diff="beginner" data-obj="wallet">
-          <div class="rp-card-header">
-            <div class="rp-card-top-row">
-              <div style="display:flex;gap:6px;align-items:center;"><span class="rp-badge b2c">B2C</span><span style="font-size:9px;font-weight:700;letter-spacing:1px;color:#64748b;text-transform:uppercase;border:1px solid #1e3a5f;border-radius:4px;padding:2px 6px;">Default</span></div>
-              <div class="rp-card-actions">
-                <button class="rp-action-btn" title="Share" onclick="copyProspectLink('Mike D.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+      <div class="rp-group-body">
+        <div class="rp-cards-grid" id="prospectGrid">
+          <!-- Mike D. -->
+          <div class="rp-card diff-beginner" data-name="mike d" data-type="b2c" data-diff="beginner" data-obj="wallet" data-industry="default">
+            <div class="rp-card-header">
+              <div class="rp-card-top-row">
+                <div style="display:flex;gap:6px;align-items:center;"><span class="rp-badge b2c">B2C</span><span style="font-size:9px;font-weight:700;letter-spacing:1px;color:#64748b;text-transform:uppercase;border:1px solid #1e3a5f;border-radius:4px;padding:2px 6px;">Default</span></div>
+                <div class="rp-card-actions"><button class="rp-action-btn" title="Share" onclick="copyProspectLink('Mike D.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button></div>
               </div>
+              <div class="rp-avatar-wrap"><div class="rp-avatar">♟</div></div>
+              <div class="rp-card-name">Mike D.</div>
+              <div class="rp-card-role">Interested prospect</div>
+              <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
             </div>
-            <div class="rp-avatar-wrap"><div class="rp-avatar">♟</div></div>
-            <div class="rp-card-name">Mike D.</div>
-            <div class="rp-card-role">Interested prospect</div>
-            <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
+            <div class="rp-card-body">
+              <span class="rp-diff-tag beginner">Beginner</span>
+              <div class="rp-objection">"I don't have my wallet on me right now"</div>
+              <div class="rp-card-stats">
+                <div><div class="rp-stat-label">Sessions</div><div class="rp-stat-val" id="rpSess-mike">--</div></div>
+                <div><div class="rp-stat-label">Avg Score</div><div class="rp-stat-val" id="rpAvg-mike">--</div></div>
+              </div>
+              <button class="btn-start-session" onclick="openCall('ad4cdc33-c13c-4fa5-8b99-2a8cd08161df','Mike D.','MD','Interested prospect')">▶ Start Session</button>
+            </div>
           </div>
-          <div class="rp-card-body">
-            <span class="rp-diff-tag beginner">Beginner</span>
-            <div class="rp-objection">"I don't have my wallet on me right now"</div>
-            <div class="rp-card-stats">
-              <div><div class="rp-stat-label">Sessions</div><div class="rp-stat-val" id="rpSess-mike">--</div></div>
-              <div><div class="rp-stat-label">Avg Score</div><div class="rp-stat-val" id="rpAvg-mike">--</div></div>
+          <!-- Sandra J. -->
+          <div class="rp-card diff-intermediate" data-name="sandra j" data-type="b2c" data-diff="intermediate" data-obj="husband" data-industry="default">
+            <div class="rp-card-header">
+              <div class="rp-card-top-row">
+                <div style="display:flex;gap:6px;align-items:center;"><span class="rp-badge b2c">B2C</span><span style="font-size:9px;font-weight:700;letter-spacing:1px;color:#64748b;text-transform:uppercase;border:1px solid #1e3a5f;border-radius:4px;padding:2px 6px;">Default</span></div>
+                <div class="rp-card-actions"><button class="rp-action-btn" title="Share" onclick="copyProspectLink('Sandra J.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button></div>
+              </div>
+              <div class="rp-avatar-wrap"><div class="rp-avatar">♞</div></div>
+              <div class="rp-card-name">Sandra J.</div>
+              <div class="rp-card-role">Needs spouse approval</div>
+              <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
             </div>
-            <button class="btn-start-session" onclick="openCall('ad4cdc33-c13c-4fa5-8b99-2a8cd08161df','Mike D.','MD','Interested prospect')">▶ Start Session</button>
+            <div class="rp-card-body">
+              <span class="rp-diff-tag intermediate">Intermediate</span>
+              <div class="rp-objection">"I need to talk to my husband before I make any decisions"</div>
+              <div class="rp-card-stats">
+                <div><div class="rp-stat-label">Sessions</div><div class="rp-stat-val" id="rpSess-sandra">--</div></div>
+                <div><div class="rp-stat-label">Avg Score</div><div class="rp-stat-val" id="rpAvg-sandra">--</div></div>
+              </div>
+              <button class="btn-start-session" onclick="openCall('53bae110-6279-4eaf-9602-ca56dc64f24f','Sandra J.','SJ','Needs spouse approval')">▶ Start Session</button>
+            </div>
+          </div>
+          <!-- Ray T. -->
+          <div class="rp-card diff-advanced" data-name="ray t" data-type="b2c" data-diff="advanced" data-obj="accountant" data-industry="default">
+            <div class="rp-card-header">
+              <div class="rp-card-top-row">
+                <div style="display:flex;gap:6px;align-items:center;"><span class="rp-badge b2c">B2C</span><span style="font-size:9px;font-weight:700;letter-spacing:1px;color:#64748b;text-transform:uppercase;border:1px solid #1e3a5f;border-radius:4px;padding:2px 6px;">Default</span></div>
+                <div class="rp-card-actions"><button class="rp-action-btn" title="Share" onclick="copyProspectLink('Ray T.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button></div>
+              </div>
+              <div class="rp-avatar-wrap"><div class="rp-avatar">♜</div></div>
+              <div class="rp-card-name">Ray T.</div>
+              <div class="rp-card-role">Analytical over-thinker</div>
+              <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
+            </div>
+            <div class="rp-card-body">
+              <span class="rp-diff-tag advanced">Advanced</span>
+              <div class="rp-objection">"Let me run this by my accountant first"</div>
+              <div class="rp-card-stats">
+                <div><div class="rp-stat-label">Sessions</div><div class="rp-stat-val" id="rpSess-ray">--</div></div>
+                <div><div class="rp-stat-label">Avg Score</div><div class="rp-stat-val" id="rpAvg-ray">--</div></div>
+              </div>
+              <button class="btn-start-session" onclick="openCall('b29fdbab-2f5c-47da-b569-866e3d2116cd','Ray T.','RT','Analytical over-thinker')">▶ Start Session</button>
+            </div>
           </div>
         </div>
-
-        <!-- Sandra J. -->
-        <div class="rp-card diff-intermediate" data-name="sandra j" data-type="b2c" data-diff="intermediate" data-obj="husband">
-          <div class="rp-card-header">
-            <div class="rp-card-top-row">
-              <div style="display:flex;gap:6px;align-items:center;"><span class="rp-badge b2c">B2C</span><span style="font-size:9px;font-weight:700;letter-spacing:1px;color:#64748b;text-transform:uppercase;border:1px solid #1e3a5f;border-radius:4px;padding:2px 6px;">Default</span></div>
-              <div class="rp-card-actions">
-                <button class="rp-action-btn" title="Share" onclick="copyProspectLink('Sandra J.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
-              </div>
-            </div>
-            <div class="rp-avatar-wrap"><div class="rp-avatar">♞</div></div>
-            <div class="rp-card-name">Sandra J.</div>
-            <div class="rp-card-role">Needs spouse approval</div>
-            <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
-          </div>
-          <div class="rp-card-body">
-            <span class="rp-diff-tag intermediate">Intermediate</span>
-            <div class="rp-objection">"I need to talk to my husband before I make any decisions"</div>
-            <div class="rp-card-stats">
-              <div><div class="rp-stat-label">Sessions</div><div class="rp-stat-val" id="rpSess-sandra">--</div></div>
-              <div><div class="rp-stat-label">Avg Score</div><div class="rp-stat-val" id="rpAvg-sandra">--</div></div>
-            </div>
-            <button class="btn-start-session" onclick="openCall('53bae110-6279-4eaf-9602-ca56dc64f24f','Sandra J.','SJ','Needs spouse approval')">▶ Start Session</button>
-          </div>
-        </div>
-
-        <!-- Ray T. -->
-        <div class="rp-card diff-advanced" data-name="ray t" data-type="b2c" data-diff="advanced" data-obj="accountant">
-          <div class="rp-card-header">
-            <div class="rp-card-top-row">
-              <div style="display:flex;gap:6px;align-items:center;"><span class="rp-badge b2c">B2C</span><span style="font-size:9px;font-weight:700;letter-spacing:1px;color:#64748b;text-transform:uppercase;border:1px solid #1e3a5f;border-radius:4px;padding:2px 6px;">Default</span></div>
-              <div class="rp-card-actions">
-                <button class="rp-action-btn" title="Share" onclick="copyProspectLink('Ray T.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
-              </div>
-            </div>
-            <div class="rp-avatar-wrap"><div class="rp-avatar">♜</div></div>
-            <div class="rp-card-name">Ray T.</div>
-            <div class="rp-card-role">Analytical over-thinker</div>
-            <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
-          </div>
-          <div class="rp-card-body">
-            <span class="rp-diff-tag advanced">Advanced</span>
-            <div class="rp-objection">"Let me run this by my accountant first"</div>
-            <div class="rp-card-stats">
-              <div><div class="rp-stat-label">Sessions</div><div class="rp-stat-val" id="rpSess-ray">--</div></div>
-              <div><div class="rp-stat-label">Avg Score</div><div class="rp-stat-val" id="rpAvg-ray">--</div></div>
-            </div>
-            <button class="btn-start-session" onclick="openCall('b29fdbab-2f5c-47da-b569-866e3d2116cd','Ray T.','RT','Analytical over-thinker')">▶ Start Session</button>
-          </div>
-        </div>
-
       </div>
     </div>
+
+    <!-- INDUSTRY GROUPS -->
+    <div class="rp-group collapsed" id="group-insurance">
+      <div class="rp-group-header" onclick="toggleGroup('insurance')">
+        <span style="font-size:16px;">🛡</span>
+        <span class="rp-group-name">Insurance</span>
+        <span class="rp-group-badge" id="badge-insurance">0</span>
+        <svg class="rp-group-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="rp-group-body"><div class="rp-cards-grid" id="grid-insurance"></div><div class="rp-group-empty" id="empty-insurance">No prospects yet -- create one and assign it to Insurance.</div></div>
+    </div>
+
+    <div class="rp-group collapsed" id="group-solar">
+      <div class="rp-group-header" onclick="toggleGroup('solar')">
+        <span style="font-size:16px;">☀️</span>
+        <span class="rp-group-name">Solar</span>
+        <span class="rp-group-badge" id="badge-solar">0</span>
+        <svg class="rp-group-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="rp-group-body"><div class="rp-cards-grid" id="grid-solar"></div><div class="rp-group-empty" id="empty-solar">No prospects yet -- create one and assign it to Solar.</div></div>
+    </div>
+
+    <div class="rp-group collapsed" id="group-health">
+      <div class="rp-group-header" onclick="toggleGroup('health')">
+        <span style="font-size:16px;">🏥</span>
+        <span class="rp-group-name">Health</span>
+        <span class="rp-group-badge" id="badge-health">0</span>
+        <svg class="rp-group-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="rp-group-body"><div class="rp-cards-grid" id="grid-health"></div><div class="rp-group-empty" id="empty-health">No prospects yet -- create one and assign it to Health.</div></div>
+    </div>
+
+    <div class="rp-group collapsed" id="group-realestate">
+      <div class="rp-group-header" onclick="toggleGroup('realestate')">
+        <span style="font-size:16px;">🏠</span>
+        <span class="rp-group-name">Real Estate</span>
+        <span class="rp-group-badge" id="badge-realestate">0</span>
+        <svg class="rp-group-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="rp-group-body"><div class="rp-cards-grid" id="grid-realestate"></div><div class="rp-group-empty" id="empty-realestate">No prospects yet -- create one and assign it to Real Estate.</div></div>
+    </div>
+
+    <div class="rp-group collapsed" id="group-financial">
+      <div class="rp-group-header" onclick="toggleGroup('financial')">
+        <span style="font-size:16px;">💼</span>
+        <span class="rp-group-name">Financial Services</span>
+        <span class="rp-group-badge" id="badge-financial">0</span>
+        <svg class="rp-group-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="rp-group-body"><div class="rp-cards-grid" id="grid-financial"></div><div class="rp-group-empty" id="empty-financial">No prospects yet -- create one and assign it to Financial Services.</div></div>
+    </div>
+
+    <div class="rp-group collapsed" id="group-coaching">
+      <div class="rp-group-header" onclick="toggleGroup('coaching')">
+        <span style="font-size:16px;">🎯</span>
+        <span class="rp-group-name">Coaching & Personal Development</span>
+        <span class="rp-group-badge" id="badge-coaching">0</span>
+        <svg class="rp-group-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="rp-group-body"><div class="rp-cards-grid" id="grid-coaching"></div><div class="rp-group-empty" id="empty-coaching">No prospects yet -- create one and assign it to Coaching.</div></div>
+    </div>
+
+    <div class="rp-group collapsed" id="group-b2b">
+      <div class="rp-group-header" onclick="toggleGroup('b2b')">
+        <span style="font-size:16px;">🤝</span>
+        <span class="rp-group-name">Business Services (B2B)</span>
+        <span class="rp-group-badge" id="badge-b2b">0</span>
+        <svg class="rp-group-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="rp-group-body"><div class="rp-cards-grid" id="grid-b2b"></div><div class="rp-group-empty" id="empty-b2b">No prospects yet -- create one and assign it to B2B.</div></div>
+    </div>
+
+    <div class="rp-group collapsed" id="group-custom">
+      <div class="rp-group-header" onclick="toggleGroup('custom')">
+        <span style="font-size:16px;">♚</span>
+        <span class="rp-group-name">Custom</span>
+        <span class="rp-group-badge" id="badge-custom">0</span>
+        <svg class="rp-group-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="rp-group-body"><div class="rp-cards-grid" id="grid-custom"></div><div class="rp-group-empty" id="empty-custom">No custom prospects yet -- create one above.</div></div>
+    </div>
+
   </div>
 
   <!-- COMING SOON PAGES -->
@@ -1355,6 +1436,19 @@
           </select>
         </div>
         <div class="form-group">
+          <label>Industry</label>
+          <select id="prospectIndustry">
+            <option value="custom">General / Other</option>
+            <option value="insurance">Insurance</option>
+            <option value="solar">Solar</option>
+            <option value="health">Health</option>
+            <option value="realestate">Real Estate</option>
+            <option value="financial">Financial Services</option>
+            <option value="coaching">Coaching & Personal Development</option>
+            <option value="b2b">Business Services (B2B)</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label>Objection Themes</label>
           <textarea id="prospectObjections" placeholder="e.g. Needs to talk to spouse. Worried about ROI. Asks for time to think."></textarea>
         </div>
@@ -1823,6 +1917,7 @@
     const occupation = document.getElementById('prospectOccupation').value.trim();
     const income = document.getElementById('prospectIncome').value;
     const objections = document.getElementById('prospectObjections').value.trim();
+    const industry = document.getElementById('prospectIndustry').value;
 
     if (!name || !desc || !occupation || !objections) {
       alert('Please fill in Name, Description, Occupation, and Objections.');
@@ -1836,11 +1931,11 @@
       const res = await fetch('/api/create-prospect', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + window._session.access_token },
-        body: JSON.stringify({ type: selectedType, name, age, description: desc, occupation, income, objections })
+        body: JSON.stringify({ type: selectedType, name, age, description: desc, occupation, income, objections, industry })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      addProspectCard(data.assistantId, name, occupation, objections, selectedType, age, desc, income);
+      addProspectCard(data.assistantId, name, occupation, objections, selectedType, age, desc, income, industry);
       document.getElementById('savingOverlay').classList.remove('open');
       document.getElementById('prospectName').value = '';
       document.getElementById('prospectDesc').value = '';
@@ -1942,8 +2037,9 @@
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
 
-  function addProspectCard(assistantId, name, role, objections, type, age, description, income) {
-    const grid = document.getElementById('prospectGrid');
+  function addProspectCard(assistantId, name, role, objections, type, age, description, income, industry) {
+    const industryKey = industry || 'custom';
+    const grid = document.getElementById('grid-' + industryKey) || document.getElementById('prospectGrid');
     const initials = getInitials(name);
     const shortObj = objections.length > 70 ? objections.slice(0, 70) + '...' : objections;
     const badgeClass = type === 'b2b' ? 'b2b' : 'b2c';
@@ -1987,14 +2083,26 @@
         <button class="btn-start-session" onclick="openCall('${assistantId}','${name}','${initials}','${role}')">▶ Start Session</button>
       </div>`;
     grid.appendChild(card);
+    // Update badge count and hide empty state for industry group
+    const badge = document.getElementById('badge-' + industryKey);
+    if (badge) badge.textContent = grid.children.length;
+    const empty = document.getElementById('empty-' + industryKey);
+    if (empty) empty.style.display = 'none';
+    // Auto-expand the group when a card is added
+    const group = document.getElementById('group-' + industryKey);
+    if (group) group.classList.remove('collapsed');
     filterProspects();
+  }
+
+  function toggleGroup(id) {
+    document.getElementById('group-' + id).classList.toggle('collapsed');
   }
 
   function filterProspects() {
     const q = (document.getElementById('rpSearch')?.value || '').toLowerCase();
     const diff = (document.getElementById('rpFilterDiff')?.value || '').toLowerCase();
     const type = (document.getElementById('rpFilterType')?.value || '').toLowerCase();
-    const cards = document.querySelectorAll('#prospectGrid .rp-card');
+    const cards = document.querySelectorAll('.rp-cards-grid .rp-card');
     let visible = 0;
     cards.forEach(c => {
       const matchQ = !q || c.dataset.name.includes(q) || c.dataset.obj.includes(q);
@@ -3031,7 +3139,7 @@
       const { prospects } = await res.json();
       if (!prospects || prospects.length === 0) return;
       prospects.forEach(p => {
-        addProspectCard(p.assistant_id, p.name, p.role, p.objections, p.type, p.age, p.description, p.income);
+        addProspectCard(p.assistant_id, p.name, p.role, p.objections, p.type, p.age, p.description, p.income, p.industry);
       });
     } catch(e) {}
   }
