@@ -1304,15 +1304,39 @@
       </div>
     </div>
 
-    <!-- UPGRADE PROMPT (free users) -->
-    <div id="upgradePrompt" style="display:none;">
-      <div class="billing-section" style="border-color:rgba(56,189,248,0.2);background:rgba(56,189,248,0.03);">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:20px;">
-          <div>
-            <div style="font-size:15px;font-weight:800;margin-bottom:4px;">Upgrade to Solo Pro</div>
-            <div style="font-size:13px;color:var(--muted);">$49/mo &mdash; 120 min/mo included + full scoring</div>
-          </div>
-          <button class="btn-primary" style="padding:11px 22px;font-size:14px;font-weight:700;border-radius:9px;" onclick="selectPlan('solo')">Upgrade Now</button>
+    <!-- SOLO PRO PLAN CARD -->
+    <div style="margin-top:24px;">
+      <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:14px;text-transform:uppercase;letter-spacing:0.8px;">Individual Plan</div>
+      <div id="upgradePrompt" style="display:none;">
+        <div class="plan-card" style="border-color:rgba(56,189,248,0.35);background:rgba(56,189,248,0.04);max-width:380px;">
+          <div class="plan-name">Solo Pro</div>
+          <div class="plan-price">$49<span class="plan-period">/mo</span></div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:18px;">Unlimited sessions &mdash; 120 min/mo included</div>
+          <ul class="plan-features">
+            <li>Unlimited roleplay sessions</li>
+            <li>120 min/month included</li>
+            <li>AI scoring after every call</li>
+            <li>All AI prospects + custom builder</li>
+            <li>Call history + transcripts</li>
+            <li>The Drill + Sales Tracker</li>
+          </ul>
+          <button class="plan-btn" onclick="selectPlan('solo')" style="background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#fff;border:none;">Upgrade to Solo Pro</button>
+        </div>
+      </div>
+      <div id="soloPlanActive" style="display:none;">
+        <div class="plan-card" style="border-color:rgba(56,189,248,0.35);background:rgba(56,189,248,0.04);max-width:380px;">
+          <div class="plan-name">Solo Pro</div>
+          <div class="plan-price">$49<span class="plan-period">/mo</span></div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:18px;">Your current plan</div>
+          <ul class="plan-features">
+            <li>Unlimited roleplay sessions</li>
+            <li>120 min/month included</li>
+            <li>AI scoring after every call</li>
+            <li>All AI prospects + custom builder</li>
+            <li>Call history + transcripts</li>
+            <li>The Drill + Sales Tracker</li>
+          </ul>
+          <button class="plan-btn" onclick="openBillingPortal()" style="background:transparent;border:1px solid var(--border);color:var(--muted);">Manage in Stripe</button>
         </div>
       </div>
     </div>
@@ -3020,9 +3044,17 @@
       document.getElementById('rowNextInvoice').style.display = 'flex';
     }
 
-    // Show upgrade prompt for free users
+    // Show correct Solo Pro card state
     if (_userPlan === 'free') {
       document.getElementById('upgradePrompt').style.display = 'block';
+      document.getElementById('soloPlanActive').style.display = 'none';
+    } else if (_userPlan === 'solo') {
+      document.getElementById('upgradePrompt').style.display = 'none';
+      document.getElementById('soloPlanActive').style.display = 'block';
+    } else {
+      // Team plan -- hide both solo cards
+      document.getElementById('upgradePrompt').style.display = 'none';
+      document.getElementById('soloPlanActive').style.display = 'none';
     }
 
     // Credits balance
