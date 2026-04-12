@@ -184,9 +184,12 @@
   .rp-action-btn { width:28px; height:28px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--muted); transition:all 0.15s; }
   .rp-action-btn:hover { background:rgba(56,189,248,0.1); border-color:rgba(56,189,248,0.2); color:var(--blue); }
   .rp-action-btn svg { width:13px; height:13px; }
-  .rp-avatar-wrap { width:52px; height:52px; margin-bottom:10px; z-index:1; position:relative; }
-  .rp-avatar { width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,#0a1e3d,#112b52); border:2px solid rgba(56,189,248,0.25); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:900; color:var(--blue); overflow:hidden; }
-  .rp-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+  .rp-avatar-wrap { width:64px; height:64px; margin-bottom:10px; z-index:1; position:relative; }
+  .rp-avatar { width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,#060f22,#0d1f3c); border:2px solid rgba(56,189,248,0.2); display:flex; align-items:center; justify-content:center; font-size:30px; line-height:1; box-shadow:0 4px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(56,189,248,0.08); }
+  .chess-legend { display:flex; gap:20px; margin-bottom:20px; padding:14px 18px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:10px; flex-wrap:wrap; }
+  .chess-legend-item { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
+  .chess-legend-piece { font-size:18px; line-height:1; }
+  .chess-legend-label { font-weight:600; color:var(--text); margin-right:2px; }
   .rp-card-name { font-size:15px; font-weight:800; margin-bottom:2px; position:relative; z-index:1; }
   .rp-card-role { font-size:11px; color:var(--muted); position:relative; z-index:1; margin-bottom:8px; }
   /* AI Ready indicator */
@@ -733,6 +736,12 @@
         <option value="b2b">B2B</option>
       </select>
     </div>
+    <div class="chess-legend">
+      <div class="chess-legend-item"><span class="chess-legend-piece">♟</span><span><span class="chess-legend-label">Pawn</span> Beginner -- basic objections</span></div>
+      <div class="chess-legend-item"><span class="chess-legend-piece">♞</span><span><span class="chess-legend-label">Knight</span> Intermediate -- harder to read</span></div>
+      <div class="chess-legend-item"><span class="chess-legend-piece">♜</span><span><span class="chess-legend-label">Rook</span> Advanced -- methodical, won't budge</span></div>
+      <div class="chess-legend-item"><span class="chess-legend-piece">♚</span><span><span class="chess-legend-label">King</span> Custom -- your creation</span></div>
+    </div>
     <div class="rp-count-row"><span class="rp-count-pill" id="rpCountPill">Showing 3 prospects</span></div>
 
     <!-- Prospect Group -->
@@ -753,7 +762,7 @@
                 <button class="rp-action-btn" title="Share" onclick="copyProspectLink('Mike D.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
               </div>
             </div>
-            <div class="rp-avatar-wrap"><div class="rp-avatar"><img src="https://api.dicebear.com/9.x/notionists/svg?seed=MikeD&backgroundColor=0a1e3d&radius=50" alt="Mike D."></div></div>
+            <div class="rp-avatar-wrap"><div class="rp-avatar">♟</div></div>
             <div class="rp-card-name">Mike D.</div>
             <div class="rp-card-role">Interested prospect</div>
             <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
@@ -778,7 +787,7 @@
                 <button class="rp-action-btn" title="Share" onclick="copyProspectLink('Sandra J.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
               </div>
             </div>
-            <div class="rp-avatar-wrap"><div class="rp-avatar"><img src="https://api.dicebear.com/9.x/notionists/svg?seed=SandraJ&backgroundColor=0a1e3d&radius=50" alt="Sandra J."></div></div>
+            <div class="rp-avatar-wrap"><div class="rp-avatar">♞</div></div>
             <div class="rp-card-name">Sandra J.</div>
             <div class="rp-card-role">Needs spouse approval</div>
             <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
@@ -803,7 +812,7 @@
                 <button class="rp-action-btn" title="Share" onclick="copyProspectLink('Ray T.')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
               </div>
             </div>
-            <div class="rp-avatar-wrap"><div class="rp-avatar"><img src="https://api.dicebear.com/9.x/notionists/svg?seed=RayT&backgroundColor=0a1e3d&radius=50" alt="Ray T."></div></div>
+            <div class="rp-avatar-wrap"><div class="rp-avatar">♜</div></div>
             <div class="rp-card-name">Ray T.</div>
             <div class="rp-card-role">Analytical over-thinker</div>
             <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
@@ -1906,7 +1915,6 @@
       card.querySelector('.rp-card-role').textContent = occupation;
       const shortObj = objections.length > 70 ? objections.slice(0, 70) + '...' : objections;
       card.querySelector('.rp-objection').textContent = `"${shortObj}"`;
-      card.querySelector('img').src = `https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(name)}&backgroundColor=0a1e3d&radius=50`;
 
       closeEditProspect();
     } catch (err) {
@@ -1964,7 +1972,7 @@
             <button class="rp-action-btn" title="Delete" style="color:#f87171;" onclick="deleteProspect('${assistantId}', this.closest('.rp-card'))">${deleteIcon}</button>
           </div>
         </div>
-        <div class="rp-avatar-wrap"><div class="rp-avatar"><img src="https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(name)}&backgroundColor=0a1e3d&radius=50" alt="${name}"></div></div>
+        <div class="rp-avatar-wrap"><div class="rp-avatar">♚</div></div>
         <div class="rp-card-name">${name}</div>
         <div class="rp-card-role">${role}</div>
         <div class="rp-ai-ready"><span class="rp-ready-dot"></span>AI Ready</div>
