@@ -134,8 +134,12 @@
   @keyframes bannerScan { 0% { transform:translateX(-100%); } 100% { transform:translateX(500%); } }
   @keyframes readyPulse { 0%,100% { opacity:1; box-shadow:0 0 7px rgba(74,222,128,0.9); } 50% { opacity:0.4; box-shadow:0 0 2px rgba(74,222,128,0.3); } }
   @keyframes sessionGlow { 0%,100% { box-shadow:0 0 16px rgba(56,189,248,0.3); } 50% { box-shadow:0 0 28px rgba(56,189,248,0.55); } }
+  @keyframes objFadeIn { 0% { opacity:0; transform:translateY(8px); } 100% { opacity:1; transform:translateY(0); } }
+  @keyframes objFadeOut { 0% { opacity:1; transform:translateY(0); } 100% { opacity:0; transform:translateY(-8px); } }
+  @keyframes barPulse { 0%,100% { transform:scaleY(0.4); } 50% { transform:scaleY(1); } }
+  @keyframes callerPing { 0% { transform:scale(1); opacity:0.6; } 100% { transform:scale(2.2); opacity:0; } }
 
-  .rp-banner { background:linear-gradient(135deg,#040c20 0%,#071428 50%,#060e1e 100%); border:1px solid var(--border); border-radius:16px; padding:32px 40px; margin-bottom:24px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+  .rp-banner { background:linear-gradient(135deg,#040c20 0%,#071428 50%,#060e1e 100%); border:1px solid var(--border); border-radius:16px; padding:32px 40px; margin-bottom:24px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:space-between; gap:32px; }
   .rp-banner::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(56,189,248,0.055) 1px,transparent 1px); background-size:28px 28px; pointer-events:none; }
   .rp-banner::after { content:''; position:absolute; right:0; top:0; width:340px; height:100%; background:radial-gradient(ellipse at 100% 50%,rgba(56,189,248,0.14),transparent 70%); pointer-events:none; }
   .rp-scan { position:absolute; top:0; left:0; width:20%; height:100%; background:linear-gradient(90deg,transparent,rgba(56,189,248,0.07),transparent); animation:bannerScan 5s ease-in-out infinite; pointer-events:none; z-index:1; }
@@ -143,6 +147,25 @@
   .rp-banner-title { font-size:26px; font-weight:900; letter-spacing:-0.5px; margin-bottom:6px; position:relative; z-index:2; }
   .rp-banner-sub { font-size:14px; color:var(--muted); line-height:1.6; position:relative; z-index:2; }
   .rp-banner-actions { flex-shrink:0; position:relative; z-index:2; }
+
+  /* LIVE OBJECTION FEED */
+  .rp-live-feed { flex-shrink:0; width:280px; position:relative; z-index:2; display:flex; flex-direction:column; gap:12px; }
+  .rp-feed-header { display:flex; align-items:center; gap:8px; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
+  .rp-feed-dot { width:6px; height:6px; border-radius:50%; background:#f87171; box-shadow:0 0 6px rgba(248,113,113,0.8); animation:readyPulse 1.5s infinite; }
+  .rp-feed-card { background:rgba(255,255,255,0.03); border:1px solid rgba(56,189,248,0.12); border-radius:10px; padding:12px 14px; position:relative; min-height:72px; overflow:hidden; }
+  .rp-feed-prospect { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--blue); margin-bottom:6px; }
+  .rp-feed-objection { font-size:13px; color:var(--text); line-height:1.5; font-style:italic; }
+  .rp-feed-objection.fade-in { animation:objFadeIn 0.5s ease forwards; }
+  .rp-feed-objection.fade-out { animation:objFadeOut 0.4s ease forwards; }
+  .rp-waveform { display:flex; align-items:center; gap:3px; margin-top:10px; height:16px; }
+  .rp-waveform span { display:inline-block; width:3px; border-radius:2px; background:rgba(56,189,248,0.4); transform-origin:bottom; }
+  .rp-waveform span:nth-child(1) { height:6px; animation:barPulse 1.1s 0.0s ease-in-out infinite; }
+  .rp-waveform span:nth-child(2) { height:12px; animation:barPulse 1.1s 0.15s ease-in-out infinite; }
+  .rp-waveform span:nth-child(3) { height:16px; animation:barPulse 1.1s 0.3s ease-in-out infinite; }
+  .rp-waveform span:nth-child(4) { height:10px; animation:barPulse 1.1s 0.45s ease-in-out infinite; }
+  .rp-waveform span:nth-child(5) { height:14px; animation:barPulse 1.1s 0.6s ease-in-out infinite; }
+  .rp-waveform span:nth-child(6) { height:8px; animation:barPulse 1.1s 0.75s ease-in-out infinite; }
+  .rp-waveform span:nth-child(7) { height:12px; animation:barPulse 1.1s 0.9s ease-in-out infinite; }
 
   .rp-filter-bar { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
   .rp-search-wrap { flex:1; position:relative; }
@@ -714,13 +737,20 @@
     <!-- Banner -->
     <div class="rp-banner">
       <div class="rp-scan"></div>
-      <div>
+      <div style="position:relative;z-index:2;">
         <div class="rp-banner-label">Training</div>
         <div class="rp-banner-title">AI Roleplay</div>
         <div class="rp-banner-sub">Practice against realistic AI prospects. Get scored after every call.</div>
+        <div style="margin-top:16px;"><button class="btn-primary" onclick="openBuilder()">+ Create Prospect</button></div>
       </div>
-      <div class="rp-banner-actions">
-        <button class="btn-primary" onclick="openBuilder()">+ Create Prospect</button>
+      <!-- LIVE OBJECTION FEED -->
+      <div class="rp-live-feed">
+        <div class="rp-feed-header"><span class="rp-feed-dot"></span>Live Objection Feed</div>
+        <div class="rp-feed-card">
+          <div class="rp-feed-prospect" id="feedProspect">Mike D.</div>
+          <div class="rp-feed-objection" id="feedObjection">"I don't have my wallet on me right now."</div>
+          <div class="rp-waveform"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
       </div>
     </div>
 
@@ -1667,6 +1697,34 @@
 <script>
   let selectedType = 'b2c';
   let currentPage = 'roleplay';
+
+  // Live objection feed
+  const _feedItems = [
+    { prospect: 'Mike D.', objection: '"I don\'t have my wallet on me right now."' },
+    { prospect: 'Sandra J.', objection: '"I need to talk to my husband before I make any decisions."' },
+    { prospect: 'Ray T.', objection: '"Let me run this by my accountant first."' },
+    { prospect: 'Sandra J.', objection: '"Can you just send me something I can show him?"' },
+    { prospect: 'Ray T.', objection: '"What are the actual projected returns? Show me the math."' },
+    { prospect: 'Mike D.', objection: '"This sounds interesting but the timing just isn\'t right."' },
+    { prospect: 'Ray T.', objection: '"I need to compare this to my other options before I commit."' },
+    { prospect: 'Sandra J.', objection: '"We never make financial decisions without each other."' },
+  ];
+  let _feedIdx = 0;
+  function _cycleFeed() {
+    const obj = document.getElementById('feedObjection');
+    const pro = document.getElementById('feedProspect');
+    if (!obj || !pro) return;
+    obj.classList.remove('fade-in');
+    obj.classList.add('fade-out');
+    setTimeout(() => {
+      _feedIdx = (_feedIdx + 1) % _feedItems.length;
+      pro.textContent = _feedItems[_feedIdx].prospect;
+      obj.textContent = _feedItems[_feedIdx].objection;
+      obj.classList.remove('fade-out');
+      obj.classList.add('fade-in');
+    }, 400);
+  }
+  setInterval(_cycleFeed, 3500);
 
   function toggleSidebar() {
     document.getElementById('sidebar').classList.add('open');
