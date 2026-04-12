@@ -735,6 +735,19 @@ app.post('/api/welcome-email', async (req, res) => {
     });
     const data = await r.json();
     if (!r.ok) throw new Error(data.message || 'Resend error');
+
+    // Notify owner of new signup
+    fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${RESEND_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: 'The Elite Closer <support@theelitecloser.io>',
+        to: ['alex.spartandesk@gmail.com'],
+        subject: `New signup: ${email}`,
+        html: `<p style="font-family:sans-serif;font-size:15px;">New user just signed up on The Elite Closer.<br><br><strong>Email:</strong> ${email}<br><strong>Name:</strong> ${name || 'Not provided'}</p>`
+      })
+    }).catch(() => {}); // fire and forget
+
     res.json({ ok: true });
   } catch (err) {
     console.error('Welcome email error:', err.message);
