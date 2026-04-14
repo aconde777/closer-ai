@@ -19,11 +19,11 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --bg: #030712; --card: #080f1e; --card2: #0d1628;
-    --blue: #38bdf8; --text: #e2eaf8; --muted: #4a6080; --border: #0f2040;
+    --bg: #000000; --card: #0d0d0d; --card2: #111111;
+    --gold: #D4920A; --text: #ffffff; --muted: #888888; --border: #1a1a1a;
   }
   body { background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; }
-  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(56,189,248,0.06) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212,146,10,0.06) 0%, transparent 60%); pointer-events: none; z-index: 0; }
 
   /* NAV */
   nav {
@@ -34,14 +34,14 @@
   }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
   .logo-name { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
-  .logo-name span { color: var(--blue); }
+  .logo-name span { color: var(--gold); }
   .btn-back {
     display: flex; align-items: center; gap: 6px;
     background: none; border: 1px solid var(--border); color: var(--muted);
     border-radius: 8px; padding: 7px 14px; font-size: 13px; font-weight: 600;
     cursor: pointer; transition: all 0.15s; font-family: inherit; text-decoration: none;
   }
-  .btn-back:hover { border-color: rgba(56,189,248,0.3); color: var(--text); }
+  .btn-back:hover { border-color: rgba(212,146,10,0.3); color: var(--text); }
 
   /* MAIN */
   .main { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 40px 24px 80px; min-height: calc(100vh - 60px); }
@@ -52,7 +52,7 @@
 
   /* SELECT SCREEN */
   .select-title { font-size: clamp(28px,5vw,48px); font-weight: 900; letter-spacing: -1.5px; text-align: center; margin-bottom: 12px; }
-  .select-title span { color: var(--blue); text-shadow: 0 0 20px rgba(56,189,248,0.4); }
+  .select-title span { color: var(--gold); text-shadow: 0 0 20px rgba(212,146,10,0.35); }
   .select-sub { font-size: 16px; color: var(--muted); text-align: center; max-width: 480px; line-height: 1.6; margin-bottom: 48px; }
   .difficulty-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 600px; margin-bottom: 32px; }
   .diff-btn {
@@ -60,8 +60,8 @@
     padding: 20px 16px; cursor: pointer; transition: all 0.15s; font-family: inherit;
     display: flex; flex-direction: column; align-items: center; gap: 8px;
   }
-  .diff-btn:hover { border-color: rgba(56,189,248,0.25); }
-  .diff-btn.selected { background: rgba(56,189,248,0.06); border-color: rgba(56,189,248,0.35); }
+  .diff-btn:hover { border-color: rgba(212,146,10,0.25); }
+  .diff-btn.selected { background: rgba(212,146,10,0.06); border-color: rgba(212,146,10,0.35); }
   .diff-label { font-size: 14px; font-weight: 800; color: var(--text); }
   .diff-sub { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.5; }
   .duration-row { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
@@ -71,20 +71,20 @@
     padding: 8px 20px; font-size: 13px; font-weight: 700; color: var(--muted);
     cursor: pointer; transition: all 0.15s; font-family: inherit;
   }
-  .duration-btn.selected { background: rgba(56,189,248,0.08); border-color: rgba(56,189,248,0.4); color: var(--blue); }
+  .duration-btn.selected { background: rgba(212,146,10,0.06); border-color: rgba(212,146,10,0.35); color: var(--gold); }
   .btn-start-drill {
-    background: linear-gradient(135deg,#0ea5e9,#38bdf8); color: #fff; border: none;
+    background: linear-gradient(135deg, #C8820A, #F5C842); color: #fff; border: none;
     border-radius: 12px; padding: 16px 48px; font-size: 16px; font-weight: 800;
-    cursor: pointer; transition: all 0.15s; box-shadow: 0 0 24px rgba(56,189,248,0.3);
+    cursor: pointer; transition: all 0.15s; box-shadow: 0 0 24px rgba(212,146,10,0.3);
     font-family: inherit;
   }
-  .btn-start-drill:hover { box-shadow: 0 0 36px rgba(56,189,248,0.45); transform: scale(1.02); }
+  .btn-start-drill:hover { box-shadow: 0 0 36px rgba(212,146,10,0.4); transform: scale(1.02); }
 
   /* COUNTDOWN SCREEN */
   .countdown-number {
-    font-size: clamp(100px,25vw,180px); font-weight: 900; color: var(--blue);
+    font-size: clamp(100px,25vw,180px); font-weight: 900; color: var(--gold);
     letter-spacing: -8px; line-height: 1; animation: countPulse 1s ease-in-out;
-    text-shadow: 0 0 60px rgba(56,189,248,0.5);
+    text-shadow: 0 0 60px rgba(212,146,10,0.4);
   }
   @keyframes countPulse { 0% { transform: scale(1.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
   .countdown-label { font-size: 16px; color: var(--muted); margin-top: 16px; letter-spacing: 3px; text-transform: uppercase; }
@@ -94,10 +94,10 @@
   .drill-progress { font-size: 13px; color: var(--muted); font-weight: 600; }
   .drill-timer { font-size: 32px; font-weight: 900; font-variant-numeric: tabular-nums; color: var(--text); transition: color 0.3s; }
   .drill-timer.warning { color: #f5a623; }
-  .drill-timer.danger { color: var(--blue); animation: timerPulse 0.5s ease-in-out infinite alternate; }
+  .drill-timer.danger { color: var(--gold); animation: timerPulse 0.5s ease-in-out infinite alternate; }
   @keyframes timerPulse { from { opacity: 1; } to { opacity: 0.4; } }
   .timer-bar-wrap { width: 100%; max-width: 800px; height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 48px; }
-  .timer-bar { height: 100%; width: 100%; background: var(--blue); border-radius: 2px; transition: width 1s linear, background 0.3s; box-shadow: 0 0 8px rgba(56,189,248,0.4); }
+  .timer-bar { height: 100%; width: 100%; background: var(--gold); border-radius: 2px; transition: width 1s linear, background 0.3s; box-shadow: 0 0 8px rgba(212,146,10,0.35); }
   .objection-text {
     font-size: clamp(22px,4vw,36px); font-weight: 900; letter-spacing: -0.5px;
     color: var(--text); text-align: center; max-width: 800px; line-height: 1.3;
@@ -106,12 +106,12 @@
   @keyframes objectionIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
   .objection-context { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 48px; }
   .drill-tip {
-    background: rgba(56,189,248,0.05); border: 1px solid rgba(56,189,248,0.15);
+    background: rgba(212,146,10,0.05); border: 1px solid rgba(212,146,10,0.15);
     border-radius: 10px; padding: 14px 20px; max-width: 800px; width: 100%;
     margin-bottom: 40px; display: none;
   }
   .drill-tip.visible { display: block; animation: objectionIn 0.2s ease-out; }
-  .drill-tip-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); margin-bottom: 6px; }
+  .drill-tip-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 6px; }
   .drill-tip-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
   .drill-controls { display: flex; align-items: center; gap: 16px; }
   .btn-hint {
@@ -119,43 +119,43 @@
     border-radius: 10px; padding: 12px 24px; font-size: 13px; font-weight: 600;
     cursor: pointer; transition: all 0.15s; font-family: inherit;
   }
-  .btn-hint:hover { border-color: rgba(56,189,248,0.3); color: var(--blue); }
+  .btn-hint:hover { border-color: rgba(212,146,10,0.3); color: var(--gold); }
   .btn-next-drill {
-    background: linear-gradient(135deg,#0ea5e9,#38bdf8); color: #fff; border: none;
+    background: linear-gradient(135deg, #C8820A, #F5C842); color: #fff; border: none;
     border-radius: 10px; padding: 14px 40px; font-size: 15px; font-weight: 800;
-    cursor: pointer; transition: all 0.15s; box-shadow: 0 0 16px rgba(56,189,248,0.25);
+    cursor: pointer; transition: all 0.15s; box-shadow: 0 0 16px rgba(212,146,10,0.25);
     font-family: inherit;
   }
-  .btn-next-drill:hover { box-shadow: 0 0 28px rgba(56,189,248,0.4); transform: scale(1.02); }
+  .btn-next-drill:hover { box-shadow: 0 0 28px rgba(212,146,10,0.35); transform: scale(1.02); }
 
   /* RESULTS SCREEN */
   .results-circle {
     width: 140px; height: 140px; border-radius: 50%;
-    border: 2px solid rgba(56,189,248,0.4);
+    border: 2px solid rgba(212,146,10,0.35);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    margin: 0 auto 28px; box-shadow: 0 0 40px rgba(56,189,248,0.15);
+    margin: 0 auto 28px; box-shadow: 0 0 40px rgba(212,146,10,0.15);
   }
-  .results-number { font-size: 44px; font-weight: 900; color: var(--blue); line-height: 1; }
+  .results-number { font-size: 44px; font-weight: 900; color: var(--gold); line-height: 1; }
   .results-unit { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
   .results-title { font-size: clamp(20px,3vw,28px); font-weight: 900; text-align: center; margin-bottom: 16px; }
   .results-stats { display: flex; gap: 32px; margin-bottom: 40px; }
   .results-stat { text-align: center; }
-  .results-stat-num { font-size: 24px; font-weight: 900; color: var(--blue); }
+  .results-stat-num { font-size: 24px; font-weight: 900; color: var(--gold); }
   .results-stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
   .results-actions { display: flex; gap: 12px; }
   .btn-again {
-    background: linear-gradient(135deg,#0ea5e9,#38bdf8); color: #fff; border: none;
+    background: linear-gradient(135deg, #C8820A, #F5C842); color: #fff; border: none;
     border-radius: 10px; padding: 14px 32px; font-size: 14px; font-weight: 700;
-    cursor: pointer; box-shadow: 0 0 16px rgba(56,189,248,0.25); font-family: inherit;
+    cursor: pointer; box-shadow: 0 0 16px rgba(212,146,10,0.25); font-family: inherit;
     transition: all 0.15s;
   }
-  .btn-again:hover { box-shadow: 0 0 28px rgba(56,189,248,0.4); transform: scale(1.02); }
+  .btn-again:hover { box-shadow: 0 0 28px rgba(212,146,10,0.35); transform: scale(1.02); }
   .btn-drill-done {
     background: transparent; color: var(--text); border: 1px solid var(--border);
     border-radius: 10px; padding: 14px 32px; font-size: 14px; font-weight: 600;
     cursor: pointer; transition: all 0.15s; font-family: inherit;
   }
-  .btn-drill-done:hover { border-color: rgba(56,189,248,0.25); color: var(--blue); }
+  .btn-drill-done:hover { border-color: rgba(212,146,10,0.25); color: var(--gold); }
 
   @media (max-width: 600px) {
     .difficulty-grid { grid-template-columns: 1fr; }
@@ -352,8 +352,8 @@
     drillIndex = 0; drillCompleted = 0; drillTimeLeft = drillDur; drillHintShown = false;
     document.getElementById('drillTimer').className = 'drill-timer';
     document.getElementById('timerBar').style.width = '100%';
-    document.getElementById('timerBar').style.background = 'var(--blue)';
-    document.getElementById('timerBar').style.boxShadow = '0 0 8px rgba(56,189,248,0.4)';
+    document.getElementById('timerBar').style.background = 'var(--gold)';
+    document.getElementById('timerBar').style.boxShadow = '0 0 8px rgba(212,146,10,0.35)';
     drillShowObjection();
     drillStartTimer();
   }
@@ -393,7 +393,7 @@
       drillTimeLeft--;
       timerEl.textContent = drillTimeLeft;
       barEl.style.width = (drillTimeLeft / total * 100) + '%';
-      if (drillTimeLeft <= 10) { timerEl.className = 'drill-timer danger'; barEl.style.background = '#38bdf8'; }
+      if (drillTimeLeft <= 10) { timerEl.className = 'drill-timer danger'; barEl.style.background = '#D4920A'; }
       else if (drillTimeLeft <= 20) { timerEl.className = 'drill-timer warning'; barEl.style.background = '#f5a623'; }
       if (drillTimeLeft <= 0) { clearInterval(drillTimerInterval); drillShowResults(); }
     }, 1000);

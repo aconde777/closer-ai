@@ -19,20 +19,20 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --bg: #030712; --card: #080f1e; --card2: #0d1628;
-    --blue: #38bdf8; --text: #e2eaf8; --muted: #3d5068; --border: #0f2040;
+    --bg: #000000; --card: #0d0d0d; --card2: #111111;
+    --gold: #D4920A; --text: #ffffff; --muted: #3d5068; --border: #1a1a1a;
   }
   body { background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(56,189,248,0.06) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212,146,10,0.06) 0%, transparent 60%); pointer-events: none; z-index: 0; }
 
   /* NAV */
   nav { background: rgba(2,11,24,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 28px; height: 56px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; z-index: 10; position: relative; }
   .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); }
-  .logo-mark { flex-shrink: 0; filter: drop-shadow(0 0 7px rgba(56,189,248,0.45)); }
+  .logo-mark { flex-shrink: 0; filter: drop-shadow(0 0 7px rgba(212,146,10,0.4)); }
   .logo-name { font-size: 14px; font-weight: 800; }
-  .logo-name span { color: var(--blue); }
+  .logo-name span { color: var(--gold); }
   .btn-back { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 6px 14px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
-  .btn-back:hover { border-color: rgba(56,189,248,0.3); color: var(--blue); }
+  .btn-back:hover { border-color: rgba(212,146,10,0.3); color: var(--gold); }
 
   /* SCREENS */
   .screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; position: relative; z-index: 1; }
@@ -40,12 +40,12 @@
 
   /* SELECT SCREEN */
   .select-title { font-size: clamp(28px, 5vw, 48px); font-weight: 900; letter-spacing: -1.5px; text-align: center; margin-bottom: 12px; }
-  .select-title span { color: var(--blue); text-shadow: 0 0 20px rgba(56,189,248,0.4); }
+  .select-title span { color: var(--gold); text-shadow: 0 0 20px rgba(212,146,10,0.35); }
   .select-sub { font-size: 15px; color: var(--muted); text-align: center; margin-bottom: 48px; line-height: 1.6; max-width: 440px; }
   .difficulty-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; max-width: 640px; margin-bottom: 40px; }
   .diff-card { background: var(--card); border: 2px solid var(--border); border-radius: 16px; padding: 28px 20px; text-align: center; cursor: pointer; transition: all 0.15s; }
-  .diff-card:hover { border-color: rgba(56,189,248,0.25); transform: translateY(-2px); box-shadow: 0 0 20px rgba(56,189,248,0.08); }
-  .diff-card.selected { border-color: rgba(56,189,248,0.5); background: rgba(56,189,248,0.05); box-shadow: 0 0 24px rgba(56,189,248,0.12); }
+  .diff-card:hover { border-color: rgba(212,146,10,0.25); transform: translateY(-2px); box-shadow: 0 0 20px rgba(212,146,10,0.06); }
+  .diff-card.selected { border-color: rgba(212,146,10,0.4); background: rgba(212,146,10,0.05); box-shadow: 0 0 24px rgba(212,146,10,0.12); }
   .diff-icon { margin-bottom: 14px; }
   .diff-icon svg { width: 32px; height: 32px; }
   .diff-name { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
@@ -53,18 +53,18 @@
   .diff-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; }
   .badge-beginner { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
   .badge-intermediate { background: rgba(245,166,35,0.1); color: #f5a623; border: 1px solid rgba(245,166,35,0.2); }
-  .badge-advanced { background: rgba(56,189,248,0.1); color: var(--blue); border: 1px solid rgba(56,189,248,0.2); }
+  .badge-advanced { background: rgba(212,146,10,0.08); color: var(--gold); border: 1px solid rgba(212,146,10,0.2); }
 
   .duration-row { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
   .duration-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); border-radius: 8px; padding: 8px 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
-  .duration-btn.selected { background: rgba(56,189,248,0.08); border-color: rgba(56,189,248,0.4); color: var(--blue); }
+  .duration-btn.selected { background: rgba(212,146,10,0.06); border-color: rgba(212,146,10,0.35); color: var(--gold); }
   .duration-label { font-size: 13px; color: var(--muted); }
 
-  .btn-start-drill { background: linear-gradient(135deg, #0ea5e9, #38bdf8); color: #fff; border: none; border-radius: 12px; padding: 16px 48px; font-size: 16px; font-weight: 800; cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px; box-shadow: 0 0 24px rgba(56,189,248,0.3); }
-  .btn-start-drill:hover { box-shadow: 0 0 36px rgba(56,189,248,0.45); transform: scale(1.02); }
+  .btn-start-drill { background: linear-gradient(135deg, #C8820A, #F5C842); color: #fff; border: none; border-radius: 12px; padding: 16px 48px; font-size: 16px; font-weight: 800; cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px; box-shadow: 0 0 24px rgba(212,146,10,0.3); }
+  .btn-start-drill:hover { box-shadow: 0 0 36px rgba(212,146,10,0.4); transform: scale(1.02); }
 
   /* COUNTDOWN SCREEN */
-  .countdown-number { font-size: clamp(100px, 25vw, 200px); font-weight: 900; color: var(--blue); letter-spacing: -8px; line-height: 1; animation: countPulse 1s ease-in-out; text-shadow: 0 0 60px rgba(56,189,248,0.5); }
+  .countdown-number { font-size: clamp(100px, 25vw, 200px); font-weight: 900; color: var(--gold); letter-spacing: -8px; line-height: 1; animation: countPulse 1s ease-in-out; text-shadow: 0 0 60px rgba(212,146,10,0.4); }
   @keyframes countPulse { 0% { transform: scale(1.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
   .countdown-label { font-size: 16px; color: var(--muted); margin-top: 16px; letter-spacing: 3px; text-transform: uppercase; }
 
@@ -75,10 +75,10 @@
   .drill-timer-wrap { display: flex; align-items: center; gap: 10px; }
   .drill-timer { font-size: 32px; font-weight: 900; font-variant-numeric: tabular-nums; color: var(--text); transition: color 0.3s; }
   .drill-timer.warning { color: #f5a623; }
-  .drill-timer.danger { color: var(--blue); animation: timerPulse 0.5s ease-in-out infinite alternate; }
-  @keyframes timerPulse { from { opacity: 1; text-shadow: 0 0 12px rgba(56,189,248,0.6); } to { opacity: 0.5; text-shadow: none; } }
+  .drill-timer.danger { color: var(--gold); animation: timerPulse 0.5s ease-in-out infinite alternate; }
+  @keyframes timerPulse { from { opacity: 1; text-shadow: 0 0 12px rgba(212,146,10,0.6); } to { opacity: 0.5; text-shadow: none; } }
   .timer-bar-wrap { width: 100%; max-width: 800px; height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 48px; }
-  .timer-bar { height: 100%; background: var(--blue); border-radius: 2px; transition: width 1s linear, background 0.3s; box-shadow: 0 0 8px rgba(56,189,248,0.4); }
+  .timer-bar { height: 100%; background: var(--gold); border-radius: 2px; transition: width 1s linear, background 0.3s; box-shadow: 0 0 8px rgba(212,146,10,0.35); }
 
   .objection-card { width: 100%; max-width: 800px; text-align: center; }
   .objection-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
@@ -86,32 +86,32 @@
   @keyframes objectionIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
   .objection-context { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 48px; animation: objectionIn 0.3s ease-out; }
 
-  .drill-tip { background: rgba(56,189,248,0.05); border: 1px solid rgba(56,189,248,0.15); border-radius: 10px; padding: 14px 20px; max-width: 800px; width: 100%; margin-bottom: 40px; display: none; }
+  .drill-tip { background: rgba(212,146,10,0.05); border: 1px solid rgba(212,146,10,0.15); border-radius: 10px; padding: 14px 20px; max-width: 800px; width: 100%; margin-bottom: 40px; display: none; }
   .drill-tip.visible { display: block; animation: objectionIn 0.2s ease-out; }
-  .drill-tip-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); margin-bottom: 6px; }
+  .drill-tip-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 6px; }
   .drill-tip-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
   .drill-controls { display: flex; align-items: center; gap: 16px; }
   .btn-hint { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 10px; padding: 12px 24px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
-  .btn-hint:hover { border-color: rgba(56,189,248,0.3); color: var(--blue); }
-  .btn-next { background: linear-gradient(135deg, #0ea5e9, #38bdf8); color: #fff; border: none; border-radius: 10px; padding: 14px 40px; font-size: 15px; font-weight: 800; cursor: pointer; transition: all 0.15s; box-shadow: 0 0 16px rgba(56,189,248,0.25); }
-  .btn-next:hover { box-shadow: 0 0 28px rgba(56,189,248,0.4); transform: scale(1.02); }
+  .btn-hint:hover { border-color: rgba(212,146,10,0.3); color: var(--gold); }
+  .btn-next { background: linear-gradient(135deg, #C8820A, #F5C842); color: #fff; border: none; border-radius: 10px; padding: 14px 40px; font-size: 15px; font-weight: 800; cursor: pointer; transition: all 0.15s; box-shadow: 0 0 16px rgba(212,146,10,0.25); }
+  .btn-next:hover { box-shadow: 0 0 28px rgba(212,146,10,0.35); transform: scale(1.02); }
 
   /* RESULTS SCREEN */
-  .results-circle { width: 140px; height: 140px; border-radius: 50%; border: 2px solid rgba(56,189,248,0.4); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 28px; box-shadow: 0 0 40px rgba(56,189,248,0.15), inset 0 0 40px rgba(56,189,248,0.05); }
-  .results-number { font-size: 44px; font-weight: 900; color: var(--blue); line-height: 1; text-shadow: 0 0 20px rgba(56,189,248,0.5); }
+  .results-circle { width: 140px; height: 140px; border-radius: 50%; border: 2px solid rgba(212,146,10,0.35); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 28px; box-shadow: 0 0 40px rgba(212,146,10,0.15), inset 0 0 40px rgba(212,146,10,0.05); }
+  .results-number { font-size: 44px; font-weight: 900; color: var(--gold); line-height: 1; text-shadow: 0 0 20px rgba(212,146,10,0.4); }
   .results-unit { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
   .results-title { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 8px; text-align: center; }
   .results-sub { font-size: 15px; color: var(--muted); text-align: center; margin-bottom: 40px; line-height: 1.6; max-width: 440px; }
   .results-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; width: 100%; max-width: 500px; margin-bottom: 40px; }
   .result-stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
-  .result-stat-num { font-size: 28px; font-weight: 900; color: var(--blue); margin-bottom: 4px; }
+  .result-stat-num { font-size: 28px; font-weight: 900; color: var(--gold); margin-bottom: 4px; }
   .result-stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
   .results-actions { display: flex; gap: 12px; }
-  .btn-again { background: linear-gradient(135deg, #0ea5e9, #38bdf8); color: #fff; border: none; border-radius: 10px; padding: 14px 32px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; box-shadow: 0 0 16px rgba(56,189,248,0.25); }
-  .btn-again:hover { box-shadow: 0 0 28px rgba(56,189,248,0.4); }
+  .btn-again { background: linear-gradient(135deg, #C8820A, #F5C842); color: #fff; border: none; border-radius: 10px; padding: 14px 32px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; box-shadow: 0 0 16px rgba(212,146,10,0.25); }
+  .btn-again:hover { box-shadow: 0 0 28px rgba(212,146,10,0.35); }
   .btn-done { background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 14px 32px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
-  .btn-done:hover { border-color: rgba(56,189,248,0.25); color: var(--blue); }
+  .btn-done:hover { border-color: rgba(212,146,10,0.25); color: var(--gold); }
 </style>
 </head>
 <body>
@@ -149,7 +149,7 @@
     <div class="diff-card" id="diff-advanced" onclick="selectDiff('advanced')">
       <div class="diff-badge badge-advanced">Advanced</div>
       <div class="diff-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#D4920A" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
       </div>
       <div class="diff-name">Elite Level</div>
       <div class="diff-desc">Complex multi-layered objections. Full resistance.</div>
@@ -358,8 +358,8 @@ function startTimer() {
 
     if (timeLeft <= 10) {
       timerEl.className = 'drill-timer danger';
-      barEl.style.background = '#38bdf8';
-      barEl.style.boxShadow = '0 0 12px rgba(56,189,248,0.8)';
+      barEl.style.background = '#D4920A';
+      barEl.style.boxShadow = '0 0 12px rgba(212,146,10,0.8)';
     } else if (timeLeft <= 20) {
       timerEl.className = 'drill-timer warning';
       barEl.style.background = '#f5a623';
@@ -397,8 +397,8 @@ function resetDrill() {
   clearInterval(timerInterval);
   timeLeft = selectedDur;
   document.getElementById('drillTimer').className = 'drill-timer';
-  document.getElementById('timerBar').style.background = 'var(--blue)';
-  document.getElementById('timerBar').style.boxShadow = '0 0 8px rgba(56,189,248,0.4)';
+  document.getElementById('timerBar').style.background = 'var(--gold)';
+  document.getElementById('timerBar').style.boxShadow = '0 0 8px rgba(212,146,10,0.35)';
 }
 </script>
 </body>

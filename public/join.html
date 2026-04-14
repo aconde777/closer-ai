@@ -7,18 +7,18 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root { --bg:#030712; --card:#080f1e; --blue:#38bdf8; --text:#e2eaf8; --muted:#4a6080; --border:#0f2040; }
+  :root { --bg:#000000; --card:#0d0d0d; --blue:#D4920A; --text:#ffffff; --muted:#888888; --border:#1a1a1a; }
   body { background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 48px 40px; width: 100%; max-width: 440px; text-align: center; box-shadow: 0 0 60px rgba(56,189,248,0.08); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 48px 40px; width: 100%; max-width: 440px; text-align: center; box-shadow: 0 0 60px rgba(212,146,10,0.06); }
   .logo { margin: 0 auto 24px; }
   h1 { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 8px; }
-  h1 span { color: var(--blue); }
+  h1 span { color: var(--gold); }
   .sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; line-height: 1.6; }
-  .btn { width: 100%; background: linear-gradient(135deg,#0ea5e9,#38bdf8); color: #fff; border: none; border-radius: 10px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; margin-bottom: 12px; box-shadow: 0 0 20px rgba(56,189,248,0.25); }
-  .btn:hover { box-shadow: 0 0 32px rgba(56,189,248,0.45); transform: translateY(-1px); }
+  .btn { width: 100%; background: linear-gradient(135deg, #C8820A, #F5C842); color: #fff; border: none; border-radius: 10px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; margin-bottom: 12px; box-shadow: 0 0 20px rgba(212,146,10,0.25); }
+  .btn:hover { box-shadow: 0 0 32px rgba(212,146,10,0.4); transform: translateY(-1px); }
   .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); box-shadow: none; }
-  .btn-outline:hover { border-color: rgba(56,189,248,0.3); color: var(--blue); box-shadow: none; transform: none; }
+  .btn-outline:hover { border-color: rgba(212,146,10,0.3); color: var(--gold); box-shadow: none; transform: none; }
   .status { font-size: 13px; color: var(--muted); margin-top: 16px; }
   .status.error { color: #f87171; }
   .status.success { color: #4ade80; }

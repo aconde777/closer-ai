@@ -9,8 +9,8 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --bg: #030712; --card: #080f1e; --card2: #0d1628;
-    --blue: #38bdf8; --text: #e2eaf8; --muted: #4a6080; --border: #0f2040;
+    --bg: #000000; --card: #0d0d0d; --card2: #111111;
+    --gold: #D4920A; --text: #ffffff; --muted: #888888; --border: #1a1a1a;
   }
 
   body {
@@ -25,10 +25,10 @@
   .chess-bg {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
     background-image:
-      linear-gradient(45deg, rgba(56,189,248,0.07) 25%, transparent 25%),
-      linear-gradient(-45deg, rgba(56,189,248,0.07) 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, rgba(56,189,248,0.07) 75%),
-      linear-gradient(-45deg, transparent 75%, rgba(56,189,248,0.07) 75%);
+      linear-gradient(45deg, rgba(212,146,10,0.05) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(212,146,10,0.05) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(212,146,10,0.05) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(212,146,10,0.05) 75%);
     background-size: 52px 52px;
     background-position: 0 0, 0 26px, 26px -26px, -26px 0px;
   }
@@ -37,7 +37,7 @@
   .top-glow {
     position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
     width: 600px; height: 400px;
-    background: radial-gradient(ellipse, rgba(56,189,248,0.1) 0%, transparent 65%);
+    background: radial-gradient(ellipse, rgba(212,146,10,0.08) 0%, transparent 65%);
     pointer-events: none; z-index: 0;
   }
 
@@ -46,9 +46,9 @@
     display: flex; align-items: center; gap: 10px; margin-bottom: 36px;
     text-decoration: none; color: var(--text); position: relative; z-index: 1;
   }
-  .logo-mark { flex-shrink: 0; filter: drop-shadow(0 0 10px rgba(56,189,248,0.5)); }
+  .logo-mark { flex-shrink: 0; filter: drop-shadow(0 0 10px rgba(212,146,10,0.4)); }
   .logo-name { font-size: 17px; font-weight: 900; letter-spacing: -0.3px; }
-  .logo-name span { color: var(--blue); }
+  .logo-name span { color: var(--gold); }
 
   /* TAGLINE */
   .auth-tagline {
@@ -56,7 +56,7 @@
     margin-bottom: 28px; position: relative; z-index: 1;
     letter-spacing: 0.3px;
   }
-  .auth-tagline strong { color: var(--blue); }
+  .auth-tagline strong { color: var(--gold); }
 
   /* CARD */
   .auth-card {
@@ -66,14 +66,14 @@
     width: 100%; max-width: 420px;
     padding: 36px;
     position: relative; z-index: 1;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(56,189,248,0.05);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,146,10,0.05);
   }
 
   /* TOP CARD ACCENT */
   .auth-card::before {
     content: '';
     position: absolute; top: 0; left: 24px; right: 24px; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(56,189,248,0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(212,146,10,0.35), transparent);
   }
 
   /* TABS */
@@ -88,8 +88,8 @@
     transition: all 0.15s; border: none; background: none; font-family: inherit;
   }
   .tab.active {
-    background: rgba(56,189,248,0.1); color: var(--blue);
-    border: 1px solid rgba(56,189,248,0.2);
+    background: rgba(212,146,10,0.08); color: var(--gold);
+    border: 1px solid rgba(212,146,10,0.2);
   }
 
   /* FORM */
@@ -97,11 +97,11 @@
   .auth-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
 
   .trial-note {
-    background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.15);
+    background: rgba(212,146,10,0.06); border: 1px solid rgba(212,146,10,0.15);
     border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--muted);
     line-height: 1.6; margin-bottom: 20px;
   }
-  .trial-note strong { color: var(--blue); }
+  .trial-note strong { color: var(--gold); }
 
   .form-group { margin-bottom: 14px; }
   .form-group label {
@@ -114,19 +114,19 @@
     font-family: inherit; transition: border-color 0.15s;
     -webkit-appearance: none; appearance: none;
   }
-  .form-group input:focus { outline: none; border-color: rgba(56,189,248,0.4); background: rgba(13,22,40,0.8); }
+  .form-group input:focus { outline: none; border-color: rgba(212,146,10,0.35); background: rgba(10,10,10,0.9); }
   .form-group input::placeholder { color: var(--muted); }
 
   .btn-submit {
-    width: 100%; background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+    width: 100%; background: linear-gradient(135deg, #C8820A, #F5C842);
     color: #fff; border: none; border-radius: 10px; padding: 15px;
     font-size: 16px; font-weight: 800; cursor: pointer; font-family: inherit;
     transition: all 0.15s; margin-top: 6px;
-    box-shadow: 0 0 20px rgba(56,189,248,0.25);
+    box-shadow: 0 0 20px rgba(212,146,10,0.25);
     letter-spacing: -0.2px;
   }
-  .btn-submit:hover { box-shadow: 0 0 32px rgba(56,189,248,0.4); transform: translateY(-1px); }
-  .btn-submit:disabled { background: #1a2a3a; color: var(--muted); cursor: not-allowed; box-shadow: none; transform: none; }
+  .btn-submit:hover { box-shadow: 0 0 32px rgba(212,146,10,0.35); transform: translateY(-1px); }
+  .btn-submit:disabled { background: #1a1a1a; color: #555; cursor: not-allowed; box-shadow: none; transform: none; }
 
   .auth-message { font-size: 13px; text-align: center; margin-top: 14px; min-height: 20px; line-height: 1.5; }
   .auth-message.error { color: #f87171; }
@@ -136,7 +136,7 @@
     display: block; text-align: center; font-size: 13px; color: var(--muted);
     text-decoration: none; margin-top: 14px; transition: color 0.15s;
   }
-  .forgot-link:hover { color: var(--blue); }
+  .forgot-link:hover { color: var(--gold); }
 
   /* BACK LINK */
   .back-link {
@@ -144,7 +144,7 @@
     margin-top: 20px; position: relative; z-index: 1;
   }
   .back-link a { color: var(--muted); text-decoration: none; transition: color 0.15s; }
-  .back-link a:hover { color: var(--blue); }
+  .back-link a:hover { color: var(--gold); }
 
   /* MOBILE */
   @media (max-width: 480px) {
@@ -164,7 +164,7 @@
 <div class="top-glow"></div>
 
 <!-- AUTO REDIRECT SCREEN -->
-<div id="autoRedirect" style="display:none;position:fixed;inset:0;background:#030712;z-index:100;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
+<div id="autoRedirect" style="display:none;position:fixed;inset:0;background:#000000;z-index:100;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
   <img src="/lion-logo.png" width="48" height="48" style="border-radius:12px;object-fit:cover;display:block;margin:0 auto;">
   </div>
   <div class="logo-name">The <span>Elite</span> Closer</div>
