@@ -19,11 +19,11 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --bg: #030712; --card: #080f1e; --card2: #0d1628;
+    --bg: #000000; --card: #0a0a0a; --card2: #111111;
     --blue: #38bdf8; --blue-dim: rgba(56,189,248,0.12); --blue-border: rgba(56,189,248,0.18);
     --glow: 0 0 20px rgba(56,189,248,0.15); --glow-strong: 0 0 30px rgba(56,189,248,0.25);
     --green: #4ade80; --text: #e2eaf8; --text-dim: #94a3b8;
-    --muted: #3d5068; --border: #0f2040; --sidebar: #020b18;
+    --muted: #3d5068; --border: #1a1a1a; --sidebar: #000000;
   }
   body { background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; display: flex; }
   body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(56,189,248,0.06) 0%, transparent 60%); pointer-events: none; z-index: 0; }
@@ -64,12 +64,12 @@
   }
   .nav-item {
     display: flex; align-items: center; gap: 10px;
-    padding: 9px 20px; font-size: 13px; font-weight: 500; color: var(--muted);
+    padding: 9px 20px; font-size: 13px; font-weight: 500; color: #888888;
     cursor: pointer; transition: all 0.15s; border-radius: 0; position: relative;
     text-decoration: none; border: none; background: none; width: 100%; text-align: left;
   }
-  .nav-item:hover { color: var(--text); background: rgba(56,189,248,0.05); }
-  .nav-item.active { color: var(--blue); background: rgba(56,189,248,0.07); }
+  .nav-item:hover { color: #ffffff; background: rgba(255,255,255,0.04); }
+  .nav-item.active { color: #ffffff; background: rgba(255,255,255,0.06); }
   .nav-item.active::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 2px; background: var(--blue); border-radius: 0 2px 2px 0; box-shadow: 0 0 8px var(--blue); }
   .nav-icon { width: 16px; height: 16px; flex-shrink: 0; stroke: currentColor; }
   .nav-badge { margin-left: auto; font-size: 10px; font-weight: 700; background: rgba(255,255,255,0.04); color: var(--muted); padding: 2px 7px; border-radius: 100px; }
@@ -565,19 +565,42 @@
     .sidebar-logo { padding: 16px; }
     .sidebar-close { display: block; }
 
-    .main-content { margin-left: 0; width: 100%; }
+    .main-content { margin-left: 0; width: 100%; min-width: 0; overflow-x: hidden; }
 
     .topbar { padding: 0 16px; }
     .hamburger { display: flex; align-items: center; justify-content: center; }
     .sidebar-collapse-btn { display: none; }
 
-    .page-content { padding: 16px !important; }
+    .page-content { padding: 12px !important; }
 
     .prospect-grid,
     .history-grid { grid-template-columns: 1fr !important; }
 
     .credits-pack-grid { grid-template-columns: repeat(2, 1fr) !important; }
     .team-grid { grid-template-columns: 1fr !important; }
+
+    /* Banner mobile fix */
+    .rp-banner { flex-direction: column; align-items: flex-start; padding: 24px 20px; gap: 20px; min-height: unset; }
+    .rp-banner::after { display: none; }
+    .rp-banner-actions { width: 100%; }
+    .rp-banner-title { font-size: 20px; }
+    .rp-banner-sub { font-size: 13px; }
+    .btn-start-session { font-size: 14px; }
+
+    /* Live feed on mobile */
+    .rp-feed-card { min-height: 60px; }
+
+    /* Cards */
+    .rp-cards-grid { grid-template-columns: 1fr !important; }
+
+    /* Overview grid */
+    .ov-stats { grid-template-columns: repeat(2, 1fr) !important; }
+
+    /* Plan cards */
+    .plan-grid { grid-template-columns: 1fr !important; }
+
+    /* Billing solo card */
+    .plan-card { max-width: 100% !important; }
   }
 </style>
 </head>
