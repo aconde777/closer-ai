@@ -52,7 +52,7 @@
 
   /* HERO */
   .hero {
-    background: #000; min-height: 100vh;
+    min-height: 100vh;
     display: flex; flex-direction: column; justify-content: center;
     padding: 120px 48px 0; position: relative; overflow: hidden;
   }
@@ -77,7 +77,7 @@
   .hero-note { font-size: 13px; color: #555; margin-top: 12px; }
 
   /* TICKER */
-  .ticker-section { background: #000; border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a; overflow: hidden; padding: 18px 0; }
+  .ticker-section { border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a; overflow: hidden; padding: 18px 0; }
   .ticker-track { display: flex; gap: 0; width: max-content; animation: scroll-ticker 28s linear infinite; }
   .ticker-track:hover { animation-play-state: paused; }
   @keyframes scroll-ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -266,7 +266,7 @@
   .final-cta .hero-actions { justify-content: center; }
 
   /* FOOTER */
-  footer { border-top: 1px solid #1a1a1a; padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; background: #000; }
+  footer { border-top: 1px solid #1a1a1a; padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
   .footer-name { font-size: 14px; font-weight: 800; color: #fff; }
   .footer-copy { font-size: 13px; color: #555; }
   .footer-copy a { color: #555; text-decoration: none; }
