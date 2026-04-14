@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Elite Closer — AI Sales Roleplay Trainer</title>
 <link rel="icon" type="image/png" href="/lion-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { overflow-x: hidden; width: 100%; }
@@ -54,8 +56,9 @@
     border-radius: 100px; padding: 7px 18px; margin-bottom: 28px;
   }
   .hero-headline {
-    font-size: clamp(44px, 8vw, 96px); font-weight: 900; line-height: 1.0;
-    letter-spacing: -3px; color: #fff; max-width: 900px; margin-bottom: 32px;
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(56px, 10vw, 120px); font-weight: 400; line-height: 1.1;
+    letter-spacing: 0; color: #fff; max-width: 900px; margin-bottom: 32px;
   }
   .hero-sub { font-size: 17px; color: #888; line-height: 1.7; max-width: 500px; margin-bottom: 40px; }
   .hero-actions { display: flex; align-items: center; gap: 12px; margin-bottom: 80px; flex-wrap: wrap; }
@@ -89,7 +92,7 @@
   .section-num-label::after { content: ''; flex: 1; height: 1px; }
   .dark .section-num-label::after { background: #1a1a1a; }
   .light .section-num-label::after { background: #ddd; }
-  .section-headline { font-size: clamp(30px, 5vw, 58px); font-weight: 900; line-height: 1.05; letter-spacing: -2px; margin-bottom: 20px; max-width: 800px; }
+  .section-headline { font-family: 'Great Vibes', cursive; font-size: clamp(36px, 5vw, 68px); font-weight: 400; line-height: 1.2; letter-spacing: 0; margin-bottom: 20px; max-width: 800px; }
   .section-desc { font-size: 16px; line-height: 1.75; max-width: 560px; margin-bottom: 32px; }
   .dark .section-desc { color: #888; }
   .light .section-desc { color: #555; }
@@ -306,8 +309,22 @@
   }
 
   @media (max-width: 420px) {
-    .hero-headline { font-size: 32px; letter-spacing: -1.5px; }
+    .hero-headline { font-size: 48px; }
   }
+
+  /* SCROLL FADE IN */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-in-delay-1 { transition-delay: 0.1s; }
+  .fade-in-delay-2 { transition-delay: 0.2s; }
+  .fade-in-delay-3 { transition-delay: 0.3s; }
 </style>
 </head>
 <body>
@@ -336,10 +353,10 @@
 <!-- HERO (DARK) -->
 <div class="dark">
   <section class="hero">
-    <div class="hero-label">AI Sales Roleplay Trainer</div>
-    <h1 class="hero-headline">Hunt in Training.<br>Dominate on the Call.</h1>
-    <p class="hero-sub">AI voice roleplay for high-ticket sales reps. Get on a live call with a realistic AI prospect, handle objections, and get scored after every session.</p>
-    <div class="hero-actions">
+    <div class="hero-label fade-in">AI Sales Roleplay Trainer</div>
+    <h1 class="hero-headline fade-in fade-in-delay-1">Hunt in Training.<br>Dominate on the Call.</h1>
+    <p class="hero-sub fade-in fade-in-delay-2">AI voice roleplay for high-ticket sales reps. Get on a live call with a realistic AI prospect, handle objections, and get scored after every session.</p>
+    <div class="hero-actions fade-in fade-in-delay-3">
       <a class="btn-primary" href="/auth.html">Get started free</a>
       <a class="btn-outline-dark" href="#how-it-works">See how it works</a>
     </div>
@@ -376,9 +393,9 @@
 <div class="light">
   <section class="section">
     <div class="section-inner">
-      <div class="section-num-label">01 &nbsp; See It In Action</div>
-      <h2 class="section-headline">Watch a live AI roleplay session -- start to finish.</h2>
-      <div class="section-num-desc">
+      <div class="section-num-label fade-in">01 &nbsp; See It In Action</div>
+      <h2 class="section-headline fade-in">Watch a live AI roleplay session -- start to finish.</h2>
+      <div class="section-num-desc fade-in fade-in-delay-1">
         <span class="num">01</span>
         <span class="txt">Full call + AI scoring + The Drill -- everything a rep needs to train and improve, all in one session.</span>
       </div>
@@ -395,13 +412,13 @@
 <div class="dark">
   <section class="section">
     <div class="section-inner">
-      <div class="section-num-label">02 &nbsp; The Problem</div>
-      <h2 class="section-headline">Your reps are showing up to real calls unprepared.</h2>
-      <div class="section-num-desc">
+      <div class="section-num-label fade-in">02 &nbsp; The Problem</div>
+      <h2 class="section-headline fade-in">Your reps are showing up to real calls unprepared.</h2>
+      <div class="section-num-desc fade-in fade-in-delay-1">
         <span class="num">02</span>
         <span class="txt">Top performers in every field train before the real thing. Sales is no different -- and most teams are skipping the training entirely.</span>
       </div>
-      <div class="card-grid">
+      <div class="card-grid fade-in fade-in-delay-2">
         <div class="col-2">
           <div class="card">
             <div class="card-num">01</div>
@@ -436,9 +453,9 @@
 <div class="light" id="how-it-works">
   <section class="section">
     <div class="section-inner">
-      <div class="section-num-label">03 &nbsp; How It Works</div>
-      <h2 class="section-headline">Simple. Realistic. Effective.</h2>
-      <div class="section-num-desc">
+      <div class="section-num-label fade-in">03 &nbsp; How It Works</div>
+      <h2 class="section-headline fade-in">Simple. Realistic. Effective.</h2>
+      <div class="section-num-desc fade-in fade-in-delay-1">
         <span class="num">03</span>
         <span class="txt">Three steps between you and a better close rate. No setup, no scheduling, no waiting on a manager.</span>
       </div>
@@ -470,13 +487,13 @@
 <div class="dark">
   <section class="section">
     <div class="section-inner">
-      <div class="section-num-label">04 &nbsp; AI Prospects</div>
-      <h2 class="section-headline">The objections that kill most high-ticket deals.</h2>
-      <div class="section-num-desc">
+      <div class="section-num-label fade-in">04 &nbsp; AI Prospects</div>
+      <h2 class="section-headline fade-in">The objections that kill most high-ticket deals.</h2>
+      <div class="section-num-desc fade-in fade-in-delay-1">
         <span class="num">04</span>
         <span class="txt">Every prospect is built around the exact stalls and deflections that stop closers in high-ticket sales. Handle these and you handle anything.</span>
       </div>
-      <div class="prospect-grid">
+      <div class="prospect-grid fade-in fade-in-delay-2">
         <div class="prospect-card">
           <div class="prospect-header">
             <div class="prospect-tag">Beginner</div>
@@ -525,9 +542,9 @@
 <div class="light" id="scoring">
   <section class="section">
     <div class="section-inner">
-      <div class="section-num-label">05 &nbsp; AI Scoring</div>
-      <h2 class="section-headline">Know exactly what to fix after every call.</h2>
-      <div class="section-num-desc">
+      <div class="section-num-label fade-in">05 &nbsp; AI Scoring</div>
+      <h2 class="section-headline fade-in">Know exactly what to fix after every call.</h2>
+      <div class="section-num-desc fade-in fade-in-delay-1">
         <span class="num">05</span>
         <span class="txt">An AI coach breaks down your performance across the four categories that actually determine whether you close or lose in high-ticket sales.</span>
       </div>
@@ -564,9 +581,9 @@
 <div class="dark">
   <section class="section">
     <div class="section-inner">
-      <div class="section-num-label">06 &nbsp; Why Elite Closer</div>
-      <h2 class="section-headline">Built for closers.<br>Not generic sales teams.</h2>
-      <div class="section-num-desc">
+      <div class="section-num-label fade-in">06 &nbsp; Why Elite Closer</div>
+      <h2 class="section-headline fade-in">Built for closers.<br>Not generic sales teams.</h2>
+      <div class="section-num-desc fade-in fade-in-delay-1">
         <span class="num">06</span>
         <span class="txt">Most platforms are built for horizontal use cases. The Elite Closer is purpose-built for high-ticket closers who need to win real objection battles.</span>
       </div>
@@ -604,9 +621,9 @@
 <div class="light">
   <section class="section">
     <div class="section-inner">
-      <div class="section-num-label">07 &nbsp; What Closers Are Saying</div>
-      <h2 class="section-headline">Real reps. Real results.</h2>
-      <div class="testi-grid">
+      <div class="section-num-label fade-in">07 &nbsp; What Closers Are Saying</div>
+      <h2 class="section-headline fade-in">Real reps. Real results.</h2>
+      <div class="testi-grid fade-in fade-in-delay-2">
         <div class="testi-card">
           <div class="testi-stars">★★★★★</div>
           <div class="testi-quote">"I used to dread the 'let me think about it' objection. After two weeks drilling it with the AI prospect, I <strong>closed a $12k deal</strong> the first time it came up."</div>
@@ -649,9 +666,9 @@
 <div class="dark">
   <section class="section">
     <div class="section-inner">
-      <div class="section-num-label">08 &nbsp; Built-In Tools</div>
-      <h2 class="section-headline">Train sharper. Track what matters.</h2>
-      <div class="features-split">
+      <div class="section-num-label fade-in">08 &nbsp; Built-In Tools</div>
+      <h2 class="section-headline fade-in">Train sharper. Track what matters.</h2>
+      <div class="features-split fade-in fade-in-delay-2">
         <div class="feature-block">
           <div class="feature-label">The Drill</div>
           <div class="feature-title">Warm up before every call.</div>
@@ -689,9 +706,9 @@
 <div class="light" id="pricing">
   <section class="section">
     <div class="section-inner">
-      <div class="section-num-label">09 &nbsp; Pricing</div>
-      <h2 class="section-headline">One closed deal pays for years of training.</h2>
-      <div class="section-num-desc">
+      <div class="section-num-label fade-in">09 &nbsp; Pricing</div>
+      <h2 class="section-headline fade-in">One closed deal pays for years of training.</h2>
+      <div class="section-num-desc fade-in fade-in-delay-1">
         <span class="num">09</span>
         <span class="txt">If you're selling high-ticket, this pays for itself the first time it helps you handle an objection you used to lose.</span>
       </div>
@@ -793,6 +810,20 @@
       }
     });
   })();
+</script>
+
+<script>
+  // Scroll fade-in observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
