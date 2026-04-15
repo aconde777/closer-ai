@@ -527,19 +527,26 @@ app.post('/api/invite-member', async (req, res) => {
 <!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#030712;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#030712;padding:40px 0;">
+<body style="margin:0;padding:0;background:#0a0a0a;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;">
     <tr><td align="center">
-      <table width="560" cellpadding="0" cellspacing="0" style="background:#080f1e;border:1px solid #0f2040;border-radius:16px;overflow:hidden;max-width:560px;">
-        <tr><td style="background:linear-gradient(135deg,#040c1e,#081626);padding:36px 40px;border-bottom:1px solid #0f2040;">
-          <span style="font-size:16px;font-weight:800;color:#e2eaf8;">The <span style="color:#38bdf8;">Elite</span> Closer</span>
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#111111;border:1px solid #222222;border-radius:16px;overflow:hidden;max-width:560px;">
+        <tr><td style="background:linear-gradient(135deg,#0a0a0a,#1a1200);padding:36px 40px;border-bottom:1px solid #2a1f00;">
+          <table cellpadding="0" cellspacing="0"><tr>
+            <td style="padding-right:12px;"><img src="https://theelitecloser.io/lion-transparent.png" width="40" height="40" style="display:block;border-radius:8px;" alt="The Elite Closer"></td>
+            <td style="font-size:17px;font-weight:900;color:#ffffff;">The Elite <span style="color:#D4920A;">Closer</span></td>
+          </tr></table>
         </td></tr>
+        <tr><td style="height:2px;background:linear-gradient(90deg,transparent,#D4920A,transparent);"></td></tr>
         <tr><td style="padding:40px;">
-          <p style="margin:0 0 8px;font-size:22px;font-weight:900;color:#e2eaf8;">You're invited to train.</p>
-          <p style="margin:0 0 28px;font-size:14px;color:#4a6080;line-height:1.6;">Your team has added you to The Elite Closer -- an AI voice sales trainer that puts you on live calls with realistic prospects and scores your performance after every session.</p>
-          <p style="margin:0 0 20px;font-size:14px;color:#4a6080;line-height:1.6;">Click the button below to accept your invite and get access. If you don't have an account yet, you'll be able to create one first.</p>
-          <a href="${inviteLink}" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#fff;text-decoration:none;border-radius:10px;padding:14px 28px;font-size:15px;font-weight:700;">Accept Invite</a>
-          <p style="margin:24px 0 0;font-size:12px;color:#4a6080;">Or copy this link: <a href="${inviteLink}" style="color:#38bdf8;">${inviteLink}</a></p>
+          <p style="margin:0 0 8px;font-size:24px;font-weight:900;color:#ffffff;">You're invited to train.</p>
+          <p style="margin:0 0 28px;font-size:14px;color:#888888;line-height:1.6;">Your team has added you to The Elite Closer -- an AI voice sales trainer that puts you on live calls with realistic prospects and scores your performance after every session.</p>
+          <p style="margin:0 0 24px;font-size:14px;color:#888888;line-height:1.6;">Click the button below to accept your invite and get access. If you don't have an account yet, you'll be able to create one first.</p>
+          <a href="${inviteLink}" style="display:inline-block;background:linear-gradient(135deg,#C8820A,#F5C842);color:#000;text-decoration:none;border-radius:100px;padding:16px 36px;font-size:15px;font-weight:800;">Accept Invite &rarr;</a>
+          <p style="margin:24px 0 0;font-size:12px;color:#555;">Or copy this link: <a href="${inviteLink}" style="color:#D4920A;">${inviteLink}</a></p>
+        </td></tr>
+        <tr><td style="padding:24px 40px;border-top:1px solid #222;">
+          <p style="margin:0;font-size:12px;color:#555;line-height:1.6;">You're receiving this because you were invited to train on theelitecloser.io.</p>
         </td></tr>
       </table>
     </td></tr>
@@ -689,70 +696,66 @@ app.post('/api/welcome-email', async (req, res) => {
 <!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#030712;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#030712;padding:40px 0;">
+<body style="margin:0;padding:0;background:#0a0a0a;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;">
     <tr><td align="center">
-      <table width="560" cellpadding="0" cellspacing="0" style="background:#080f1e;border:1px solid #0f2040;border-radius:16px;overflow:hidden;max-width:560px;">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#111111;border:1px solid #222222;border-radius:16px;overflow:hidden;max-width:560px;">
 
         <!-- Header -->
-        <tr><td style="background:linear-gradient(135deg,#040c1e,#081626);padding:36px 40px;border-bottom:1px solid #0f2040;">
+        <tr><td style="background:linear-gradient(135deg,#0a0a0a,#1a1200);padding:36px 40px;border-bottom:1px solid #2a1f00;">
           <table cellpadding="0" cellspacing="0">
             <tr>
               <td style="padding-right:12px;">
-                <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="36" height="36" rx="9" fill="#040c1e"/>
-                  <rect x="16" y="2" width="4" height="9" rx="1.5" fill="#38bdf8"/>
-                  <rect x="11.5" y="5" width="13" height="4" rx="1.5" fill="#38bdf8"/>
-                  <rect x="13" y="11" width="10" height="3" rx="1" fill="#38bdf8"/>
-                  <polygon points="13,14 23,14 26,27 10,27" fill="#38bdf8"/>
-                  <rect x="5" y="27" width="26" height="5" rx="1.5" fill="#38bdf8"/>
-                </svg>
+                <img src="https://theelitecloser.io/lion-transparent.png" width="40" height="40" style="display:block;border-radius:8px;" alt="The Elite Closer">
               </td>
-              <td style="font-size:16px;font-weight:800;color:#e2eaf8;letter-spacing:-0.3px;">The Elite <span style="color:#38bdf8;">Closer</span></td>
+              <td style="font-size:17px;font-weight:900;color:#ffffff;letter-spacing:-0.3px;">The Elite <span style="color:#D4920A;">Closer</span></td>
             </tr>
           </table>
         </td></tr>
 
+        <!-- Gold accent line -->
+        <tr><td style="height:2px;background:linear-gradient(90deg,transparent,#D4920A,transparent);"></td></tr>
+
         <!-- Body -->
         <tr><td style="padding:40px;">
-          <p style="margin:0 0 8px;font-size:22px;font-weight:900;color:#e2eaf8;letter-spacing:-0.5px;">Welcome, ${firstName}.</p>
-          <p style="margin:0 0 28px;font-size:14px;color:#4a6080;line-height:1.6;">Your account is live. Here's how to get the most out of it.</p>
+          <p style="margin:0 0 8px;font-size:24px;font-weight:900;color:#ffffff;letter-spacing:-0.5px;">Welcome, ${firstName}.</p>
+          <p style="margin:0 0 28px;font-size:14px;color:#888888;line-height:1.6;">Your account is live. Here's how to get the most out of it.</p>
 
           <table cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:28px;">
             <tr>
-              <td style="padding:16px;background:#0d1628;border:1px solid #0f2040;border-radius:10px;margin-bottom:12px;display:block;">
-                <p style="margin:0 0 4px;font-size:13px;font-weight:800;color:#e2eaf8;">1. Pick a prospect</p>
-                <p style="margin:0;font-size:12px;color:#4a6080;line-height:1.6;">Choose Sandra J., Ray T., or build your own. Match the exact buyer you face on your calls.</p>
+              <td style="padding:16px;background:#0d0d0d;border:1px solid #222;border-left:3px solid #D4920A;border-radius:10px;margin-bottom:12px;display:block;">
+                <p style="margin:0 0 4px;font-size:13px;font-weight:800;color:#ffffff;">1. Pick a prospect</p>
+                <p style="margin:0;font-size:12px;color:#888888;line-height:1.6;">Choose Sandra J., Ray T., or build your own. Match the exact buyer you face on your calls.</p>
               </td>
             </tr>
             <tr><td style="height:10px;"></td></tr>
             <tr>
-              <td style="padding:16px;background:#0d1628;border:1px solid #0f2040;border-radius:10px;">
-                <p style="margin:0 0 4px;font-size:13px;font-weight:800;color:#e2eaf8;">2. Run the call</p>
-                <p style="margin:0;font-size:12px;color:#4a6080;line-height:1.6;">Click Start and talk. The AI pushes back in real time with real objections. Handle them or lose the deal.</p>
+              <td style="padding:16px;background:#0d0d0d;border:1px solid #222;border-left:3px solid #D4920A;border-radius:10px;">
+                <p style="margin:0 0 4px;font-size:13px;font-weight:800;color:#ffffff;">2. Run the call</p>
+                <p style="margin:0;font-size:12px;color:#888888;line-height:1.6;">Click Start and talk. The AI pushes back in real time with real objections. Handle them or lose the deal.</p>
               </td>
             </tr>
             <tr><td style="height:10px;"></td></tr>
             <tr>
-              <td style="padding:16px;background:#0d1628;border:1px solid #0f2040;border-radius:10px;">
-                <p style="margin:0 0 4px;font-size:13px;font-weight:800;color:#e2eaf8;">3. Get scored</p>
-                <p style="margin:0;font-size:12px;color:#4a6080;line-height:1.6;">An AI coach scores you on objection handling, tonality, closing, and rapport. Real feedback, no fluff.</p>
+              <td style="padding:16px;background:#0d0d0d;border:1px solid #222;border-left:3px solid #D4920A;border-radius:10px;">
+                <p style="margin:0 0 4px;font-size:13px;font-weight:800;color:#ffffff;">3. Get scored</p>
+                <p style="margin:0;font-size:12px;color:#888888;line-height:1.6;">An AI coach scores you on objection handling, tonality, closing, and rapport. Real feedback, no fluff.</p>
               </td>
             </tr>
           </table>
 
-          <p style="margin:0 0 24px;font-size:13px;color:#4a6080;line-height:1.6;">You have <strong style="color:#e2eaf8;">3 free sessions</strong> to start. No credit card needed until you're ready to go Pro.</p>
+          <p style="margin:0 0 24px;font-size:13px;color:#888888;line-height:1.6;">You have <strong style="color:#D4920A;">3 free sessions</strong> to start. No credit card needed until you're ready to go Pro.</p>
 
           <table cellpadding="0" cellspacing="0" style="width:100%;">
             <tr><td align="center">
-              <a href="https://theelitecloser.io/app" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#fff;font-size:15px;font-weight:800;text-decoration:none;padding:16px 48px;border-radius:10px;letter-spacing:-0.2px;">Start Training &rarr;</a>
+              <a href="https://theelitecloser.io/app" style="display:inline-block;background:linear-gradient(135deg,#C8820A,#F5C842);color:#000;font-size:15px;font-weight:800;text-decoration:none;padding:16px 48px;border-radius:100px;letter-spacing:-0.2px;">Start Training &rarr;</a>
             </td></tr>
           </table>
         </td></tr>
 
         <!-- Footer -->
-        <tr><td style="padding:24px 40px;border-top:1px solid #0f2040;">
-          <p style="margin:0;font-size:12px;color:#4a6080;line-height:1.6;">You're receiving this because you signed up at theelitecloser.io.<br>Questions? Reply to this email.</p>
+        <tr><td style="padding:24px 40px;border-top:1px solid #222;">
+          <p style="margin:0;font-size:12px;color:#555;line-height:1.6;">You're receiving this because you signed up at theelitecloser.io.<br>Questions? Reply to this email.</p>
         </td></tr>
 
       </table>
