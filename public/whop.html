@@ -232,11 +232,8 @@
   const { createClient } = supabase;
   const sb = createClient('__SUPABASE_URL__', '__SUPABASE_ANON_KEY__');
 
-  // Auto-fill access code from URL param (e.g. /whop?code=HUNTER2025)
-  const urlCode = new URLSearchParams(window.location.search).get('code');
-  if (urlCode) {
-    document.getElementById('signupCode').value = urlCode.toUpperCase();
-  }
+  // Auto-fill access code -- hardcoded for Whop members
+  document.getElementById('signupCode').value = 'HUNTER2025';
 
   // Auto-redirect if already logged in
   sb.auth.getSession().then(({ data }) => {
