@@ -31,6 +31,8 @@ app.get('/index.html', serveWithSupabase('index.html'));
 app.get('/auth.html', serveWithSupabase('auth.html'));
 app.get('/call.html', serveWithSupabase('call.html'));
 app.get('/warmup.html', serveWithSupabase('warmup.html'));
+app.get('/whop', serveWithSupabase('whop.html'));
+app.get('/whop.html', serveWithSupabase('whop.html'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -125,6 +127,53 @@ app.post('/api/session-start', async (req, res) => {
     .eq('id', userId);
 
   res.json({ allowed: true, sessionsUsed: profile.session_count + 1, isPro: false, streak: streakData.streak_days });
+});
+
+// Whop: verify access code (no auth required)
+app.post('/api/whop-verify', (req, res) => {
+  const { code } = req.body;
+  const validCode = process.env.WHOP_ACCESS_CODE || 'ELITECLOSER';
+  if (!code || code.toUpperCase() !== validCode.toUpperCase()) {
+    return res.json({ valid: false });
+  }
+  res.json({ valid: true });
+});
+
+// Whop: activate pro access after account creation
+app.post('/api/whop-activate', async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ error: 'Unauthorized' });
+
+  const token = authHeader.replace('Bearer ', '');
+  const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
+  if (authError || !user) return res.status(401).json({ error: 'Invalid session' });
+
+  const { code } = req.body;
+  const validCode = process.env.WHOP_ACCESS_CODE || 'ELITECLOSER';
+  if (!code || code.toUpperCase() !== validCode.toUpperCase()) {
+    return res.status(403).json({ error: 'Invalid access code' });
+  }
+
+  // Upsert profile with pro access and 120 minutes (same as solo plan)
+  const { error: upsertErr } = await supabaseAdmin
+    .from('user_profiles')
+    .upsert({
+      id: user.id,
+      is_pro: true,
+      plan: 'solo',
+      minutes_balance: 120,
+      minutes_used: 0,
+      session_count: 0,
+      whop_member: true
+    }, { onConflict: 'id' });
+
+  if (upsertErr) {
+    console.error('Whop activate error:', upsertErr.message);
+    return res.status(500).json({ error: upsertErr.message });
+  }
+
+  console.log(`Whop member activated: ${user.email}`);
+  res.json({ success: true });
 });
 
 // Load saved custom prospects for current user
